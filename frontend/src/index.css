@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@theme {
+  --color-desktop-bg: #008080;
+  --color-taskbar-bg: #c0c0c0;
+  --color-window-bg: #ece9d8;
+  --color-window-border: #0000aa;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  user-select: none;
+}
