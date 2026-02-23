@@ -1,11 +1,13 @@
 import React, { useRef } from 'react';
 import { useDesktopStore } from '../state/useDesktopStore';
-import { useWindowStore } from '../state/useWindowStore';
+import { useNavigate } from 'react-router-dom';
+import { getDesktopApps } from '../appRegistry';
+import { launchApp } from '../appLauncher';
 import { twMerge } from 'tailwind-merge';
 
 export const Desktop: React.FC = () => {
     const { wallpaper, openContextMenu, closeContextMenu, clearSelection } = useDesktopStore();
-    const openWindow = useWindowStore(state => state.openWindow);
+    const navigate = useNavigate();
     const containerRef = useRef<HTMLDivElement>(null);
 
     const handleContextMenu = (e: React.MouseEvent) => {
@@ -13,9 +15,9 @@ export const Desktop: React.FC = () => {
         openContextMenu(e.clientX, e.clientY, [
             { label: 'View', action: () => console.log('View') },
             { label: 'Sort by', action: () => console.log('Sort by') },
-            { label: 'Refresh', action: () => console.log('Refresh') },
+            { label: 'Refresh', action: () => window.location.reload() },
             { divider: true },
-            { label: 'Personalize', action: () => openWindow('Settings', 'settings') },
+            { label: 'Personalize', action: () => launchApp('settings', undefined, navigate) },
         ]);
     };
 
@@ -24,13 +26,8 @@ export const Desktop: React.FC = () => {
         clearSelection();
     };
 
-    // Mock icons for the desktop
-    const desktopApps = [
-        { id: '1', title: 'File Explorer', type: 'fileExplorer', icon: '📁' },
-        { id: '2', title: 'Terminal', type: 'terminal', icon: '💻' },
-        { id: '3', title: 'Notepad', type: 'notepad', icon: '📝' },
-        { id: '4', title: 'Snake', type: 'snake', icon: '🐍' },
-    ];
+    // Get apps from the registry instead of hardcoded list
+    const desktopApps = getDesktopApps();
 
     return (
         <div
@@ -45,11 +42,11 @@ export const Desktop: React.FC = () => {
         >
             {desktopApps.map(app => (
                 <div
-                    key={app.id}
+                    key={app.key}
                     className="w-20 group flex flex-col items-center justify-center p-2 rounded-lg hover:bg-white/20 active:bg-blue-500/40 transition-colors cursor-pointer select-none"
                     onDoubleClick={(e) => {
                         e.stopPropagation();
-                        openWindow(app.title, app.type);
+                        launchApp(app.key, undefined, navigate);
                     }}
                 >
                     <div className="text-4xl drop-shadow-lg mb-1">{app.icon}</div>

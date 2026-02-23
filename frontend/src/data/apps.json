@@ -1,0 +1,44 @@
+[
+    {
+        "id": "terminal",
+        "name": "Terminal",
+        "icon": "💻",
+        "category": "system",
+        "showOnDesktop": true
+    },
+    {
+        "id": "fileExplorer",
+        "name": "File Explorer",
+        "icon": "📁",
+        "category": "system",
+        "showOnDesktop": true
+    },
+    {
+        "id": "notepad",
+        "name": "Notepad",
+        "icon": "📝",
+        "category": "utility",
+        "showOnDesktop": true
+    },
+    {
+        "id": "snake",
+        "name": "Snake",
+        "icon": "🐍",
+        "category": "game",
+        "showOnDesktop": true
+    },
+    {
+        "id": "tictactoe",
+        "name": "Tic Tac Toe",
+        "icon": "⭕",
+        "category": "game",
+        "showOnDesktop": true
+    },
+    {
+        "id": "settings",
+        "name": "Settings",
+        "icon": "⚙️",
+        "category": "system",
+        "showOnDesktop": false
+    }
+]

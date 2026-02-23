@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useWindowStore } from '../../core/state/useWindowStore';
 import { twMerge } from 'tailwind-merge';
-import { CheckCircle2, ChevronUp } from 'lucide-react'; // Placeholder icons
+import { ChevronUp } from 'lucide-react'; // Placeholder icons
 
 export const Taskbar: React.FC = () => {
     const windows = useWindowStore((state) => state.windows);

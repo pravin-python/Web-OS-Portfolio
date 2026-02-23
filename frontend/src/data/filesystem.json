@@ -1,0 +1,119 @@
+{
+    "root": {
+        "id": "root",
+        "name": "/",
+        "type": "folder",
+        "children": [
+            {
+                "id": "home",
+                "name": "home",
+                "type": "folder",
+                "children": [
+                    {
+                        "id": "home-visitor",
+                        "name": "visitor",
+                        "type": "folder",
+                        "children": [
+                            {
+                                "id": "home-documents",
+                                "name": "Documents",
+                                "type": "folder",
+                                "children": [
+                                    {
+                                        "id": "doc-resume",
+                                        "name": "resume.md",
+                                        "type": "file",
+                                        "content": "# Pravin — Full Stack Developer\n\n## Summary\nPassionate full-stack developer with expertise in Django, React, and cloud technologies.\n\n## Experience\n- **Senior Developer** — Built scalable web applications serving 100k+ users\n- **Open Source Contributor** — Active contributor to Python/JS ecosystem\n\n## Education\n- B.Tech in Computer Science"
+                                    },
+                                    {
+                                        "id": "doc-cover-letter",
+                                        "name": "cover-letter.txt",
+                                        "type": "file",
+                                        "content": "Dear Hiring Manager,\n\nI am writing to express my interest in the Full Stack Developer position.\nWith extensive experience in Django, React, and TypeScript, I bring a strong\nfoundation in building modern web applications.\n\nBest regards,\nPravin"
+                                    }
+                                ]
+                            },
+                            {
+                                "id": "home-projects",
+                                "name": "Projects",
+                                "type": "folder",
+                                "children": [
+                                    {
+                                        "id": "proj-readme-ecommerce",
+                                        "name": "ecommerce-platform.md",
+                                        "type": "file",
+                                        "content": "# E-Commerce Platform\n\nA full-featured online store built with Django REST + React.\n\n## Tech Stack\n- Backend: Django, PostgreSQL, Redis\n- Frontend: React, TypeScript, TailwindCSS\n- Infrastructure: Docker, AWS\n\n## Features\n- Product catalog with search & filters\n- Shopping cart & checkout\n- Payment integration (Stripe)\n- Admin dashboard"
+                                    },
+                                    {
+                                        "id": "proj-readme-ai",
+                                        "name": "ai-assistant.md",
+                                        "type": "file",
+                                        "content": "# AI Assistant\n\nAn intelligent chatbot powered by LLMs.\n\n## Tech Stack\n- Python, FastAPI\n- OpenAI API, LangChain\n- React frontend\n\n## Features\n- Natural language understanding\n- Context-aware conversations\n- Plugin system for extensibility"
+                                    },
+                                    {
+                                        "id": "proj-readme-webos",
+                                        "name": "web-os-portfolio.md",
+                                        "type": "file",
+                                        "content": "# Web-OS Portfolio\n\nA browser-based operating system that serves as a portfolio.\n\n## Tech Stack\n- React, TypeScript, TailwindCSS\n- Canvas API (games)\n- LocalStorage (persistence)\n\n## Features\n- Window manager with drag/resize\n- Virtual file system\n- Terminal emulator\n- Built-in games"
+                                    }
+                                ]
+                            },
+                            {
+                                "id": "home-pictures",
+                                "name": "Pictures",
+                                "type": "folder",
+                                "children": [
+                                    {
+                                        "id": "pic-wallpaper-info",
+                                        "name": "wallpapers-info.txt",
+                                        "type": "file",
+                                        "content": "Default wallpapers for Web-OS.\nChange wallpaper via Settings or right-click desktop > Personalize."
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "etc",
+                "name": "etc",
+                "type": "folder",
+                "children": [
+                    {
+                        "id": "etc-system",
+                        "name": "system.conf",
+                        "type": "file",
+                        "content": "# Web-OS System Configuration\nversion=1.0.0\ntheme=dark\nlocale=en-US"
+                    },
+                    {
+                        "id": "etc-hostname",
+                        "name": "hostname",
+                        "type": "file",
+                        "content": "web-os-portfolio"
+                    }
+                ]
+            },
+            {
+                "id": "usr",
+                "name": "usr",
+                "type": "folder",
+                "children": [
+                    {
+                        "id": "usr-bin",
+                        "name": "bin",
+                        "type": "folder",
+                        "children": [
+                            {
+                                "id": "usr-bin-readme",
+                                "name": "README.txt",
+                                "type": "file",
+                                "content": "System binaries directory.\nAll applications are registered in the App Registry."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

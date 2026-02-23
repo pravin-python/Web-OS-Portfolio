@@ -1,0 +1,20 @@
+{
+    "name": "Pravin Prajapati",
+    "title": "Full Stack Developer",
+    "bio": "Passionate full-stack developer specializing in Django, React, and cloud technologies. I love building elegant, scalable web applications and exploring new technologies.",
+    "avatar": null,
+    "location": "Ahmedabad, Gujarat, India",
+    "email": "[EMAIL_ADDRESS]",
+    "socialLinks": {
+        "github": "https://github.com/pravin-python",
+        "linkedin": "https://linkedin.com/in/pravin",
+        "twitter": "https://twitter.com/pravin.py"
+    },
+    "resumeUrl": null,
+    "highlights": [
+        "3+ years of full-stack development experience",
+        "Built applications serving 100k+ users",
+        "Active open source contributor",
+        "Strong focus on clean architecture and best practices"
+    ]
+}

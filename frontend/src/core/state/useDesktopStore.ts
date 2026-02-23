@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { storage } from '../../services/storage';
 
 interface DesktopState {
     wallpaper: string | null;
@@ -13,11 +14,14 @@ interface DesktopState {
 }
 
 export const useDesktopStore = create<DesktopState>((set) => ({
-    wallpaper: null,
+    wallpaper: storage.get<string>('wallpaper') ?? null,
     selectedIcons: [],
     contextMenu: { x: 0, y: 0, isOpen: false, targetId: null, items: [] },
 
-    setWallpaper: (url) => set({ wallpaper: url }),
+    setWallpaper: (url) => {
+        storage.set('wallpaper', url);
+        set({ wallpaper: url });
+    },
 
     selectIcon: (id, multi = false) => set((state) => ({
         selectedIcons: multi ? [...state.selectedIcons, id] : [id]
@@ -25,8 +29,8 @@ export const useDesktopStore = create<DesktopState>((set) => ({
 
     clearSelection: () => set({ selectedIcons: [] }),
 
-    openContextMenu: (x, y, items, targetId = null) => set({
-        contextMenu: { x, y, isOpen: true, targetId, items }
+    openContextMenu: (x, y, items, targetId) => set({
+        contextMenu: { x, y, isOpen: true, targetId: targetId ?? null, items }
     }),
 
     closeContextMenu: () => set((state) => ({
