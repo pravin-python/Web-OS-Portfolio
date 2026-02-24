@@ -11,6 +11,7 @@ import { SecurityToolkit } from '../apps/SecurityToolkit/SecurityToolkit';
 import { SystemLogs } from '../apps/SystemLogs/SystemLogs';
 import { ModelLogs } from '../apps/ModelLogs/ModelLogs';
 import { ContactCenter } from '../apps/ContactCenter/ContactCenter';
+import { AboutProfile } from '../apps/AboutProfile/AboutProfile';
 
 export interface AppDefinition {
     key: string;
@@ -24,6 +25,18 @@ export interface AppDefinition {
 }
 
 export const APP_REGISTRY: Record<string, AppDefinition> = {
+    /* ─── Profile ─── */
+    aboutProfile: {
+        key: 'aboutProfile',
+        title: 'About Me',
+        icon: '👨‍💻',
+        component: AboutProfile,
+        route: '/os/about',
+        defaultSize: { width: 900, height: 650 },
+        showOnDesktop: true,
+        category: 'system',
+    },
+
     /* ─── AI & Research ─── */
     aiPredictor: {
         key: 'aiPredictor',

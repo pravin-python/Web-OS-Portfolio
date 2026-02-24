@@ -51,7 +51,7 @@ export const ContactCenter: React.FC = () => {
     return (
         <div className="flex h-full w-full bg-white/30 dark:bg-slate-900/30 overflow-hidden select-none">
             {/* ─── Left Sidebar ─── */}
-            <aside className="w-52 shrink-0 bg-slate-50/80 dark:bg-slate-900/60 border-r border-slate-200/50 dark:border-slate-700/50 flex flex-col py-3 overflow-y-auto">
+            <aside className="w-full md:w-52 shrink-0 bg-slate-50/80 dark:bg-slate-900/60 border-r border-slate-200/50 dark:border-slate-700/50 flex-col py-3 overflow-y-auto hidden md:flex">
                 <div className="px-4 pb-3 border-b border-slate-200/50 dark:border-slate-700/50 mb-2">
                     <h1 className="text-sm font-bold text-slate-800 dark:text-slate-100 leading-tight">Contact Center</h1>
                     <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Choose a method</p>
