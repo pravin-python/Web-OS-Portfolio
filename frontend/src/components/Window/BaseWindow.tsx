@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Rnd } from 'react-rnd';
 import { useWindowStore } from '../../core/state/useWindowStore';
 import type { WindowInstance } from '../../core/state/useWindowStore';
@@ -63,9 +63,25 @@ export const BaseWindow: React.FC<BaseWindowProps> = ({ window, children }) => {
         }
     };
 
-    // Compute actual pixel dimensions for maximized state (react-rnd needs numbers, not CSS calc)
-    const maxWidth = typeof globalThis.window !== 'undefined' ? globalThis.window.innerWidth : 1920;
-    const maxHeight = typeof globalThis.window !== 'undefined' ? globalThis.window.innerHeight - 48 : 1032;
+    const [viewportSize, setViewportSize] = useState({
+        width: typeof globalThis.window !== 'undefined' ? globalThis.window.innerWidth : 1920,
+        height: typeof globalThis.window !== 'undefined' ? globalThis.window.innerHeight : 1080,
+    });
+
+    useEffect(() => {
+        const handleResize = () => {
+            setViewportSize({
+                width: globalThis.window.innerWidth,
+                height: globalThis.window.innerHeight,
+            });
+        };
+        globalThis.window.addEventListener('resize', handleResize);
+        return () => globalThis.window.removeEventListener('resize', handleResize);
+    }, []);
+
+    // Compute actual pixel dimensions for maximized state
+    const maxWidth = viewportSize.width;
+    const maxHeight = viewportSize.height - 48; // Taskbar height is 48px
 
     return (
         <Rnd
@@ -86,7 +102,7 @@ export const BaseWindow: React.FC<BaseWindowProps> = ({ window, children }) => {
                 isFocused ? 'ring-2 ring-blue-500/50' : 'ring-1 ring-black/5 opacity-95',
                 window.isMaximized && 'transition-none'
             )}
-            style={{ zIndex: window.zIndex, display: 'flex', flexDirection: 'column', height: '100%' }}
+            style={{ zIndex: window.zIndex, display: 'flex', flexDirection: 'column', width: '100%', height: '100%' }}
         >
             {/* Glassmorphism Background layer */}
             <div className="absolute inset-0 bg-white/40 dark:bg-slate-900/60 backdrop-blur-3xl -z-10" />
@@ -129,10 +145,8 @@ export const BaseWindow: React.FC<BaseWindowProps> = ({ window, children }) => {
             </div>
 
             {/* Content Area */}
-            <div className="flex-1 min-h-0 overflow-hidden relative bg-white/80 dark:bg-slate-950/80 backdrop-blur-md">
-                <div className="absolute inset-0">
-                    {children}
-                </div>
+            <div className="flex-1 min-h-0 min-w-0 overflow-auto relative bg-white/80 dark:bg-slate-950/80 backdrop-blur-md flex flex-col w-full">
+                {children}
             </div>
         </Rnd>
     );

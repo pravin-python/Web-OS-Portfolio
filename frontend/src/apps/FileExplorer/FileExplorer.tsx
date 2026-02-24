@@ -97,14 +97,14 @@ export const FileExplorer: React.FC = () => {
 
             {/* Main content grid */}
             {!selectedFile && (
-                <div className="flex-1 p-4 overflow-y-auto w-full flex content-start flex-wrap gap-4">
+                <div className="flex-1 p-4 overflow-y-auto w-full grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] content-start gap-4">
                     {nodes.length === 0 ? (
                         <div className="w-full text-center py-10 opacity-50 text-sm">Empty folder</div>
                     ) : (
                         nodes.map(node => (
                             <div
                                 key={node.id}
-                                className="w-24 flex flex-col items-center justify-start p-2 rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/30 cursor-pointer text-center group transition-colors"
+                                className="flex flex-col items-center justify-start p-2 rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/30 cursor-pointer text-center group transition-colors"
                                 onDoubleClick={() => handleDoubleClick(node)}
                             >
                                 {node.type === 'folder' ? (

@@ -91,7 +91,7 @@ export const Notepad: React.FC = () => {
     return (
         <div className="flex h-full w-full bg-white dark:bg-slate-900 border border-transparent">
             {/* Sidebar ListView */}
-            <div className="w-1/3 border-r border-slate-200 dark:border-slate-700 flex flex-col bg-slate-50 dark:bg-slate-800/50">
+            <div className="w-full md:w-64 shrink-0 border-r border-slate-200 dark:border-slate-700 flex flex-col bg-slate-50 dark:bg-slate-800/50 hidden md:flex">
                 <div className="p-2 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
                     <span className="font-semibold text-slate-700 dark:text-slate-300">Notes</span>
                     <button

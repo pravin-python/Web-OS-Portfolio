@@ -32,6 +32,8 @@ export const Desktop: React.FC = () => {
     return (
         <div
             ref={containerRef}
+            role="main"
+            aria-label="Desktop — Pravin Prajapati Interactive Portfolio"
             className={twMerge(
                 "absolute inset-0 p-4 flex flex-col items-start content-start flex-wrap gap-4 overflow-hidden",
                 !wallpaper ? "bg-gradient-to-br from-[#008080] to-[#004040]" : ""
@@ -44,12 +46,19 @@ export const Desktop: React.FC = () => {
                 <div
                     key={app.key}
                     className="w-20 group flex flex-col items-center justify-center p-2 rounded-lg hover:bg-white/20 active:bg-blue-500/40 transition-colors cursor-pointer select-none"
+                    role="button"
+                    aria-label={`Open ${app.title}`}
+                    title={`Open ${app.title}`}
+                    tabIndex={0}
                     onDoubleClick={(e) => {
                         e.stopPropagation();
                         launchApp(app.key, undefined, navigate);
                     }}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter') launchApp(app.key, undefined, navigate);
+                    }}
                 >
-                    <div className="text-4xl drop-shadow-lg mb-1">{app.icon}</div>
+                    <div className="text-4xl drop-shadow-lg mb-1" aria-hidden="true">{app.icon}</div>
                     <span className="text-white text-xs text-center drop-shadow-md font-medium leading-tight line-clamp-2">
                         {app.title}
                     </span>
