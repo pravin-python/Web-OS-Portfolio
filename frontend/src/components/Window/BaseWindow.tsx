@@ -27,6 +27,22 @@ export const BaseWindow: React.FC<BaseWindowProps> = ({ window, children }) => {
     const navigate = useNavigate();
     const location = useLocation();
 
+    const [viewportSize, setViewportSize] = useState({
+        width: typeof globalThis.window !== 'undefined' ? globalThis.window.innerWidth : 1920,
+        height: typeof globalThis.window !== 'undefined' ? globalThis.window.innerHeight : 1080,
+    });
+
+    useEffect(() => {
+        const handleResize = () => {
+            setViewportSize({
+                width: globalThis.window.innerWidth,
+                height: globalThis.window.innerHeight,
+            });
+        };
+        globalThis.window.addEventListener('resize', handleResize);
+        return () => globalThis.window.removeEventListener('resize', handleResize);
+    }, []);
+
     const isFocused = focusedWindowId === window.id;
 
     if (window.isMinimized) {
@@ -62,22 +78,6 @@ export const BaseWindow: React.FC<BaseWindowProps> = ({ window, children }) => {
             navigate('/os/desktop', { replace: true });
         }
     };
-
-    const [viewportSize, setViewportSize] = useState({
-        width: typeof globalThis.window !== 'undefined' ? globalThis.window.innerWidth : 1920,
-        height: typeof globalThis.window !== 'undefined' ? globalThis.window.innerHeight : 1080,
-    });
-
-    useEffect(() => {
-        const handleResize = () => {
-            setViewportSize({
-                width: globalThis.window.innerWidth,
-                height: globalThis.window.innerHeight,
-            });
-        };
-        globalThis.window.addEventListener('resize', handleResize);
-        return () => globalThis.window.removeEventListener('resize', handleResize);
-    }, []);
 
     // Compute actual pixel dimensions for maximized state
     const maxWidth = viewportSize.width;
