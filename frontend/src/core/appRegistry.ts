@@ -10,6 +10,7 @@ import { DatasetViewer } from '../apps/DatasetViewer/DatasetViewer';
 import { SecurityToolkit } from '../apps/SecurityToolkit/SecurityToolkit';
 import { SystemLogs } from '../apps/SystemLogs/SystemLogs';
 import { ModelLogs } from '../apps/ModelLogs/ModelLogs';
+import { ContactCenter } from '../apps/ContactCenter/ContactCenter';
 
 export interface AppDefinition {
     key: string;
@@ -116,7 +117,7 @@ export const APP_REGISTRY: Record<string, AppDefinition> = {
         icon: '🐍',
         component: SnakeGame,
         route: '/os/games/snake',
-        defaultSize: { width: 500, height: 550 },
+        defaultSize: { width: 550, height: 550 },
         showOnDesktop: true,
         category: 'game',
     },
@@ -126,7 +127,7 @@ export const APP_REGISTRY: Record<string, AppDefinition> = {
         icon: '⭕',
         component: TicTacToe,
         route: '/os/games/tictactoe',
-        defaultSize: { width: 450, height: 500 },
+        defaultSize: { width: 700, height: 750 },
         showOnDesktop: true,
         category: 'game',
     },
@@ -149,6 +150,18 @@ export const APP_REGISTRY: Record<string, AppDefinition> = {
         component: Notepad, // opens about_me.txt in viewer
         route: '/os/about',
         defaultSize: { width: 550, height: 450 },
+        showOnDesktop: true,
+        category: 'system',
+    },
+
+    /* ─── Communication ─── */
+    contactCenter: {
+        key: 'contactCenter',
+        title: 'Contact Center',
+        icon: '📨',
+        component: ContactCenter,
+        route: '/os/contact',
+        defaultSize: { width: 750, height: 520 },
         showOnDesktop: true,
         category: 'system',
     },

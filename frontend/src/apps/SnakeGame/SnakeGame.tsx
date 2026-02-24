@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useWindowStore, type WindowInstance } from '../../core/state/useWindowStore';
+import { useNotificationStore } from '../../core/state/useNotificationStore';
 import './SnakeGame.css';
 
 /* ═══════════════════════════════════════════════════
@@ -92,6 +93,8 @@ export const SnakeGame: React.FC<{ window: WindowInstance }> = ({ window: win })
     const [flashType, setFlashType] = useState<'none' | 'eat' | 'die'>('none');
     const [newRecord, setNewRecord] = useState(false);
     const [finalStats, setFinalStats] = useState({ score: 0, length: 1, level: 1, time: 0 });
+
+    const addGlobalNotification = useNotificationStore(state => state.addNotification);
 
     // Refs for game loop
     const snakeRef = useRef([{ x: 5, y: 5 }]);
@@ -412,12 +415,24 @@ export const SnakeGame: React.FC<{ window: WindowInstance }> = ({ window: win })
     const endGame = useCallback((now: number) => {
         const s = scoreRef.current;
         const isNew = s > highScore;
-        if (isNew) {
+        if (isNew && s > 0) {
             localStorage.setItem(LS_KEY, String(s));
             setHighScore(s);
             setNewRecord(true);
+            addGlobalNotification(
+                'New High Score! 🐍',
+                `Incredible! You reached a new record score of ${s} in Snake.`,
+                'success',
+                'Snake Cyberpunk'
+            );
         } else {
             setNewRecord(false);
+            addGlobalNotification(
+                'Game Over 💀',
+                `You crashed! Final score: ${s}`,
+                'warning',
+                'Snake Cyberpunk'
+            );
         }
         setFinalStats({
             score: s,
@@ -428,7 +443,7 @@ export const SnakeGame: React.FC<{ window: WindowInstance }> = ({ window: win })
         setFlashType('die');
         setTimeout(() => setFlashType('none'), 300);
         setGameState('gameover');
-    }, [highScore]);
+    }, [highScore, addGlobalNotification]);
 
     /* ─── Start / Restart ─── */
     const startGame = useCallback(() => {

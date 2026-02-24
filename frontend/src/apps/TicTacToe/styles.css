@@ -1,0 +1,152 @@
+/* TicTacToe animations & styles */
+
+/* ─── Cell pop-in ─────────────────────────────────── */
+@keyframes cell-pop {
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+
+    60% {
+        transform: scale(1.15);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.ttt-cell-pop {
+    animation: cell-pop 0.3s ease-out forwards;
+}
+
+/* ─── Winner pulse ────────────────────────────────── */
+@keyframes winner-pulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 8px 2px rgba(59, 130, 246, 0.5);
+    }
+
+    50% {
+        box-shadow: 0 0 20px 6px rgba(59, 130, 246, 0.8);
+    }
+}
+
+.ttt-winner-cell {
+    animation: winner-pulse 1s ease-in-out infinite;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(147, 51, 234, 0.15)) !important;
+}
+
+/* ─── Overlay fade-in ─────────────────────────────── */
+@keyframes overlay-fade {
+    0% {
+        opacity: 0;
+        backdrop-filter: blur(0px);
+    }
+
+    100% {
+        opacity: 1;
+        backdrop-filter: blur(8px);
+    }
+}
+
+.ttt-overlay {
+    animation: overlay-fade 0.35s ease-out forwards;
+}
+
+/* ─── Notification slide ──────────────────────────── */
+@keyframes notif-slide {
+    0% {
+        transform: translateX(120%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes notif-out {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(120%);
+        opacity: 0;
+    }
+}
+
+.ttt-notif {
+    animation: notif-slide 0.3s ease-out forwards;
+}
+
+/* ─── Board glow ──────────────────────────────────── */
+@keyframes board-glow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 15px 3px rgba(99, 102, 241, 0.15);
+    }
+
+    50% {
+        box-shadow: 0 0 25px 6px rgba(99, 102, 241, 0.25);
+    }
+}
+
+.ttt-board {
+    animation: board-glow 3s ease-in-out infinite;
+}
+
+/* ─── Thinking dots ───────────────────────────────── */
+@keyframes thinking-dot {
+
+    0%,
+    80%,
+    100% {
+        opacity: 0.2;
+    }
+
+    40% {
+        opacity: 1;
+    }
+}
+
+.ttt-dot-1 {
+    animation: thinking-dot 1.4s infinite 0s;
+}
+
+.ttt-dot-2 {
+    animation: thinking-dot 1.4s infinite 0.2s;
+}
+
+.ttt-dot-3 {
+    animation: thinking-dot 1.4s infinite 0.4s;
+}
+
+/* ─── Result icon bounce ─────────────────────────── */
+@keyframes result-bounce {
+    0% {
+        transform: scale(0);
+    }
+
+    50% {
+        transform: scale(1.25);
+    }
+
+    70% {
+        transform: scale(0.9);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.ttt-result-icon {
+    animation: result-bounce 0.5s ease-out forwards;
+}
