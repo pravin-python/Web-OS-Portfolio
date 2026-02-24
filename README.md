@@ -1,89 +1,127 @@
-# Web-OS Portfolio Simulator
+# Web-OS Portfolio Simulator (Frontend-Only Edition)
 
-A robust, production-grade Web-based Operating System Simulator designed as a portfolio showcase. This project is built using a decoupled architecture with a full-stack Django backend acting as the kernel/system manager, and a modern React, TypeScript, and TailwindCSS frontend managing the Window Desktop environment.
+A robust, production-grade Web-based Operating System Simulator designed as a portfolio showcase. This project is a **100% frontend-only static application** built with React, TypeScript, and TailwindCSS, managing the Window Desktop environment entirely in the browser.
+
+There is **no backend, no database, and no server-side processing**. All state is managed locally via `localStorage` and static JSON files, making it incredibly fast and deployable anywhere.
 
 ## 🚀 Features
 
 - **Window Management**: Fully functional draggable, resizable, and minimizable windows with Z-index handling.
-- **Virtual File System**: A simulated backend file system mapping directories and files.
-- **Interactive Terminal**: An integrated command-line interface capable of executing server-side parsed commands (e.g., `cd`, `ls`, `help`).
+- **Virtual File System**: A simulated file system reading dynamically from static JSON (`src/data/filesystem.json`).
+- **Interactive Terminal**: An integrated command-line interface capable of executing simulated commands (e.g., `cd`, `ls`, `help`, `cat`, `run snake`).
 - **Core OS Applications**:
-  - File Explorer
-  - Notepad (with CRUD capabilities)
-  - Games: Snake and Tic Tac Toe
-- **Customization**: Glassmorphism UI with context-menu (right-click) support on the desktop.
-- **RESTful API**: Centralized routing, strict JSON responses, JWT Authentication, and auto-generated Swagger documentation.
-- **Role-Based Access**: Specialized Django models for Users interactively controlled via API.
+  - File Explorer (JSON-based read-only view)
+  - Notepad (saves locally to `localStorage`)
+  - Games: Snake, Tic Tac Toe, and 2048
+- **Customization**: Glassmorphism UI, context-menu support on the desktop, and persistent state across reloads.
+- **Frontend Architecture**: Pure static application. Role-based access and backend APIs have been completely removed for maximum simplicity and portability.
 
 ## 🛠️ Technology Stack
 
-**Backend**:
-- Django 5.x
-- Django REST Framework (DRF)
-- SQLite (Local) / PostgreSQL (Ready)
-- JWT Authentication (`djangorestframework-simplejwt`)
-- Swagger (`drf-yasg`)
-
 **Frontend**:
+
 - React 19 + TypeScript
 - Vite
 - Zustand (State Management)
 - TailwindCSS v4
 - `react-rnd` (Window interactions)
 - Lucide React (Icons)
+- LocalStorage Engine for state persistence
 
-## 📦 Installation & Setup
+## 📦 Local Development
 
 ### 1. Clone the repository
+
 ```bash
-git clone <your-repo-url>
-cd Web-OS-Portfolio
+git clone https://github.com/pravin-python/Web-OS-Portfolio.git
+cd Web-OS-Portfolio/frontend
 ```
 
-### 2. Backend Setup
-Navigate to the root directory for the Django setup.
+### 2. Install dependencies
+
 ```bash
-# Create a virtual environment
-python -m venv .venv
-
-# Activate the virtual environment
-# Windows:
-.venv\Scripts\activate
-# Mac/Linux:
-source .venv/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run migrations
-python manage.py migrate
-
-# Initialize the file system and default admin
-python manage.py create_default_admin
-python manage.py init_filesystem
-
-# Run the development server
-python manage.py runserver
-```
-The backend will be available at `http://localhost:8000`. API documentation is available at `http://localhost:8000/api/v1/swagger/`.
-
-### 3. Frontend Setup
-Open a new terminal and navigate to the `frontend` folder.
-```bash
-cd frontend
-
-# Install dependencies
 npm install
+```
 
-# Start the Vite development server
+### 3. Run Development Server
+
+```bash
 npm run dev
 ```
+
 The frontend will be available at `http://localhost:5173`.
+
+## 🚀 Build & Deploy Instructions (Static Hosting)
+
+Because this project is 100% static, it can be deployed on any static hosting provider like GitHub Pages, Vercel, Netlify, or Cloudflare Pages.
+
+### Local Build
+
+```bash
+cd frontend
+npm run build
+```
+
+This generates a `dist/` folder containing the compiled, minified HTML, CSS, JS, and JSON data files.
+
+### 🟢 Deploying to Vercel
+
+1. Push your code to GitHub.
+2. Log in to [Vercel](https://vercel.com/) and create a "New Project".
+3. Import your repository.
+4. Set the Framework Preset to **Vite** (Vercel usually detects this automatically).
+5. Set the Root Directory to `frontend`.
+6. Click **Deploy**.
+
+### 🟢 Deploying to Netlify
+
+1. Push your code to GitHub.
+2. Log in to [Netlify](https://www.netlify.com/) and click "Add new site" > "Import an existing project".
+3. Connect your GitHub repository.
+4. Base directory: `frontend`
+5. Build command: `npm run build`
+6. Publish directory: `frontend/dist`
+7. Click **Deploy site**.
+
+### 🟢 Deploying to GitHub Pages
+
+1. Install the `gh-pages` package:
+
+   ```bash
+   cd frontend
+   npm install gh-pages --save-dev
+   ```
+
+2. Update `frontend/package.json` with a homepage URL:
+
+   ```json
+   "homepage": "https://<your-github-username>.github.io/Web-OS-Portfolio",
+   ```
+
+   *Note: If deploying to a custom domain or apex, just use `.` or the absolute path.*
+3. Add deploy scripts to `package.json`:
+
+   ```json
+   "scripts": {
+     "predeploy": "npm run build",
+     "deploy": "gh-pages -d dist",
+     ...
+   }
+   ```
+
+4. Run the deploy command:
+
+   ```bash
+   npm run deploy
+   ```
 
 ## 📂 Project Structure
 
-- `Portfolio-OS/`: Django backend project containing custom OS apps (users, core, terminal, filesystem, notes, etc.).
-- `frontend/`: Vite React application hosting the user interface desktop environment.
+- `frontend/src/apps/`: Individual OS applications (File Explorer, Terminal, Games).
+- `frontend/src/core/`: OS system components (Desktop, Taskbar, Window Manager).
+- `frontend/src/data/`: Static JSON data serving as the "database" (Filesystem, Projects, Skills, etc.).
+- `frontend/src/services/`: Local service wrappers (`storage.ts` for localStorage, `filesystem.ts` for JSON parsing).
 
 ## 📄 License
+
 MIT License

@@ -1,0 +1,174 @@
+{
+    "root": {
+        "id": "root",
+        "name": "/",
+        "type": "folder",
+        "children": [
+            {
+                "id": "home",
+                "name": "home",
+                "type": "folder",
+                "children": [
+                    {
+                        "id": "home-researcher",
+                        "name": "researcher",
+                        "type": "folder",
+                        "children": [
+                            {
+                                "id": "about-me",
+                                "name": "about_me.txt",
+                                "type": "file",
+                                "content": "╔══════════════════════════════════════════════╗\n║         PRAVIN PRAJAPATI                     ║\n║     AI / ML Engineer & Security Researcher   ║\n╚══════════════════════════════════════════════╝\n\nLocation: Ahmedabad, Gujarat, India\nFocus: Machine Learning, Document AI, Cyber Security\n\nCurrent Research:\n  • Invoice extraction using CNN + NLP pipelines\n  • Phishing URL detection with gradient boosting\n  • OCR preprocessing with adaptive thresholding\n  • Malware hash classification\n\nStack:\n  Python, PyTorch, scikit-learn, OpenCV\n  Django, FastAPI, React, TypeScript\n  Docker, AWS, PostgreSQL, Redis\n\nPublications:\n  • \"Adaptive Noise Removal for Document OCR\" — 2024\n  • \"URL-Based Phishing Detection with Feature Engineering\" — 2023\n\nContact: pravin@researcher.dev\nGitHub: github.com/pravin-python\nLinkedIn: linkedin.com/in/pravin"
+                            },
+                            {
+                                "id": "ai-lab",
+                                "name": "ai_lab",
+                                "type": "folder",
+                                "children": [
+                                    {
+                                        "id": "model-logs",
+                                        "name": "model_logs.txt",
+                                        "type": "file",
+                                        "content": "═══════════════════════════════════════════\n  MODEL TRAINING LOG — InvoiceExtractor-v3\n═══════════════════════════════════════════\n\nModel: InvoiceExtractor-v3\nFramework: PyTorch 2.1\nArchitecture: ResNet-50 + LSTM decoder\nDataset Size: 18,000 annotated invoice images\nTrain/Val/Test Split: 70/15/15\n\nTraining Configuration:\n  Optimizer: AdamW (lr=3e-4, weight_decay=0.01)\n  Scheduler: CosineAnnealingLR\n  Batch Size: 32\n  Epochs: 50\n  Augmentation: rotation, perspective warp, noise\n\nFinal Metrics:\n  Accuracy:  94.2%\n  Precision: 92.7%\n  Recall:    95.1%\n  F1-Score:  93.9%\n\nEpoch History (last 10):\n  Epoch 41 | loss: 0.0821 | val_acc: 93.1%\n  Epoch 42 | loss: 0.0798 | val_acc: 93.4%\n  Epoch 43 | loss: 0.0775 | val_acc: 93.6%\n  Epoch 44 | loss: 0.0761 | val_acc: 93.8%\n  Epoch 45 | loss: 0.0742 | val_acc: 93.9%\n  Epoch 46 | loss: 0.0729 | val_acc: 94.0%\n  Epoch 47 | loss: 0.0718 | val_acc: 94.0%\n  Epoch 48 | loss: 0.0704 | val_acc: 94.1%\n  Epoch 49 | loss: 0.0693 | val_acc: 94.1%\n  Epoch 50 | loss: 0.0685 | val_acc: 94.2%\n\nModel saved: /ai_lab/model_v3.pth\nCheckpoint: /ai_lab/checkpoints/epoch_50.pt"
+                                    },
+                                    {
+                                        "id": "training-history",
+                                        "name": "training_history.json",
+                                        "type": "file",
+                                        "content": "{\n  \"model\": \"InvoiceExtractor-v3\",\n  \"framework\": \"PyTorch 2.1\",\n  \"architecture\": \"ResNet-50 + LSTM\",\n  \"dataset_size\": 18000,\n  \"epochs\": [\n    {\"epoch\":1,\"train_loss\":2.341,\"val_loss\":2.102,\"train_acc\":22.1,\"val_acc\":25.3},\n    {\"epoch\":5,\"train_loss\":1.456,\"val_loss\":1.389,\"train_acc\":45.2,\"val_acc\":47.8},\n    {\"epoch\":10,\"train_loss\":0.892,\"val_loss\":0.901,\"train_acc\":62.4,\"val_acc\":61.9},\n    {\"epoch\":15,\"train_loss\":0.567,\"val_loss\":0.612,\"train_acc\":74.1,\"val_acc\":72.3},\n    {\"epoch\":20,\"train_loss\":0.398,\"val_loss\":0.445,\"train_acc\":81.3,\"val_acc\":79.8},\n    {\"epoch\":25,\"train_loss\":0.285,\"val_loss\":0.342,\"train_acc\":85.7,\"val_acc\":84.2},\n    {\"epoch\":30,\"train_loss\":0.203,\"val_loss\":0.271,\"train_acc\":88.9,\"val_acc\":87.5},\n    {\"epoch\":35,\"train_loss\":0.154,\"val_loss\":0.218,\"train_acc\":91.2,\"val_acc\":90.1},\n    {\"epoch\":40,\"train_loss\":0.112,\"val_loss\":0.178,\"train_acc\":93.0,\"val_acc\":92.4},\n    {\"epoch\":45,\"train_loss\":0.086,\"val_loss\":0.149,\"train_acc\":94.0,\"val_acc\":93.9},\n    {\"epoch\":50,\"train_loss\":0.072,\"val_loss\":0.138,\"train_acc\":94.8,\"val_acc\":94.2}\n  ],\n  \"final_metrics\": {\n    \"accuracy\": 94.2,\n    \"precision\": 92.7,\n    \"recall\": 95.1,\n    \"f1\": 93.9\n  }\n}"
+                                    },
+                                    {
+                                        "id": "prediction-samples",
+                                        "name": "prediction_samples.json",
+                                        "type": "file",
+                                        "content": "[\n  {\n    \"id\": \"INV-1024\",\n    \"type\": \"Invoice\",\n    \"vendor\": \"Acme Corp\",\n    \"total\": \"₹12,480\",\n    \"date\": \"2024-11-15\",\n    \"confidence\": 0.934,\n    \"fields_extracted\": 8\n  },\n  {\n    \"id\": \"INV-1025\",\n    \"type\": \"Invoice\",\n    \"vendor\": \"TechFlow Solutions\",\n    \"total\": \"₹45,200\",\n    \"date\": \"2024-11-18\",\n    \"confidence\": 0.912,\n    \"fields_extracted\": 7\n  },\n  {\n    \"id\": \"REC-0891\",\n    \"type\": \"Receipt\",\n    \"vendor\": \"Office Supplies Ltd\",\n    \"total\": \"₹3,750\",\n    \"date\": \"2024-11-20\",\n    \"confidence\": 0.887,\n    \"fields_extracted\": 5\n  },\n  {\n    \"id\": \"PO-4421\",\n    \"type\": \"Purchase Order\",\n    \"vendor\": \"Global Materials Inc\",\n    \"total\": \"₹1,85,000\",\n    \"date\": \"2024-11-22\",\n    \"confidence\": 0.956,\n    \"fields_extracted\": 12\n  }\n]"
+                                    },
+                                    {
+                                        "id": "model-config",
+                                        "name": "model_config.yaml",
+                                        "type": "file",
+                                        "content": "# InvoiceExtractor-v3 Configuration\n\nmodel:\n  name: InvoiceExtractor-v3\n  architecture: resnet50_lstm\n  pretrained: true\n  num_classes: 12\n  hidden_size: 512\n  dropout: 0.3\n\ntraining:\n  epochs: 50\n  batch_size: 32\n  learning_rate: 0.0003\n  weight_decay: 0.01\n  optimizer: adamw\n  scheduler: cosine_annealing\n  warmup_epochs: 5\n\ndata:\n  train_dir: /datasets/invoices/train\n  val_dir: /datasets/invoices/val\n  test_dir: /datasets/invoices/test\n  image_size: [640, 480]\n  augmentation:\n    - random_rotation: 15\n    - perspective_warp: 0.1\n    - gaussian_noise: 0.02\n    - color_jitter: 0.2\n\ninference:\n  confidence_threshold: 0.85\n  nms_threshold: 0.5\n  max_detections: 50"
+                                    }
+                                ]
+                            },
+                            {
+                                "id": "datasets",
+                                "name": "datasets",
+                                "type": "folder",
+                                "children": [
+                                    {
+                                        "id": "ds-invoices",
+                                        "name": "invoices_dataset.csv",
+                                        "type": "file",
+                                        "content": "invoice_id,vendor,amount,currency,date,status,confidence\nINV-1001,Acme Corp,12480,INR,2024-01-15,processed,0.94\nINV-1002,TechFlow Solutions,45200,INR,2024-01-18,processed,0.91\nINV-1003,Global Materials,185000,INR,2024-02-01,processed,0.96\nINV-1004,Office Supplies Ltd,3750,INR,2024-02-10,processed,0.89\nINV-1005,CloudNet Services,67800,INR,2024-02-15,pending,0.87\nINV-1006,DataPrime Analytics,29400,INR,2024-03-01,processed,0.93\nINV-1007,SecureVault Inc,15600,INR,2024-03-12,failed,0.42\nINV-1008,Neural Systems,88900,INR,2024-03-20,processed,0.95\nINV-1009,Quantum Labs,124500,INR,2024-04-01,processed,0.91\nINV-1010,CyberShield Corp,56700,INR,2024-04-15,processed,0.88\nINV-1011,AI Dynamics,234000,INR,2024-05-01,processed,0.97\nINV-1012,Pixel Perfect,8900,INR,2024-05-10,pending,0.85\nINV-1013,ServerStack Ltd,178000,INR,2024-05-22,processed,0.92\nINV-1014,CodeForge Inc,42100,INR,2024-06-01,processed,0.90\nINV-1015,DeepVision AI,67500,INR,2024-06-15,processed,0.94"
+                                    },
+                                    {
+                                        "id": "ds-phishing",
+                                        "name": "phishing_urls.csv",
+                                        "type": "file",
+                                        "content": "url,risk_level,category,reason,detected_date\npaypal-secure-login.xyz,high,phishing,typosquatting + suspicious TLD,2024-11-01\nbank-verify-alert.co,high,phishing,fake banking portal,2024-11-02\namazon-prize-winner.tk,high,scam,prize scam pattern,2024-11-03\ngoogle-account-verify.ml,high,phishing,credential harvesting,2024-11-04\nmicrosoft-support-help.ga,high,phishing,tech support scam,2024-11-05\nnetflix-billing-update.cf,medium,phishing,billing phish attempt,2024-11-06\napple-id-locked.gq,high,phishing,account lock scam,2024-11-07\nfacebook-security-check.tk,high,phishing,social engineering,2024-11-08\nwhatsapp-verify-now.ml,medium,phishing,verification scam,2024-11-09\ninstagram-login-help.ga,medium,phishing,credential phishing,2024-11-10\nlinkedin-job-offer.cf,low,spam,job scam pattern,2024-11-11\ntwitter-account-suspend.gq,high,phishing,suspension scam,2024-11-12\nspotify-premium-free.tk,medium,scam,free premium scam,2024-11-13\ndropbox-share-file.ml,medium,phishing,file sharing phish,2024-11-14\nzoom-meeting-join.ga,low,suspicious,meeting hijack attempt,2024-11-15"
+                                    },
+                                    {
+                                        "id": "ds-malware",
+                                        "name": "malware_hashes.txt",
+                                        "type": "file",
+                                        "content": "# Malware Hash Database — Last Updated: 2024-11-20\n# Format: SHA256 | Family | Severity | First Seen\n\ne3b0c44298fc1c149afbf4c8996fb924  | Emotet      | Critical | 2024-01-15\na7ffc6f8bf1ed76651c14756a061d662  | TrickBot    | High     | 2024-02-03\n2c624232cdd221771294dfbb310aca00  | Ryuk        | Critical | 2024-02-18\n8b3a7f5c1d2e9f0a4b6c8d9e0f1a2b3c  | WannaCry    | Critical | 2024-03-01\n4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a  | Cobalt      | High     | 2024-03-15\n1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d  | AgentTesla  | Medium   | 2024-04-01\n9f8e7d6c5b4a3f2e1d0c9b8a7f6e5d4c  | Qakbot      | High     | 2024-04-20\nf1e2d3c4b5a6f7e8d9c0b1a2f3e4d5c6  | LockBit     | Critical | 2024-05-05\na1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6  | Raccoon     | Medium   | 2024-05-22\nd4c3b2a1f5e6d7c8b9a0f1e2d3c4b5a6  | RedLine     | High     | 2024-06-10\n\nTotal entries: 10\nDatabase version: 3.2.1\nNext update: 2024-12-01"
+                                    }
+                                ]
+                            },
+                            {
+                                "id": "experiments",
+                                "name": "experiments",
+                                "type": "folder",
+                                "children": [
+                                    {
+                                        "id": "exp-ocr",
+                                        "name": "ocr_experiment.txt",
+                                        "type": "file",
+                                        "content": "╔═══════════════════════════════════════╗\n║  EXPERIMENT: OCR Pipeline v2.1       ║\n╚═══════════════════════════════════════╝\n\nObjective:\n  Build a robust OCR pipeline for extracting text\n  from scanned invoices with varying quality.\n\nPreprocessing Steps:\n  1. Grayscale conversion\n  2. Adaptive thresholding (Gaussian, blockSize=11)\n  3. Morphological operations (dilate + erode)\n  4. Deskew using Hough transform\n  5. Noise removal with bilateral filtering\n\nText Detection:\n  • EAST text detector for region proposals\n  • Non-maximum suppression (threshold=0.5)\n  • Bounding box refinement with padding\n\nRecognition:\n  • Tesseract OCR with LSTM engine\n  • Custom trained model for tabular data\n  • Post-processing: regex for amounts, dates\n\nResults:\n  Character accuracy: 96.8%\n  Word accuracy: 92.3%\n  Field extraction: 89.1%\n\nConclusion:\n  Adaptive thresholding + deskew improved\n  accuracy by 12% on low-quality scans.\n  Next: fine-tune on domain-specific fonts."
+                                    },
+                                    {
+                                        "id": "exp-barcode",
+                                        "name": "barcode_detection.txt",
+                                        "type": "file",
+                                        "content": "╔═══════════════════════════════════════╗\n║  EXPERIMENT: Barcode Detection       ║\n╚═══════════════════════════════════════╝\n\nObjective:\n  Detect and decode 1D/2D barcodes from\n  document images in real-time.\n\nApproach:\n  1. Region proposal with gradient analysis\n  2. Scharr gradient (horizontal + vertical)\n  3. Morphological closing to merge regions\n  4. Contour detection + aspect ratio filter\n  5. ZBar library for decoding\n\nSupported Formats:\n  • EAN-13, EAN-8\n  • Code-128, Code-39\n  • QR Code\n  • Data Matrix\n\nPerformance:\n  Detection rate: 97.2%\n  Decode success: 94.8%\n  Avg latency: 45ms per image\n  False positive rate: 1.3%\n\nEdge Cases Handled:\n  • Rotated barcodes (up to 45°)\n  • Partially occluded codes\n  • Multiple codes in single image\n  • Low contrast scenarios"
+                                    },
+                                    {
+                                        "id": "exp-docparser",
+                                        "name": "document_parser.txt",
+                                        "type": "file",
+                                        "content": "╔═══════════════════════════════════════╗\n║  EXPERIMENT: Document Parser v3      ║\n╚═══════════════════════════════════════╝\n\nObjective:\n  Extract structured data from unstructured\n  business documents (invoices, receipts, POs).\n\nArchitecture:\n  Document → Layout Analysis → OCR → NER → Structured Output\n\nLayout Analysis:\n  • LayoutLM v3 for document understanding\n  • Segment detection: header, table, footer\n  • Reading order determination\n\nNamed Entity Recognition:\n  Entities: vendor_name, invoice_number, date,\n            line_items, subtotal, tax, total,\n            payment_terms, due_date\n\nTraining Data:\n  • 18,000 invoice images (annotated)\n  • 5,200 receipts\n  • 3,100 purchase orders\n\nResults by Document Type:\n  Invoices:  F1 = 93.9%\n  Receipts:  F1 = 91.2%\n  POs:       F1 = 89.7%\n\nDeployment:\n  • FastAPI serving endpoint\n  • Batch processing support\n  • 200ms avg inference time\n  • Horizontal scaling via K8s"
+                                    }
+                                ]
+                            },
+                            {
+                                "id": "security",
+                                "name": "security",
+                                "type": "folder",
+                                "children": [
+                                    {
+                                        "id": "sec-authlog",
+                                        "name": "auth.log",
+                                        "type": "file",
+                                        "content": "Nov 20 08:12:01 server sshd[2341]: Accepted publickey for researcher from 10.0.1.5\nNov 20 08:15:23 server sshd[2456]: Failed password for root from 192.168.1.45\nNov 20 08:15:25 server sshd[2456]: Failed password for root from 192.168.1.45\nNov 20 08:15:27 server sshd[2456]: Failed password for root from 192.168.1.45\nNov 20 08:16:01 server sshd[2456]: Failed password for admin from 192.168.1.45\nNov 20 08:16:03 server sshd[2456]: Failed password for admin from 192.168.1.45\nNov 20 09:00:00 server CRON[3001]: session opened for user researcher\nNov 20 09:30:12 server sshd[3102]: Accepted publickey for researcher from 10.0.1.5\nNov 20 10:45:33 server sshd[3205]: Failed password for root from 203.0.113.42\nNov 20 10:45:35 server sshd[3205]: Failed password for root from 203.0.113.42\nNov 20 10:45:37 server sshd[3205]: Failed password for root from 203.0.113.42\nNov 20 10:45:39 server sshd[3205]: Failed password for root from 203.0.113.42\nNov 20 11:00:00 server CRON[3401]: session opened for user researcher\nNov 20 12:22:15 server sudo: researcher : TTY=pts/0 ; COMMAND=/usr/bin/apt update\nNov 20 14:05:44 server sshd[4102]: Accepted publickey for researcher from 10.0.1.5\nNov 20 16:30:00 server CRON[4501]: session opened for user researcher\nNov 20 18:12:09 server sshd[4602]: Invalid user test from 198.51.100.23\nNov 20 18:12:11 server sshd[4602]: Failed password for invalid user test from 198.51.100.23\nNov 20 20:00:00 server sshd[4801]: Accepted publickey for researcher from 10.0.1.5"
+                                    },
+                                    {
+                                        "id": "sec-netscan",
+                                        "name": "network_scan.txt",
+                                        "type": "file",
+                                        "content": "╔═══════════════════════════════════════╗\n║  NETWORK SCAN REPORT                 ║\n║  Scanner: nmap 7.94                  ║\n║  Date: 2024-11-20 14:30:00           ║\n╚═══════════════════════════════════════╝\n\nTarget: 10.0.1.0/24\nScan Type: SYN scan + Service detection\n\nHost: 10.0.1.1 (gateway)\n  PORT     STATE  SERVICE     VERSION\n  22/tcp   open   ssh         OpenSSH 8.9\n  80/tcp   open   http        nginx 1.24\n  443/tcp  open   ssl/http    nginx 1.24\n\nHost: 10.0.1.5 (workstation)\n  PORT     STATE  SERVICE     VERSION\n  22/tcp   open   ssh         OpenSSH 9.0\n  3000/tcp open   http        Node.js Express\n  5432/tcp open   postgresql  PostgreSQL 15.2\n  6379/tcp open   redis       Redis 7.0\n  8000/tcp open   http        uvicorn (FastAPI)\n\nHost: 10.0.1.10 (gpu-server)\n  PORT     STATE  SERVICE     VERSION\n  22/tcp   open   ssh         OpenSSH 9.0\n  8888/tcp open   http        Jupyter Notebook\n  6006/tcp open   http        TensorBoard\n\nSummary:\n  3 hosts scanned\n  14 open ports detected\n  0 critical vulnerabilities\n  1 advisory: Redis on 6379 (no auth)"
+                                    },
+                                    {
+                                        "id": "sec-passwords",
+                                        "name": "password_dictionary.txt",
+                                        "type": "file",
+                                        "content": "# Common Password Dictionary — For Security Testing Only\n# Source: Top 30 most common passwords (research data)\n\n123456\npassword\n123456789\n12345678\n12345\n1234567\n1234567890\nqwerty\nabc123\npassword1\n111111\niloveyou\n1234\n1q2w3e4r\nqwertyuiop\n123123\nmonkey\ndragon\nletmein\nfootball\nshadow\nmaster\n666666\nqwerty123\n123321\nmustang\naccess\nhello\ncharlie\ntrustno1\n\n# Total entries: 30\n# Use for: password strength testing, dictionary attack simulation"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "etc",
+                "name": "etc",
+                "type": "folder",
+                "children": [
+                    {
+                        "id": "etc-system",
+                        "name": "system.conf",
+                        "type": "file",
+                        "content": "# Web-OS System Configuration\nversion=2.0.0\ntheme=dark\nlocale=en-US\nhostname=research-station\nkernel=WebOS-AI-v2"
+                    },
+                    {
+                        "id": "etc-hostname",
+                        "name": "hostname",
+                        "type": "file",
+                        "content": "research-station"
+                    }
+                ]
+            },
+            {
+                "id": "usr",
+                "name": "usr",
+                "type": "folder",
+                "children": [
+                    {
+                        "id": "usr-bin",
+                        "name": "bin",
+                        "type": "folder",
+                        "children": [
+                            {
+                                "id": "usr-bin-readme",
+                                "name": "README.txt",
+                                "type": "file",
+                                "content": "System binaries directory.\nAI tools and security utilities are registered in the App Registry.\n\nInstalled tools:\n  - ai-predictor\n  - dataset-viewer\n  - security-toolkit\n  - system-logs\n  - model-logs"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

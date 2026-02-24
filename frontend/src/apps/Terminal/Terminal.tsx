@@ -1,92 +1,123 @@
-import React, { useState, useRef, useEffect } from 'react';
-import api from '../../services/api';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { executeCommand } from '../../services/terminal';
+import { resolveAppAlias } from '../../core/appLauncher';
+import { launchApp } from '../../core/appLauncher';
 
 export const Terminal: React.FC = () => {
     const [history, setHistory] = useState<{ type: 'command' | 'output' | 'error'; text: string }[]>([
-        { type: 'output', text: 'Web-OS Terminal emulator. Type "help" to see available commands.' }
+        { type: 'output', text: 'Research Station Terminal v2.0 — Type "help" for commands, "neofetch" for system info.' }
     ]);
     const [inputVal, setInputVal] = useState('');
-    const [currentPath, setCurrentPath] = useState('/home');
+    const [currentPath, setCurrentPath] = useState('/home/researcher');
+    const [cmdHistory, setCmdHistory] = useState<string[]>([]);
+    const [cmdHistoryIdx, setCmdHistoryIdx] = useState(-1);
     const inputRef = useRef<HTMLInputElement>(null);
-    const bottomRef = useRef<HTMLDivElement>(null);
+    const scrollRef = useRef<HTMLDivElement>(null);
+
+    const scrollToBottom = useCallback(() => {
+        requestAnimationFrame(() => {
+            if (scrollRef.current) {
+                scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+            }
+        });
+    }, []);
 
     useEffect(() => {
-        bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [history]);
+        scrollToBottom();
+    }, [history, scrollToBottom]);
 
-    // Try to focus input on mount
     useEffect(() => {
         inputRef.current?.focus();
     }, []);
 
-    const handleKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const focusInput = () => {
+        inputRef.current?.focus();
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (cmdHistory.length > 0) {
+                const newIdx = cmdHistoryIdx < cmdHistory.length - 1 ? cmdHistoryIdx + 1 : cmdHistoryIdx;
+                setCmdHistoryIdx(newIdx);
+                setInputVal(cmdHistory[cmdHistory.length - 1 - newIdx] || '');
+            }
+            return;
+        }
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            const newIdx = cmdHistoryIdx > 0 ? cmdHistoryIdx - 1 : -1;
+            setCmdHistoryIdx(newIdx);
+            setInputVal(newIdx >= 0 ? (cmdHistory[cmdHistory.length - 1 - newIdx] || '') : '');
+            return;
+        }
+
         if (e.key === 'Enter' && inputVal.trim()) {
             const cmd = inputVal.trim();
             setInputVal('');
+            setCmdHistory(prev => [...prev, cmd]);
+            setCmdHistoryIdx(-1);
+
             setHistory(prev => [...prev, { type: 'command', text: `${currentPath}$ ${cmd}` }]);
 
-            if (cmd === 'clear') {
+            const result = executeCommand(cmd, currentPath);
+
+            if (result.output === '__CLEAR__') {
                 setHistory([]);
                 return;
             }
 
-            try {
-                const response = await api.post('/terminal/execute/', {
-                    command: cmd,
-                    current_path: currentPath
-                });
-
-                if (response.data.success) {
-                    const output = response.data.data.output;
-                    // check if output indicates a path change (simulated)
-                    if (cmd.startsWith('cd ')) {
-                        // Very basic simulation for UI side, real backend should return new path
-                        const newPathSegment = cmd.split(' ')[1];
-                        if (newPathSegment === '..') {
-                            setCurrentPath(prev => prev.substring(0, prev.lastIndexOf('/')) || '/');
-                        } else if (newPathSegment === '/') {
-                            setCurrentPath('/');
-                        } else {
-                            setCurrentPath(prev => prev === '/' ? `/${newPathSegment}` : `${prev}/${newPathSegment}`);
-                        }
-                    }
-                    setHistory(prev => [...prev, { type: 'output', text: output }]);
+            if (result.output.startsWith('__OPEN__')) {
+                const appName = result.output.replace('__OPEN__', '');
+                const appKey = resolveAppAlias(appName);
+                if (appKey) {
+                    launchApp(appKey);
+                    setHistory(prev => [...prev, { type: 'output', text: `Launching ${appName}...` }]);
                 } else {
-                    setHistory(prev => [...prev, { type: 'error', text: response.data.message || 'Error occurred' }]);
+                    setHistory(prev => [...prev, { type: 'error', text: `Unknown application: ${appName}` }]);
                 }
-            } catch (err: any) {
-                setHistory(prev => [...prev, { type: 'error', text: err.response?.data?.message || err.message || 'Connection failed' }]);
+                return;
+            }
+
+            if (result.newPath) {
+                setCurrentPath(result.newPath);
+            }
+
+            if (result.output) {
+                setHistory(prev => [...prev, { type: 'output', text: result.output }]);
             }
         }
     };
 
     return (
         <div
-            className="w-full h-full bg-slate-950 text-green-400 font-mono text-sm p-2 overflow-y-auto cursor-text select-text"
-            onClick={() => inputRef.current?.focus()}
+            ref={scrollRef}
+            className="h-full w-full overflow-y-auto bg-slate-950 text-green-400 font-mono text-sm p-3 cursor-text select-text"
+            onClick={focusInput}
         >
             {history.map((entry, idx) => (
                 <div
                     key={idx}
-                    className={`mb-1 whitespace-pre-wrap ${entry.type === 'error' ? 'text-red-400' : ''}`}
+                    className={`mb-1 whitespace-pre-wrap break-words ${entry.type === 'error' ? 'text-red-400' :
+                        entry.type === 'command' ? 'text-cyan-300' : ''
+                        }`}
                 >
                     {entry.text}
                 </div>
             ))}
             <div className="flex items-center">
-                <span className="mr-2">{currentPath}$</span>
+                <span className="mr-2 text-cyan-400 whitespace-nowrap flex-shrink-0">{currentPath}$</span>
                 <input
                     ref={inputRef}
                     type="text"
                     value={inputVal}
                     onChange={(e) => setInputVal(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    className="flex-1 bg-transparent border-none outline-none text-green-400 focus:ring-0"
+                    className="flex-1 bg-transparent border-none outline-none text-green-400 focus:ring-0 min-w-0"
                     spellCheck={false}
                     autoComplete="off"
                 />
             </div>
-            <div ref={bottomRef} />
         </div>
     );
 };

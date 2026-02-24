@@ -1,9 +1,11 @@
 import React from 'react';
 import { Rnd } from 'react-rnd';
-import { useWindowStore, WindowInstance } from '../../core/state/useWindowStore';
+import { useWindowStore } from '../../core/state/useWindowStore';
+import type { WindowInstance } from '../../core/state/useWindowStore';
 import { X, Minus, Square, Copy } from 'lucide-react';
-import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { APP_REGISTRY } from '../../core/appRegistry';
 
 interface BaseWindowProps {
     window: WindowInstance;
@@ -22,17 +24,20 @@ export const BaseWindow: React.FC<BaseWindowProps> = ({ window, children }) => {
         updateWindowSize
     } = useWindowStore();
 
+    const navigate = useNavigate();
+    const location = useLocation();
+
     const isFocused = focusedWindowId === window.id;
 
     if (window.isMinimized) {
         return null; // Don't render if minimized
     }
 
-    const handleDragStop = (e: any, d: { x: number; y: number }) => {
+    const handleDragStop = (_e: any, d: { x: number; y: number }) => {
         updateWindowPosition(window.id, { x: d.x, y: d.y });
     };
 
-    const handleResizeStop = (e: any, direction: any, ref: any, delta: any, position: { x: number; y: number }) => {
+    const handleResizeStop = (_e: any, _direction: any, ref: any, _delta: any, position: { x: number; y: number }) => {
         updateWindowSize(window.id, {
             width: parseInt(ref.style.width, 10),
             height: parseInt(ref.style.height, 10),
@@ -48,9 +53,23 @@ export const BaseWindow: React.FC<BaseWindowProps> = ({ window, children }) => {
         }
     };
 
+    const handleClose = () => {
+        closeWindow(window.id);
+
+        // If the URL matches the app we're closing, redirect to desktop
+        const appDef = APP_REGISTRY[window.appType];
+        if (appDef && location.pathname.startsWith(appDef.route)) {
+            navigate('/os/desktop', { replace: true });
+        }
+    };
+
+    // Compute actual pixel dimensions for maximized state (react-rnd needs numbers, not CSS calc)
+    const maxWidth = typeof globalThis.window !== 'undefined' ? globalThis.window.innerWidth : 1920;
+    const maxHeight = typeof globalThis.window !== 'undefined' ? globalThis.window.innerHeight - 48 : 1032;
+
     return (
         <Rnd
-            size={window.isMaximized ? { width: '100vw', height: 'calc(100vh - 48px)' } : window.size}
+            size={window.isMaximized ? { width: maxWidth, height: maxHeight } : window.size}
             position={window.isMaximized ? { x: 0, y: 0 } : window.position}
             onDragStop={handleDragStop}
             onResizeStop={handleResizeStop}
@@ -67,7 +86,7 @@ export const BaseWindow: React.FC<BaseWindowProps> = ({ window, children }) => {
                 isFocused ? 'ring-2 ring-blue-500/50' : 'ring-1 ring-black/5 opacity-95',
                 window.isMaximized && 'transition-none'
             )}
-            style={{ zIndex: window.zIndex }}
+            style={{ zIndex: window.zIndex, display: 'flex', flexDirection: 'column', height: '100%' }}
         >
             {/* Glassmorphism Background layer */}
             <div className="absolute inset-0 bg-white/40 dark:bg-slate-900/60 backdrop-blur-3xl -z-10" />
@@ -101,7 +120,7 @@ export const BaseWindow: React.FC<BaseWindowProps> = ({ window, children }) => {
                         {window.isMaximized ? <Copy size={14} /> : <Square size={14} />}
                     </button>
                     <button
-                        onClick={() => closeWindow(window.id)}
+                        onClick={handleClose}
                         className="p-1 hover:bg-red-500 hover:text-white rounded-md transition-colors"
                     >
                         <X size={14} />
@@ -110,8 +129,10 @@ export const BaseWindow: React.FC<BaseWindowProps> = ({ window, children }) => {
             </div>
 
             {/* Content Area */}
-            <div className="flex-1 overflow-hidden relative bg-white/80 dark:bg-slate-950/80 backdrop-blur-md">
-                {children}
+            <div className="flex-1 min-h-0 overflow-hidden relative bg-white/80 dark:bg-slate-950/80 backdrop-blur-md">
+                <div className="absolute inset-0">
+                    {children}
+                </div>
             </div>
         </Rnd>
     );
