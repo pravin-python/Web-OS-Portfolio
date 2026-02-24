@@ -6,6 +6,7 @@ import { SocialLinksPanel } from './SocialLinksPanel';
 import { QRSection } from './QRSection';
 import { CONTACT } from './contact.data';
 import { MessageSquare } from 'lucide-react';
+import { Icon } from '../../components/Icon';
 
 /** Inline Telegram direct-chat panel */
 const TelegramDirectPanel: React.FC = () => (
@@ -65,11 +66,9 @@ export const ContactCenter: React.FC = () => {
                             : 'hover:bg-slate-100 dark:hover:bg-slate-800/50 text-slate-700 dark:text-slate-300'
                             }`}
                     >
-                        {m.icon.startsWith('/') || m.icon.startsWith('.') || m.icon.startsWith('http') ? (
-                            <img src={m.icon} alt={m.title} className="w-6 h-6 object-contain shrink-0 rounded" />
-                        ) : (
-                            <span className="text-xl shrink-0 flex items-center justify-center w-6">{m.icon}</span>
-                        )}
+                        <span className="shrink-0 flex items-center justify-center w-6">
+                            <Icon name={m.icon} size={22} />
+                        </span>
                         <div className="min-w-0">
                             <span className="text-xs font-semibold block truncate">{m.title}</span>
                             <span className="text-[10px] text-slate-500 dark:text-slate-400 truncate block">{m.description}</span>

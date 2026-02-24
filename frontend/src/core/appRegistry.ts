@@ -29,7 +29,7 @@ export const APP_REGISTRY: Record<string, AppDefinition> = {
     aboutProfile: {
         key: 'aboutProfile',
         title: 'About Me',
-        icon: '👨‍💻',
+        icon: 'system/about',
         component: AboutProfile,
         route: '/os/about',
         defaultSize: { width: 900, height: 650 },
@@ -41,7 +41,7 @@ export const APP_REGISTRY: Record<string, AppDefinition> = {
     aiPredictor: {
         key: 'aiPredictor',
         title: 'AI Predictor',
-        icon: '🤖',
+        icon: 'apps/predictor',
         component: AIPredictor,
         route: '/os/ai-predictor',
         defaultSize: { width: 480, height: 560 },
@@ -51,7 +51,7 @@ export const APP_REGISTRY: Record<string, AppDefinition> = {
     modelLogs: {
         key: 'modelLogs',
         title: 'AI Research Lab',
-        icon: '🧠',
+        icon: 'apps/model-logs',
         component: ModelLogs,
         route: '/os/model-logs',
         defaultSize: { width: 600, height: 650 },
@@ -61,7 +61,7 @@ export const APP_REGISTRY: Record<string, AppDefinition> = {
     datasetViewer: {
         key: 'datasetViewer',
         title: 'Datasets',
-        icon: '📊',
+        icon: 'system/dataset',
         component: DatasetViewer,
         route: '/os/datasets',
         defaultSize: { width: 750, height: 500 },
@@ -73,7 +73,7 @@ export const APP_REGISTRY: Record<string, AppDefinition> = {
     securityToolkit: {
         key: 'securityToolkit',
         title: 'Security Toolkit',
-        icon: '🔐',
+        icon: 'system/security',
         component: SecurityToolkit,
         route: '/os/security',
         defaultSize: { width: 550, height: 520 },
@@ -85,7 +85,7 @@ export const APP_REGISTRY: Record<string, AppDefinition> = {
     terminal: {
         key: 'terminal',
         title: 'Terminal',
-        icon: '💻',
+        icon: 'system/terminal',
         component: Terminal,
         route: '/os/terminal',
         defaultSize: { width: 700, height: 450 },
@@ -95,7 +95,7 @@ export const APP_REGISTRY: Record<string, AppDefinition> = {
     systemLogs: {
         key: 'systemLogs',
         title: 'System Logs',
-        icon: '📋',
+        icon: 'system/log',
         component: SystemLogs,
         route: '/os/system-logs',
         defaultSize: { width: 700, height: 450 },
@@ -105,7 +105,7 @@ export const APP_REGISTRY: Record<string, AppDefinition> = {
     fileExplorer: {
         key: 'fileExplorer',
         title: 'Experiments',
-        icon: '🧪',
+        icon: 'apps/experiments',
         component: FileExplorer,
         route: '/os/files',
         defaultSize: { width: 750, height: 500 },
@@ -115,7 +115,7 @@ export const APP_REGISTRY: Record<string, AppDefinition> = {
     notepad: {
         key: 'notepad',
         title: 'Notepad',
-        icon: '📝',
+        icon: 'apps/notepad',
         component: Notepad,
         route: '/os/notes',
         defaultSize: { width: 600, height: 450 },
@@ -127,7 +127,7 @@ export const APP_REGISTRY: Record<string, AppDefinition> = {
     snake: {
         key: 'snake',
         title: 'Neural Snake',
-        icon: '🐍',
+        icon: 'apps/snake',
         component: SnakeGame,
         route: '/os/games/snake',
         defaultSize: { width: 550, height: 550 },
@@ -137,7 +137,7 @@ export const APP_REGISTRY: Record<string, AppDefinition> = {
     tictactoe: {
         key: 'tictactoe',
         title: 'TicTacToe AI',
-        icon: '⭕',
+        icon: 'apps/tictactoe',
         component: TicTacToe,
         route: '/os/games/tictactoe',
         defaultSize: { width: 700, height: 750 },
@@ -147,7 +147,7 @@ export const APP_REGISTRY: Record<string, AppDefinition> = {
     game2048: {
         key: 'game2048',
         title: 'Logic Grid 2048',
-        icon: '🔢',
+        icon: 'apps/game-2048',
         component: TwentyFortyEight,
         route: '/os/games/2048',
         defaultSize: { width: 450, height: 600 },
@@ -160,7 +160,7 @@ export const APP_REGISTRY: Record<string, AppDefinition> = {
     contactCenter: {
         key: 'contactCenter',
         title: 'Contact Center',
-        icon: '📨',
+        icon: 'system/contact',
         component: ContactCenter,
         route: '/os/contact',
         defaultSize: { width: 750, height: 520 },
@@ -171,7 +171,7 @@ export const APP_REGISTRY: Record<string, AppDefinition> = {
     settings: {
         key: 'settings',
         title: 'Settings',
-        icon: '⚙️',
+        icon: 'system/settings',
         component: (() => null) as any,
         route: '/os/settings',
         defaultSize: { width: 600, height: 450 },

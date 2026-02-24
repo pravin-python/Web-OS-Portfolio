@@ -4,6 +4,8 @@ import { twMerge } from 'tailwind-merge';
 import { ChevronUp, Cpu } from 'lucide-react';
 import { StartMenu } from './StartMenu';
 import { SystemTray } from './SystemTray';
+import { APP_REGISTRY } from '../appRegistry';
+import { Icon } from '../../components/Icon';
 
 export const Taskbar: React.FC = () => {
     const windows = useWindowStore((state) => state.windows);
@@ -73,6 +75,9 @@ export const Taskbar: React.FC = () => {
                                         : "hover:bg-white/20 text-slate-700 dark:text-slate-300"
                                 )}
                             >
+                                {APP_REGISTRY[win.appType]?.icon && (
+                                    <Icon name={APP_REGISTRY[win.appType].icon} size={16} />
+                                )}
                                 <span className="truncate">{win.title}</span>
                             </button>
                         );

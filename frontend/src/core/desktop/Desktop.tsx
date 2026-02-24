@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { getDesktopApps } from '../appRegistry';
 import { launchApp } from '../appLauncher';
 import { twMerge } from 'tailwind-merge';
+import { Icon } from '../../components/Icon';
 
 export const Desktop: React.FC = () => {
     const { wallpaper, openContextMenu, closeContextMenu, clearSelection } = useDesktopStore();
@@ -58,7 +59,9 @@ export const Desktop: React.FC = () => {
                         if (e.key === 'Enter') launchApp(app.key, undefined, navigate);
                     }}
                 >
-                    <div className="text-4xl drop-shadow-lg mb-1" aria-hidden="true">{app.icon}</div>
+                    <div className="drop-shadow-lg mb-1 group-hover:scale-110 transition-transform" aria-hidden="true">
+                        <Icon name={app.icon} size={48} />
+                    </div>
                     <span className="text-white text-xs text-center drop-shadow-md font-medium leading-tight line-clamp-2">
                         {app.title}
                     </span>

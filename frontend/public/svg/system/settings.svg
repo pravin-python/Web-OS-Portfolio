@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <!-- Outer gear teeth -->
+  <circle cx="24" cy="24" r="18" fill="#475569" stroke="#334155" stroke-width="2"/>
+  <!-- Gear teeth notches -->
+  <rect x="21" y="3" width="6" height="7" rx="1.5" fill="#475569" stroke="#334155" stroke-width="1"/>
+  <rect x="21" y="38" width="6" height="7" rx="1.5" fill="#475569" stroke="#334155" stroke-width="1"/>
+  <rect x="3" y="21" width="7" height="6" rx="1.5" fill="#475569" stroke="#334155" stroke-width="1"/>
+  <rect x="38" y="21" width="7" height="6" rx="1.5" fill="#475569" stroke="#334155" stroke-width="1"/>
+  <!-- Diagonal teeth -->
+  <rect x="7" y="7" width="6" height="6" rx="1.5" fill="#475569" stroke="#334155" stroke-width="1" transform="rotate(45 10 10)"/>
+  <rect x="35" y="7" width="6" height="6" rx="1.5" fill="#475569" stroke="#334155" stroke-width="1" transform="rotate(45 38 10)"/>
+  <rect x="7" y="35" width="6" height="6" rx="1.5" fill="#475569" stroke="#334155" stroke-width="1" transform="rotate(45 10 38)"/>
+  <rect x="35" y="35" width="6" height="6" rx="1.5" fill="#475569" stroke="#334155" stroke-width="1" transform="rotate(45 38 38)"/>
+  <!-- Inner ring -->
+  <circle cx="24" cy="24" r="12" fill="#64748b" stroke="#334155" stroke-width="1.5"/>
+  <!-- Center hub -->
+  <circle cx="24" cy="24" r="6" fill="#94a3b8" stroke="#475569" stroke-width="1.5"/>
+  <!-- Center dot -->
+  <circle cx="24" cy="24" r="2.5" fill="#3b82f6"/>
+  <!-- Shine -->
+  <path d="M18 18 C20 16 28 16 30 18" fill="none" stroke="white" stroke-width="1" stroke-linecap="round" opacity="0.3"/>
+</svg>

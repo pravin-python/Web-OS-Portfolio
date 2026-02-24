@@ -1,6 +1,8 @@
 import React from 'react';
 import { PROFILE_INFO } from './profile.data';
 import type { TabId } from './profile.data';
+import { useWindowStore } from '../../core/state/useWindowStore';
+import { APP_REGISTRY } from '../../core/appRegistry';
 
 interface Props {
     onTabChange: (tab: TabId) => void;
@@ -8,6 +10,12 @@ interface Props {
 
 export const ProfileHeader: React.FC<Props> = ({ onTabChange }) => {
     const p = PROFILE_INFO;
+    const { openWindow } = useWindowStore();
+
+    const handleContactClick = () => {
+        const appInfo = APP_REGISTRY.contactCenter;
+        openWindow(appInfo.title, appInfo.key, undefined, appInfo.defaultSize);
+    };
 
     return (
         <div className="ap-header">
@@ -15,7 +23,6 @@ export const ProfileHeader: React.FC<Props> = ({ onTabChange }) => {
                 {p.photoUrl ? (
                     <img src={p.photoUrl} alt={p.name} onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
                 ) : null}
-                <span style={{ position: 'absolute' }}>👨‍💻</span>
             </div>
 
             <div className="ap-header-info">
@@ -35,9 +42,9 @@ export const ProfileHeader: React.FC<Props> = ({ onTabChange }) => {
                 <a href={p.github} target="_blank" rel="noopener noreferrer" className="ap-action-btn secondary">
                     🔗 GitHub
                 </a>
-                <a href={`mailto:${p.email}`} className="ap-action-btn secondary">
+                <button onClick={handleContactClick} className="ap-action-btn secondary">
                     ✉️ Contact
-                </a>
+                </button>
             </div>
         </div>
     );

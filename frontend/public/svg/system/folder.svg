@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <!-- Folder back -->
+  <path d="M6 14 L6 38 C6 40.2 7.8 42 10 42 L38 42 C40.2 42 42 40.2 42 38 L42 18 C42 15.8 40.2 14 38 14 L22 14 L18 8 L10 8 C7.8 8 6 9.8 6 12 Z" fill="#f59e0b" stroke="#d97706" stroke-width="1.5" stroke-linejoin="round"/>
+  <!-- Folder front -->
+  <path d="M4 20 C4 18 5.8 16 8 16 L40 16 C42.2 16 44 18 44 20 L42 38 C42 40.2 40.2 42 38 42 L10 42 C7.8 42 6 40.2 6 38 Z" fill="#fbbf24" stroke="#d97706" stroke-width="1.5" stroke-linejoin="round"/>
+  <!-- Shine -->
+  <path d="M8 18 L40 18 L39 22 L9 22 Z" fill="white" opacity="0.3"/>
+</svg>

@@ -101,7 +101,7 @@ export const PROFILE_INFO: ProfileInfo = {
         'Cyber Security Enthusiast',
     ],
     tagline: 'Building intelligent systems and security-aware applications.',
-    photoUrl: '/image/profile.png',
+    photoUrl: '/image/profile.jpg',
     github: 'https://github.com/pravin-python',
     linkedin: 'https://linkedin.com/in/pravin-prajapati-706722281',
     email: 'pravin.prajapati0126@gmail.com',

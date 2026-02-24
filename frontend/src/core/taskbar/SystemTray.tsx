@@ -147,7 +147,7 @@ export const SystemTray: React.FC<SystemTrayProps> = ({ onClose }) => {
                         )}
                     </div>
 
-                    <div className="space-y-3 mb-4 flex-1 overflow-y-auto pr-1">
+                    <div className="space-y-3 mb-4 overflow-y-auto pr-1 max-h-[400px]">
                         {notifications.length === 0 ? (
                             <div className="flex flex-col items-center justify-center h-full text-slate-400 dark:text-slate-500 pb-8 pt-4">
                                 <Bell className="w-8 h-8 opacity-20 mb-2" />

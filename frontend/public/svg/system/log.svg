@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <!-- Clipboard board -->
+  <rect x="7" y="6" width="34" height="38" rx="4" fill="#f1f5f9" stroke="#475569" stroke-width="1.5"/>
+  <!-- Clipboard clip -->
+  <rect x="15" y="2" width="18" height="10" rx="3" fill="#64748b" stroke="#475569" stroke-width="1.5"/>
+  <rect x="19" y="1" width="10" height="5" rx="2.5" fill="#94a3b8" stroke="#64748b" stroke-width="1"/>
+  <!-- Log entry 1 - success -->
+  <circle cx="14" cy="18" r="2.5" fill="#22c55e"/>
+  <rect x="20" y="16.5" width="17" height="3" rx="1.5" fill="#334155" opacity="0.6"/>
+  <!-- Log entry 2 - info -->
+  <circle cx="14" cy="25" r="2.5" fill="#3b82f6"/>
+  <rect x="20" y="23.5" width="15" height="3" rx="1.5" fill="#334155" opacity="0.5"/>
+  <!-- Log entry 3 - warning -->
+  <circle cx="14" cy="32" r="2.5" fill="#f59e0b"/>
+  <rect x="20" y="30.5" width="17" height="3" rx="1.5" fill="#334155" opacity="0.4"/>
+  <!-- Log entry 4 - error -->
+  <circle cx="14" cy="39" r="2.5" fill="#ef4444"/>
+  <rect x="20" y="37.5" width="11" height="3" rx="1.5" fill="#334155" opacity="0.35"/>
+</svg>
