@@ -2,6 +2,7 @@ import React from 'react';
 import { ExternalLink } from 'lucide-react';
 import { CONTACT } from './contact.data';
 
+
 interface SocialCard {
     id: string;
     icon: string;

@@ -3,6 +3,7 @@ import { APP_REGISTRY } from '../appRegistry';
 import { launchApp } from '../appLauncher';
 import { useNavigate } from 'react-router-dom';
 import { Search, Power, Settings, User } from 'lucide-react';
+import { Icon } from '../../components/Icon';
 
 interface StartMenuProps {
     onClose: () => void;
@@ -63,8 +64,8 @@ export const StartMenu: React.FC<StartMenuProps> = ({ onClose }) => {
                             onClick={() => handleAppLaunch(app.key)}
                             className="flex flex-col items-center justify-center p-2 rounded-lg hover:bg-white/50 dark:hover:bg-white/10 transition-colors group"
                         >
-                            <span className="text-2xl drop-shadow-sm group-hover:scale-110 transition-transform">
-                                {app.icon}
+                            <span className="drop-shadow-sm group-hover:scale-110 transition-transform inline-flex">
+                                <Icon name={app.icon} size={28} />
                             </span>
                             <span className="text-[10px] text-slate-700 dark:text-slate-300 mt-1 truncate w-full text-center">
                                 {app.title}

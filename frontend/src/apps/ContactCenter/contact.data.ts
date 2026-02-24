@@ -33,9 +33,9 @@ export interface ContactMethod {
 }
 
 export const CONTACT_METHODS: ContactMethod[] = [
-    { id: 'email', icon: '/image/email.png', title: 'Email', description: 'Send a direct email' },
-    { id: 'telegram', icon: '/image/telegram.png', title: 'Telegram Chat', description: 'Open a direct chat' },
-    { id: 'bot', icon: '/image/telegram-bot.png', title: 'Telegram Bot', description: 'Send a message via bot' },
-    { id: 'social', icon: '🔗', title: 'Social Links', description: 'LinkedIn · GitHub · Discord' },
-    { id: 'qr', icon: '/image/qr-code.png', title: 'QR Codes', description: 'Scan to connect instantly' },
+    { id: 'email', icon: 'social/email', title: 'Email', description: 'Send a direct email' },
+    { id: 'telegram', icon: 'social/telegram', title: 'Telegram Chat', description: 'Open a direct chat' },
+    { id: 'bot', icon: 'social/telegram', title: 'Telegram Bot', description: 'Send a message via bot' },
+    { id: 'social', icon: 'social/linkedin', title: 'Social Links', description: 'LinkedIn · GitHub · Discord' },
+    { id: 'qr', icon: 'system/contact', title: 'QR Codes', description: 'Scan to connect instantly' },
 ];

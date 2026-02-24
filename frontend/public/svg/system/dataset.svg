@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <!-- Background panel -->
+  <rect x="5" y="5" width="38" height="38" rx="5" fill="#0f172a" stroke="#1e293b" stroke-width="1.5"/>
+  <!-- Y axis -->
+  <line x1="11" y1="39" x2="11" y2="9" stroke="#475569" stroke-width="1.5"/>
+  <!-- X axis -->
+  <line x1="11" y1="39" x2="42" y2="39" stroke="#475569" stroke-width="1.5"/>
+  <!-- Bar 1 - blue -->
+  <rect x="14" y="28" width="5" height="11" rx="1" fill="#3b82f6"/>
+  <!-- Bar 2 - purple -->
+  <rect x="21" y="16" width="5" height="23" rx="1" fill="#8b5cf6"/>
+  <!-- Bar 3 - cyan -->
+  <rect x="28" y="22" width="5" height="17" rx="1" fill="#06b6d4"/>
+  <!-- Bar 4 - green (tallest) -->
+  <rect x="35" y="11" width="5" height="28" rx="1" fill="#22c55e"/>
+  <!-- Trend line (amber) -->
+  <polyline points="16.5,26 23.5,14 30.5,20 37.5,9" fill="none" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Trend dots -->
+  <circle cx="16.5" cy="26" r="2.5" fill="#fbbf24"/>
+  <circle cx="23.5" cy="14" r="2.5" fill="#fbbf24"/>
+  <circle cx="30.5" cy="20" r="2.5" fill="#fbbf24"/>
+  <circle cx="37.5" cy="9" r="2.5" fill="#fbbf24"/>
+</svg>

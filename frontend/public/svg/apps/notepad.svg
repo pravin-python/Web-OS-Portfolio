@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <!-- Page shadow -->
+  <rect x="10" y="5" width="28" height="38" rx="3" fill="#e2e8f0" opacity="0.5"/>
+  <!-- Page -->
+  <rect x="8" y="3" width="28" height="38" rx="3" fill="white" stroke="#94a3b8" stroke-width="1.5"/>
+  <!-- Header line -->
+  <rect x="12" y="8" width="14" height="2.5" rx="1" fill="#3b82f6" opacity="0.7"/>
+  <!-- Text lines -->
+  <rect x="12" y="14" width="20" height="1.8" rx="0.8" fill="#64748b" opacity="0.4"/>
+  <rect x="12" y="19" width="18" height="1.8" rx="0.8" fill="#64748b" opacity="0.3"/>
+  <rect x="12" y="24" width="20" height="1.8" rx="0.8" fill="#64748b" opacity="0.4"/>
+  <rect x="12" y="29" width="12" height="1.8" rx="0.8" fill="#64748b" opacity="0.3"/>
+  <!-- Pencil -->
+  <g transform="translate(30, 28) rotate(-45)">
+    <rect x="0" y="0" width="5" height="20" rx="1" fill="#f59e0b"/>
+    <polygon points="0,20 2.5,25 5,20" fill="#f59e0b"/>
+    <polygon points="0.8,20 2.5,24 4.2,20" fill="#374151"/>
+    <rect x="0" y="0" width="5" height="4" rx="1" fill="#ef4444" opacity="0.8"/>
+  </g>
+</svg>

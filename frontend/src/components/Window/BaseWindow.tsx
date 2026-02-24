@@ -6,6 +6,7 @@ import { X, Minus, Square, Copy } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { APP_REGISTRY } from '../../core/appRegistry';
+import { Icon } from '../Icon';
 
 interface BaseWindowProps {
     window: WindowInstance;
@@ -116,8 +117,9 @@ export const BaseWindow: React.FC<BaseWindowProps> = ({ window, children }) => {
                 onDoubleClick={toggleMaximize}
             >
                 <div className="flex items-center space-x-2">
-                    {/* We can inject dynamic icon via AppRegistry later, for now placeholder */}
-                    <div className="w-4 h-4 rounded-full bg-white/30" />
+                    {APP_REGISTRY[window.appType]?.icon && (
+                        <Icon name={APP_REGISTRY[window.appType].icon} size={16} />
+                    )}
                     <span className="font-semibold text-sm drop-shadow-sm">{window.title}</span>
                 </div>
 
