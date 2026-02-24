@@ -1,0 +1,417 @@
+/* ═══════════════════════════════════════════════════════════════
+   Snake Game — Cyberpunk Neon Theme
+   ═══════════════════════════════════════════════════════════════ */
+
+.snake-game-root {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #0a0e27 0%, #1a1a3e 50%, #0d1117 100%);
+    overflow: hidden;
+    font-family: 'Courier New', 'Consolas', monospace;
+    user-select: none;
+    position: relative;
+}
+
+/* ─── Top HUD Bar ─── */
+.snake-hud {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    background: linear-gradient(90deg, rgba(0, 255, 136, 0.08) 0%, rgba(0, 200, 255, 0.08) 100%);
+    border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+    flex-shrink: 0;
+    z-index: 10;
+    gap: 12px;
+}
+
+.snake-hud-left,
+.snake-hud-center,
+.snake-hud-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.snake-hud-center {
+    flex: 1;
+    justify-content: center;
+}
+
+.snake-hud-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+}
+
+.snake-hud-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: rgba(0, 255, 136, 0.5);
+}
+
+.snake-hud-value {
+    font-size: 18px;
+    font-weight: bold;
+    color: #00ff88;
+    text-shadow: 0 0 10px rgba(0, 255, 136, 0.6), 0 0 20px rgba(0, 255, 136, 0.3);
+    min-width: 40px;
+    text-align: center;
+}
+
+.snake-hud-value.highscore {
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.6), 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.snake-level-badge {
+    background: linear-gradient(135deg, #00ff88 0%, #00c8ff 100%);
+    color: #0a0e27;
+    font-size: 11px;
+    font-weight: 900;
+    padding: 3px 10px;
+    border-radius: 12px;
+    letter-spacing: 1px;
+    text-shadow: none;
+    box-shadow: 0 0 12px rgba(0, 255, 136, 0.4);
+}
+
+.snake-speed-bar {
+    width: 60px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.snake-speed-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00ff88, #ff4444);
+    border-radius: 3px;
+    transition: width 0.5s ease;
+}
+
+.snake-paused-tag {
+    font-size: 10px;
+    color: #ffd700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: blink-tag 1s infinite;
+}
+
+@keyframes blink-tag {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+/* ─── Canvas Area ─── */
+.snake-canvas-area {
+    flex: 1;
+    position: relative;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.snake-canvas-area canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    image-rendering: pixelated;
+}
+
+/* ─── Overlay Screens (Start / Game Over) ─── */
+.snake-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+    background: radial-gradient(ellipse at center, rgba(10, 14, 39, 0.92) 0%, rgba(10, 14, 39, 0.98) 100%);
+    backdrop-filter: blur(6px);
+}
+
+.snake-title {
+    font-size: clamp(28px, 5vw, 56px);
+    font-weight: 900;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: #00ff88;
+    text-shadow:
+        0 0 10px rgba(0, 255, 136, 0.8),
+        0 0 30px rgba(0, 255, 136, 0.5),
+        0 0 60px rgba(0, 255, 136, 0.3),
+        0 0 100px rgba(0, 255, 136, 0.15);
+    animation: title-glow 2s ease-in-out infinite alternate;
+    margin-bottom: 8px;
+}
+
+@keyframes title-glow {
+    from {
+        text-shadow:
+            0 0 10px rgba(0, 255, 136, 0.8),
+            0 0 30px rgba(0, 255, 136, 0.5),
+            0 0 60px rgba(0, 255, 136, 0.3);
+        transform: scale(1);
+    }
+    to {
+        text-shadow:
+            0 0 15px rgba(0, 255, 136, 1),
+            0 0 40px rgba(0, 255, 136, 0.7),
+            0 0 80px rgba(0, 255, 136, 0.5),
+            0 0 120px rgba(0, 255, 136, 0.2);
+        transform: scale(1.02);
+    }
+}
+
+.snake-subtitle {
+    font-size: clamp(10px, 1.5vw, 14px);
+    color: rgba(0, 200, 255, 0.7);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+}
+
+.snake-start-prompt {
+    font-size: clamp(12px, 2vw, 16px);
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 3px;
+    animation: blink-tag 1.5s infinite;
+}
+
+.snake-start-prompt kbd {
+    display: inline-block;
+    background: rgba(0, 255, 136, 0.15);
+    border: 1px solid rgba(0, 255, 136, 0.3);
+    border-radius: 4px;
+    padding: 2px 8px;
+    margin: 0 2px;
+    color: #00ff88;
+    font-family: inherit;
+}
+
+/* ─── Game Over ─── */
+.snake-gameover-title {
+    font-size: clamp(24px, 4vw, 48px);
+    font-weight: 900;
+    color: #ff4444;
+    text-shadow:
+        0 0 10px rgba(255, 68, 68, 0.8),
+        0 0 30px rgba(255, 68, 68, 0.5),
+        0 0 60px rgba(255, 68, 68, 0.3);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    animation: shake-in 0.5s ease;
+}
+
+@keyframes shake-in {
+    0% { transform: translateX(-20px); opacity: 0; }
+    20% { transform: translateX(15px); }
+    40% { transform: translateX(-10px); }
+    60% { transform: translateX(5px); }
+    80% { transform: translateX(-2px); }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+.snake-stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 24px;
+    margin-bottom: 28px;
+}
+
+.snake-stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.snake-stat-item .label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: rgba(0, 200, 255, 0.6);
+}
+
+.snake-stat-item .value {
+    font-size: 22px;
+    font-weight: bold;
+    color: #00ff88;
+    text-shadow: 0 0 8px rgba(0, 255, 136, 0.5);
+}
+
+.snake-stat-item .value.gold {
+    color: #ffd700;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+}
+
+.snake-stat-item .value.new-record {
+    color: #ff6b6b;
+    animation: pulse-record 0.8s infinite;
+}
+
+@keyframes pulse-record {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
+.snake-play-btn {
+    padding: 12px 36px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #0a0e27;
+    background: linear-gradient(135deg, #00ff88 0%, #00c8ff 100%);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow:
+        0 0 15px rgba(0, 255, 136, 0.4),
+        0 0 30px rgba(0, 255, 136, 0.2);
+    transition: all 0.2s ease;
+}
+
+.snake-play-btn:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow:
+        0 0 25px rgba(0, 255, 136, 0.6),
+        0 0 50px rgba(0, 255, 136, 0.3);
+}
+
+.snake-play-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* ─── Combo Popup ─── */
+.snake-combo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    font-weight: 900;
+    color: #ffd700;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+    letter-spacing: 3px;
+    pointer-events: none;
+    animation: combo-pop 0.8s ease forwards;
+    z-index: 15;
+}
+
+@keyframes combo-pop {
+    0% { opacity: 1; transform: translate(-50%, -50%) scale(0.5); }
+    50% { opacity: 1; transform: translate(-50%, -70%) scale(1.3); }
+    100% { opacity: 0; transform: translate(-50%, -120%) scale(0.8); }
+}
+
+/* ─── Mobile Controls ─── */
+.snake-mobile-controls {
+    display: none;
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    z-index: 25;
+}
+
+@media (pointer: coarse), (max-width: 600px) {
+    .snake-mobile-controls {
+        display: grid;
+        grid-template-areas:
+            ". up ."
+            "left . right"
+            ". down .";
+        gap: 4px;
+    }
+}
+
+.snake-dpad-btn {
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(0, 255, 136, 0.3);
+    background: rgba(0, 255, 136, 0.08);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: rgba(0, 255, 136, 0.7);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+.snake-dpad-btn:active {
+    background: rgba(0, 255, 136, 0.25);
+    border-color: rgba(0, 255, 136, 0.6);
+}
+
+.snake-dpad-btn.up    { grid-area: up; }
+.snake-dpad-btn.down  { grid-area: down; }
+.snake-dpad-btn.left  { grid-area: left; }
+.snake-dpad-btn.right { grid-area: right; }
+
+/* ─── Screen Flash Effect ─── */
+.snake-flash {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 30;
+    animation: flash-fx 0.3s ease forwards;
+}
+
+@keyframes flash-fx {
+    0% { background: rgba(255, 68, 68, 0.4); }
+    100% { background: transparent; }
+}
+
+.snake-flash-eat {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 30;
+    animation: flash-eat-fx 0.2s ease forwards;
+}
+
+@keyframes flash-eat-fx {
+    0% { background: rgba(0, 255, 136, 0.15); }
+    100% { background: transparent; }
+}
+
+/* ─── Controls Info ─── */
+.snake-controls-hint {
+    display: flex;
+    gap: 16px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.snake-controls-hint span {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 1px;
+}
+
+.snake-controls-hint kbd {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
+    padding: 1px 5px;
+    margin: 0 2px;
+    font-family: inherit;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.5);
+}

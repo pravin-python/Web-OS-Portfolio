@@ -5,10 +5,10 @@ import { launchApp } from '../../core/appLauncher';
 
 export const Terminal: React.FC = () => {
     const [history, setHistory] = useState<{ type: 'command' | 'output' | 'error'; text: string }[]>([
-        { type: 'output', text: 'Web-OS Terminal emulator. Type "help" to see available commands.' }
+        { type: 'output', text: 'Research Station Terminal v2.0 — Type "help" for commands, "neofetch" for system info.' }
     ]);
     const [inputVal, setInputVal] = useState('');
-    const [currentPath, setCurrentPath] = useState('/home/visitor');
+    const [currentPath, setCurrentPath] = useState('/home/researcher');
     const [cmdHistory, setCmdHistory] = useState<string[]>([]);
     const [cmdHistoryIdx, setCmdHistoryIdx] = useState(-1);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -99,7 +99,7 @@ export const Terminal: React.FC = () => {
                 <div
                     key={idx}
                     className={`mb-1 whitespace-pre-wrap break-words ${entry.type === 'error' ? 'text-red-400' :
-                            entry.type === 'command' ? 'text-cyan-300' : ''
+                        entry.type === 'command' ? 'text-cyan-300' : ''
                         }`}
                 >
                     {entry.text}

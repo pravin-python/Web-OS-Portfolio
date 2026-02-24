@@ -1,0 +1,178 @@
+.dv-root {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background: #1a1a2e;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', sans-serif;
+    overflow: hidden;
+}
+
+.dv-header {
+    padding: 12px 16px 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dv-header h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #00d2ff;
+    margin: 0;
+}
+
+.dv-tabs {
+    display: flex;
+    gap: 2px;
+    padding: 0 16px;
+}
+
+.dv-tab {
+    padding: 6px 14px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: none;
+    border-radius: 4px 4px 0 0;
+    background: rgba(255, 255, 255, 0.05);
+    color: #888;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.dv-tab.active {
+    background: rgba(0, 210, 255, 0.15);
+    color: #00d2ff;
+}
+
+.dv-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dv-search {
+    flex: 1;
+    padding: 6px 12px;
+    font-size: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #e0e0e0;
+    outline: none;
+}
+
+.dv-search:focus {
+    border-color: #00d2ff;
+}
+
+.dv-search::placeholder {
+    color: #555;
+}
+
+.dv-count {
+    font-size: 11px;
+    color: #666;
+    white-space: nowrap;
+}
+
+.dv-table-container {
+    flex: 1;
+    overflow: auto;
+    padding: 0 16px;
+}
+
+.dv-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+.dv-table th {
+    position: sticky;
+    top: 0;
+    background: #16213e;
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #00d2ff;
+    border-bottom: 2px solid rgba(0, 210, 255, 0.2);
+    white-space: nowrap;
+}
+
+.dv-table td {
+    padding: 7px 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    white-space: nowrap;
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dv-table tbody tr:hover {
+    background: rgba(0, 210, 255, 0.05);
+}
+
+.cell-danger {
+    color: #ff5252;
+    font-weight: 700;
+}
+
+.cell-warn {
+    color: #ffc107;
+    font-weight: 600;
+}
+
+.cell-ok {
+    color: #00c853;
+    font-weight: 600;
+}
+
+.dv-empty {
+    text-align: center;
+    padding: 40px;
+    color: #555;
+    font-size: 13px;
+}
+
+.dv-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.dv-page-btn {
+    padding: 4px 12px;
+    font-size: 13px;
+    background: rgba(0, 210, 255, 0.1);
+    border: 1px solid rgba(0, 210, 255, 0.2);
+    color: #00d2ff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.dv-page-btn:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+
+.dv-page-btn:not(:disabled):hover {
+    background: rgba(0, 210, 255, 0.2);
+}
+
+.dv-page-info {
+    font-size: 11px;
+    color: #888;
+}

@@ -63,9 +63,13 @@ export const BaseWindow: React.FC<BaseWindowProps> = ({ window, children }) => {
         }
     };
 
+    // Compute actual pixel dimensions for maximized state (react-rnd needs numbers, not CSS calc)
+    const maxWidth = typeof globalThis.window !== 'undefined' ? globalThis.window.innerWidth : 1920;
+    const maxHeight = typeof globalThis.window !== 'undefined' ? globalThis.window.innerHeight - 48 : 1032;
+
     return (
         <Rnd
-            size={window.isMaximized ? { width: '100vw', height: 'calc(100vh - 48px)' } : window.size}
+            size={window.isMaximized ? { width: maxWidth, height: maxHeight } : window.size}
             position={window.isMaximized ? { x: 0, y: 0 } : window.position}
             onDragStop={handleDragStop}
             onResizeStop={handleResizeStop}
@@ -82,7 +86,7 @@ export const BaseWindow: React.FC<BaseWindowProps> = ({ window, children }) => {
                 isFocused ? 'ring-2 ring-blue-500/50' : 'ring-1 ring-black/5 opacity-95',
                 window.isMaximized && 'transition-none'
             )}
-            style={{ zIndex: window.zIndex, display: 'flex', flexDirection: 'column' }}
+            style={{ zIndex: window.zIndex, display: 'flex', flexDirection: 'column', height: '100%' }}
         >
             {/* Glassmorphism Background layer */}
             <div className="absolute inset-0 bg-white/40 dark:bg-slate-900/60 backdrop-blur-3xl -z-10" />

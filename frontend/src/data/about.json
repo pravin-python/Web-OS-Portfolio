@@ -1,20 +1,21 @@
 {
     "name": "Pravin Prajapati",
-    "title": "Full Stack Developer",
-    "bio": "Passionate full-stack developer specializing in Django, React, and cloud technologies. I love building elegant, scalable web applications and exploring new technologies.",
+    "title": "AI/ML Engineer & Security Researcher",
+    "bio": "AI/ML engineer and cybersecurity researcher specializing in document intelligence, computer vision, and threat analysis. Building production ML pipelines for invoice extraction, phishing detection, and malware classification.",
     "avatar": null,
     "location": "Ahmedabad, Gujarat, India",
-    "email": "[EMAIL_ADDRESS]",
+    "email": "pravin@researcher.dev",
     "socialLinks": {
         "github": "https://github.com/pravin-python",
         "linkedin": "https://linkedin.com/in/pravin",
-        "twitter": "https://twitter.com/pravin.py"
+        "twitter": "https://twitter.com/pravin_ml"
     },
     "resumeUrl": null,
     "highlights": [
-        "3+ years of full-stack development experience",
-        "Built applications serving 100k+ users",
-        "Active open source contributor",
-        "Strong focus on clean architecture and best practices"
+        "3+ years building production ML pipelines (PyTorch, scikit-learn)",
+        "Document AI: invoice extraction at 94% accuracy (18k training samples)",
+        "Cybersecurity: phishing URL detection, malware hash classification",
+        "Full-stack: Django, FastAPI, React, TypeScript, Docker, AWS",
+        "Active open source contributor — Python/ML ecosystem"
     ]
 }
