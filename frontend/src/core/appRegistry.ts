@@ -106,7 +106,7 @@ export const APP_REGISTRY: Record<string, AppDefinition> = {
         component: Notepad,
         route: '/os/notes',
         defaultSize: { width: 600, height: 450 },
-        showOnDesktop: false,
+        showOnDesktop: true,
         category: 'utility',
     },
 
@@ -142,17 +142,6 @@ export const APP_REGISTRY: Record<string, AppDefinition> = {
         category: 'game',
     },
 
-    /* ─── About ─── */
-    aboutMe: {
-        key: 'aboutMe',
-        title: 'About Me',
-        icon: '👤',
-        component: Notepad, // opens about_me.txt in viewer
-        route: '/os/about',
-        defaultSize: { width: 550, height: 450 },
-        showOnDesktop: true,
-        category: 'system',
-    },
 
     /* ─── Communication ─── */
     contactCenter: {
