@@ -1,68 +1,110 @@
-import React, { useState } from 'react';
-import { RotateCcw } from 'lucide-react';
-
-type Player = 'X' | 'O' | null;
+import React from 'react';
+import './styles.css';
+import { useTicTacToe } from './useTicTacToe';
+import { Board } from './Board';
+import { ScorePanel } from './ScorePanel';
+import { GameControls } from './GameControls';
+import { GameOverlay } from './GameOverlay';
 
 export const TicTacToe: React.FC = () => {
-    const [board, setBoard] = useState<Player[]>(Array(9).fill(null));
-    const [xIsNext, setXIsNext] = useState(true);
+    const game = useTicTacToe();
 
-    const calculateWinner = (squares: Player[]) => {
-        const lines = [
-            [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
-            [0, 3, 6], [1, 4, 7], [2, 5, 8], // cols
-            [0, 4, 8], [2, 4, 6]             // diagonals
-        ];
-        for (let i = 0; i < lines.length; i++) {
-            const [a, b, c] = lines[i];
-            if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-                return squares[a];
-            }
+    // Turn indicator text
+    let turnText = '';
+    if (game.gameStatus === 'playing') {
+        if (game.aiThinking) {
+            turnText = 'AI is thinking';
+        } else if (game.mode === 'single') {
+            turnText = game.currentPlayer === game.playerSymbol
+                ? 'Your Turn'
+                : 'AI Turn';
+        } else {
+            turnText = `Player ${game.currentPlayer}'s Turn`;
         }
-        return null;
-    };
+    }
 
-    const winner = calculateWinner(board);
-    const isDraw = !winner && board.every(square => square !== null);
-
-    const handleClick = (i: number) => {
-        if (board[i] || winner) return;
-        const newBoard = [...board];
-        newBoard[i] = xIsNext ? 'X' : 'O';
-        setBoard(newBoard);
-        setXIsNext(!xIsNext);
-    };
-
-    const resetGame = () => {
-        setBoard(Array(9).fill(null));
-        setXIsNext(true);
-    };
+    const boardDisabled = game.gameStatus !== 'playing' || game.aiThinking;
 
     return (
-        <div className="flex flex-col items-center justify-center p-6 h-full bg-slate-50 dark:bg-slate-900 font-sans">
-            <div className="mb-6 text-xl font-bold text-slate-800 dark:text-slate-200">
-                {winner ? `Winner: ${winner}` : isDraw ? 'Draw!' : `Next Player: ${xIsNext ? 'X' : 'O'}`}
-            </div>
-
-            <div className="grid grid-cols-3 gap-2 bg-slate-300 dark:bg-slate-700 p-2 rounded-lg shadow-inner">
-                {board.map((cell, idx) => (
-                    <button
-                        key={idx}
-                        onClick={() => handleClick(idx)}
-                        className="w-20 h-20 bg-white dark:bg-slate-800 rounded flex items-center justify-center text-4xl font-bold text-blue-600 dark:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm"
+        <div className="flex flex-col items-center h-full w-full bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-950 overflow-y-auto select-none">
+            {/* ── Notifications ─────────────────────────────── */}
+            <div className="fixed top-4 right-4 z-[20000] flex flex-col space-y-2 pointer-events-none">
+                {game.notifications.map(n => (
+                    <div
+                        key={n.id}
+                        className={`ttt-notif pointer-events-auto px-4 py-2 rounded-lg shadow-lg text-sm font-medium backdrop-blur-md border ${n.type === 'success'
+                                ? 'bg-green-500/90 text-white border-green-400/50'
+                                : n.type === 'warning'
+                                    ? 'bg-orange-500/90 text-white border-orange-400/50'
+                                    : 'bg-indigo-500/90 text-white border-indigo-400/50'
+                            }`}
                     >
-                        {cell}
-                    </button>
+                        {n.text}
+                    </div>
                 ))}
             </div>
 
-            <button
-                onClick={resetGame}
-                className="mt-8 flex items-center space-x-2 px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-full shadow transition-transform active:scale-95"
-            >
-                <RotateCcw size={18} />
-                <span>Restart Game</span>
-            </button>
+            {/* ── Turn Indicator ────────────────────────────── */}
+            <div className="mt-5 mb-3 h-8 flex items-center justify-center">
+                {game.gameStatus === 'playing' && (
+                    <div className="flex items-center space-x-2 px-4 py-1.5 rounded-full bg-white/60 dark:bg-slate-800/60 border border-slate-200/50 dark:border-slate-700/50 shadow-sm">
+                        {game.aiThinking ? (
+                            <>
+                                <span className="text-xs font-semibold text-indigo-600 dark:text-indigo-400">{turnText}</span>
+                                <span className="flex space-x-0.5">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 ttt-dot-1" />
+                                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 ttt-dot-2" />
+                                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 ttt-dot-3" />
+                                </span>
+                            </>
+                        ) : (
+                            <>
+                                <div className={`w-3 h-3 rounded-full ${game.currentPlayer === 'X' ? 'bg-blue-500' : 'bg-rose-500'
+                                    }`} />
+                                <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">{turnText}</span>
+                            </>
+                        )}
+                    </div>
+                )}
+            </div>
+
+            {/* ── Board + Overlay ───────────────────────────── */}
+            <div className="relative mb-4">
+                <Board
+                    board={game.board}
+                    winResult={game.winResult}
+                    disabled={boardDisabled}
+                    onCellClick={game.humanMove}
+                />
+                <GameOverlay
+                    gameStatus={game.gameStatus}
+                    winResult={game.winResult}
+                    mode={game.mode}
+                    playerSymbol={game.playerSymbol}
+                    onPlayAgain={game.newGame}
+                />
+            </div>
+
+            {/* ── Scores ────────────────────────────────────── */}
+            <ScorePanel
+                scores={game.scores}
+                mode={game.mode}
+                playerSymbol={game.playerSymbol}
+            />
+
+            {/* ── Controls ──────────────────────────────────── */}
+            <div className="mt-3 mb-5 w-full px-6">
+                <GameControls
+                    mode={game.mode}
+                    difficulty={game.difficulty}
+                    playerSymbol={game.playerSymbol}
+                    onModeChange={game.setMode}
+                    onDifficultyChange={game.setDifficulty}
+                    onSymbolChange={game.setPlayerSymbol}
+                    onNewGame={game.newGame}
+                    onResetScore={game.resetScore}
+                />
+            </div>
         </div>
     );
 };

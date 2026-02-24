@@ -61,6 +61,8 @@ const APP_ALIASES: Record<string, string> = {
     ttt: 'tictactoe',
     '2048': 'game2048',
     settings: 'settings',
+    contact: 'contactCenter',
+    'contact-center': 'contactCenter',
 };
 
 export function resolveAppAlias(name: string): string | null {

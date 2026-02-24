@@ -15,6 +15,7 @@ import {
     type Direction,
     type TileData,
 } from './gameEngine';
+import { useNotificationStore } from '../../core/state/useNotificationStore';
 
 const LS_BEST = 'webos.game2048.bestscore';
 
@@ -49,13 +50,24 @@ export function useGame2048(): [Game2048State, Game2048Actions, React.MutableRef
 
     const animLockRef = useRef(false);
 
+    const addGlobalNotification = useNotificationStore(state => state.addNotification);
+
     const saveBest = useCallback((newScore: number) => {
         setBestScore(prev => {
+            if (newScore > prev && prev > 0) {
+                // only notify if beating an existing score > 0
+                addGlobalNotification(
+                    'New High Score! 🏆',
+                    `You reached a new top score of ${newScore} in Logic Grid 2048!`,
+                    'success',
+                    'LogiGrid 2048'
+                );
+            }
             const best = Math.max(prev, newScore);
             localStorage.setItem(LS_BEST, String(best));
             return best;
         });
-    }, []);
+    }, [addGlobalNotification]);
 
     const handleDirection = useCallback((dir: Direction) => {
         if (animLockRef.current) return;
@@ -85,10 +97,22 @@ export function useGame2048(): [Game2048State, Game2048Actions, React.MutableRef
             // Check win (only if not already continued past win)
             if (!continuedPastWin && hasWon(afterSpawn)) {
                 setStatus('won');
+                addGlobalNotification(
+                    '2048 Reached! 🎉',
+                    'Incredible! You merged your way to the 2048 tile.',
+                    'success',
+                    'LogiGrid 2048'
+                );
             }
             // Check game over
             else if (!canMove(afterSpawn)) {
                 setStatus('over');
+                addGlobalNotification(
+                    'Game Over 💀',
+                    `No more moves available. Final score: ${newScore}`,
+                    'warning',
+                    'LogiGrid 2048'
+                );
             }
 
             // Clear animation flags after animations complete

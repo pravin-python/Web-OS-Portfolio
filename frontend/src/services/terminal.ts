@@ -21,6 +21,7 @@ import { analyzePassword } from './securityService';
 import aboutData from '../data/about.json';
 import projectsData from '../data/projects.json';
 import skillsData from '../data/skills.json';
+import { launchApp } from '../core/appLauncher';
 
 const BLOCKED_COMMANDS = new Set([
     'upload', 'save-to-server', 'chmod', 'chown',
@@ -515,8 +516,19 @@ function cmdSkills(): TerminalOutput {
 }
 
 function cmdContact(): TerminalOutput {
+    // Launch the Contact Center window
+    launchApp('contactCenter');
+
     return {
         output: [
+            'Opening Contact Center...',
+            '',
+            'Available methods:',
+            '  - email',
+            '  - telegram',
+            '  - linkedin',
+            '  - instagram',
+            '',
             `📧 Email: ${aboutData.email}`,
             `🐙 GitHub: ${aboutData.socialLinks.github}`,
             `💼 LinkedIn: ${aboutData.socialLinks.linkedin}`,
