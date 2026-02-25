@@ -1,5 +1,6 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { describe, it, expect, beforeEach } from 'vitest';
+import { MemoryRouter } from 'react-router-dom';
 import { BaseWindow } from '../components/Window/BaseWindow';
 import { useWindowStore } from '../core/state/useWindowStore';
 
@@ -11,7 +12,7 @@ describe('Window Manager State & BaseWindow', () => {
 
     it('can open a window and render it', () => {
         // Action: open window
-        const { openWindow, windows } = useWindowStore.getState();
+        const { openWindow } = useWindowStore.getState();
         openWindow('Test App', 'fileExplorer');
 
         // Retrieve new state after action
@@ -21,9 +22,11 @@ describe('Window Manager State & BaseWindow', () => {
 
         // Render the window
         render(
-            <BaseWindow window={updatedWindows[0]}>
-                <div data-testid="app-content">Content</div>
-            </BaseWindow>
+            <MemoryRouter>
+                <BaseWindow window={updatedWindows[0]}>
+                    <div data-testid="app-content">Content</div>
+                </BaseWindow>
+            </MemoryRouter>
         );
 
         // Verify window UI
@@ -44,9 +47,11 @@ describe('Window Manager State & BaseWindow', () => {
 
         // Minimized windows render null in BaseWindow
         const { container } = render(
-            <BaseWindow window={updatedWin}>
-                <div>Content</div>
-            </BaseWindow>
+            <MemoryRouter>
+                <BaseWindow window={updatedWin}>
+                    <div>Content</div>
+                </BaseWindow>
+            </MemoryRouter>
         );
         expect(container.firstChild).toBeNull();
     });
