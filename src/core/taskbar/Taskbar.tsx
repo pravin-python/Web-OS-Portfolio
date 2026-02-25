@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { useWindowStore } from "../../core/state/useWindowStore";
-import { twMerge } from "tailwind-merge";
-import { ChevronUp, Cpu } from "lucide-react";
-import { StartMenu } from "./StartMenu";
-import { SystemTray } from "./SystemTray";
-import { APP_REGISTRY } from "../appRegistry";
-import { Icon } from "../../components/Icon";
+import React, { useState, useEffect } from 'react';
+import { useWindowStore } from '../../core/state/useWindowStore';
+import { twMerge } from 'tailwind-merge';
+import { ChevronUp, Cpu } from 'lucide-react';
+import { StartMenu } from './StartMenu';
+import { SystemTray } from './SystemTray';
+import { APP_REGISTRY } from '../appRegistry';
+import { Icon } from '../../components/Icon';
+import { isTouchDevice } from '../device/deviceDetector';
 
 export const Taskbar: React.FC = () => {
   const windows = useWindowStore((state) => state.windows);
@@ -14,8 +15,9 @@ export const Taskbar: React.FC = () => {
   const minimizeWindow = useWindowStore((state) => state.minimizeWindow);
   const restoreWindow = useWindowStore((state) => state.restoreWindow);
 
-  const [isStartMenuOpen, setIsStartMenuOpen] = useState(false);
-  const [isSystemTrayOpen, setIsSystemTrayOpen] = useState(false);
+    const [isStartMenuOpen, setIsStartMenuOpen] = useState(false);
+    const [isSystemTrayOpen, setIsSystemTrayOpen] = useState(false);
+    const isTouch = isTouchDevice();
 
   const [time, setTime] = useState(new Date());
 
@@ -47,22 +49,25 @@ export const Taskbar: React.FC = () => {
         <SystemTray onClose={() => setIsSystemTrayOpen(false)} />
       )}
 
-      {/* Taskbar Bar */}
-      <div className="absolute overflow-visible bottom-0 left-0 right-0 h-12 bg-white/60 dark:bg-slate-900/80 backdrop-blur-xl border-t border-white/20 shadow-2xl flex items-center px-2 z-[9999]">
-        {/* Start Button */}
-        <button
-          id="start-button"
-          onClick={() => setIsStartMenuOpen(!isStartMenuOpen)}
-          className={twMerge(
-            "flex items-center justify-center space-x-2 px-4 py-2 rounded-lg font-semibold transition-all shadow-md active:scale-95 mr-2",
-            isStartMenuOpen
-              ? "bg-blue-700 text-white"
-              : "bg-blue-600 hover:bg-blue-500 text-white",
-          )}
-        >
-          <Cpu className="w-5 h-5 drop-shadow-sm" />
-          <span>Start</span>
-        </button>
+            {/* Taskbar Bar */}
+            <div className={twMerge(
+                "absolute overflow-visible bottom-0 left-0 right-0 bg-white/60 dark:bg-slate-900/80 backdrop-blur-xl border-t border-white/20 shadow-2xl flex items-center px-2 z-[9999]",
+                isTouch ? "h-14" : "h-12"
+            )}>
+                {/* Start Button */}
+                <button
+                    id="start-button"
+                    onClick={() => setIsStartMenuOpen(!isStartMenuOpen)}
+                    className={twMerge(
+                        "flex items-center justify-center space-x-2 px-4 py-2 rounded-lg font-semibold transition-all shadow-md active:scale-95 mr-2",
+                        isStartMenuOpen
+                            ? "bg-blue-700 text-white"
+                            : "bg-blue-600 hover:bg-blue-500 text-white"
+                    )}
+                >
+                    <Cpu className={twMerge("drop-shadow-sm", isTouch ? "w-6 h-6" : "w-5 h-5")} />
+                    <span>Start</span>
+                </button>
 
         {/* Running Apps */}
         <div className="flex-1 flex items-center space-x-1 overflow-x-auto px-2">
