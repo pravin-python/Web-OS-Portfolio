@@ -3,8 +3,8 @@
  * Preserves backward compatibility for all existing consumers.
  */
 
-import { storageManager } from './storage/storage.manager';
-import { sessionStorageService } from './storage/sessionStorage.service';
+import { storageManager } from "./storage/storage.manager";
+import { sessionStorageService } from "./storage/sessionStorage.service";
 
 /**
  * Primary storage interface (localStorage).

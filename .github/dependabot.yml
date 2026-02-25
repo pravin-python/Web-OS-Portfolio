@@ -1,27 +1,11 @@
 version: 2
 updates:
-  - package-ecosystem: "pip"
+  - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
-    labels:
-      - "dependencies"
     groups:
-      minor-updates:
-        patterns:
-          - "*"
-        update-types:
-          - "minor"
-          - "patch"
-
-  - package-ecosystem: "npm"
-    directory: "/frontend"
-    schedule:
-      interval: "weekly"
-    labels:
-      - "dependencies"
-    groups:
-      minor-updates:
+      dependencies:
         patterns:
           - "*"
         update-types:
@@ -32,12 +16,3 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    labels:
-      - "dependencies"
-    groups:
-      actions-updates:
-        patterns:
-          - "*"
-        update-types:
-          - "minor"
-          - "patch"

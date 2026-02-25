@@ -1,5 +1,5 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
-import { DesktopLayout } from './layouts/DesktopLayout';
+import { Routes, Route, Navigate } from "react-router-dom";
+import { DesktopLayout } from "./layouts/DesktopLayout";
 
 function App() {
   return (
