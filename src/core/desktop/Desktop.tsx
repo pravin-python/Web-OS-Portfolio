@@ -59,10 +59,10 @@ export const Desktop: React.FC = () => {
                         if (e.key === 'Enter') launchApp(app.key, undefined, navigate);
                     }}
                 >
-                    <div className="drop-shadow-lg mb-1 group-hover:scale-110 transition-transform" aria-hidden="true">
+                    <div className="drop-shadow-lg mb-1 group-hover:scale-110 transition-transform pointer-events-none" aria-hidden="true">
                         <Icon name={app.icon} size={48} />
                     </div>
-                    <span className="text-white text-xs text-center drop-shadow-md font-medium leading-tight line-clamp-2">
+                    <span className="text-white text-xs text-center drop-shadow-md font-medium leading-tight line-clamp-2 pointer-events-none">
                         {app.title}
                     </span>
                 </div>
