@@ -1,15 +1,21 @@
-import React, { useRef } from 'react';
+import React, { useRef, useCallback } from 'react';
 import { useDesktopStore } from '../state/useDesktopStore';
 import { useNavigate } from 'react-router-dom';
 import { getDesktopApps } from '../appRegistry';
 import { launchApp } from '../appLauncher';
 import { twMerge } from 'tailwind-merge';
 import { Icon } from '../../components/Icon';
+import { isTouchDevice } from '../device/deviceDetector';
 
 export const Desktop: React.FC = () => {
     const { wallpaper, openContextMenu, closeContextMenu, clearSelection } = useDesktopStore();
     const navigate = useNavigate();
     const containerRef = useRef<HTMLDivElement>(null);
+    const isTouch = isTouchDevice();
+
+    // Long-press state for context menu on touch
+    const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const longPressFired = useRef(false);
 
     const handleContextMenu = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -22,10 +28,32 @@ export const Desktop: React.FC = () => {
         ]);
     };
 
-    const handlePointerDown = () => {
+    const handlePointerDown = useCallback((e: React.PointerEvent) => {
         closeContextMenu();
         clearSelection();
-    };
+
+        // Long-press for context menu on touch
+        if (isTouch) {
+            longPressFired.current = false;
+            longPressTimer.current = setTimeout(() => {
+                longPressFired.current = true;
+                openContextMenu(e.clientX, e.clientY, [
+                    { label: 'View', action: () => console.log('View') },
+                    { label: 'Sort by', action: () => console.log('Sort by') },
+                    { label: 'Refresh', action: () => window.location.reload() },
+                    { divider: true },
+                    { label: 'Personalize', action: () => launchApp('settings', undefined, navigate) },
+                ]);
+            }, 500);
+        }
+    }, [isTouch, closeContextMenu, clearSelection, openContextMenu, navigate]);
+
+    const handlePointerUp = useCallback(() => {
+        if (longPressTimer.current) {
+            clearTimeout(longPressTimer.current);
+            longPressTimer.current = null;
+        }
+    }, []);
 
     // Get apps from the registry instead of hardcoded list
     const desktopApps = getDesktopApps();
@@ -42,6 +70,7 @@ export const Desktop: React.FC = () => {
             style={wallpaper ? { backgroundImage: `url(${wallpaper})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
             onContextMenu={handleContextMenu}
             onPointerDown={handlePointerDown}
+            onPointerUp={handlePointerUp}
         >
             {desktopApps.map(app => (
                 <div
@@ -51,10 +80,18 @@ export const Desktop: React.FC = () => {
                     aria-label={`Open ${app.title}`}
                     title={`Open ${app.title}`}
                     tabIndex={0}
-                    onDoubleClick={(e) => {
+                    /* Touch devices: single tap opens app */
+                    onClick={isTouch ? (e) => {
+                        e.stopPropagation();
+                        if (!longPressFired.current) {
+                            launchApp(app.key, undefined, navigate);
+                        }
+                    } : undefined}
+                    /* Desktop: double-click opens app */
+                    onDoubleClick={!isTouch ? (e) => {
                         e.stopPropagation();
                         launchApp(app.key, undefined, navigate);
-                    }}
+                    } : undefined}
                     onKeyDown={(e) => {
                         if (e.key === 'Enter') launchApp(app.key, undefined, navigate);
                     }}

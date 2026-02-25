@@ -6,6 +6,7 @@ import { StartMenu } from './StartMenu';
 import { SystemTray } from './SystemTray';
 import { APP_REGISTRY } from '../appRegistry';
 import { Icon } from '../../components/Icon';
+import { isTouchDevice } from '../device/deviceDetector';
 
 export const Taskbar: React.FC = () => {
     const windows = useWindowStore((state) => state.windows);
@@ -16,6 +17,7 @@ export const Taskbar: React.FC = () => {
 
     const [isStartMenuOpen, setIsStartMenuOpen] = useState(false);
     const [isSystemTrayOpen, setIsSystemTrayOpen] = useState(false);
+    const isTouch = isTouchDevice();
 
     const [time, setTime] = useState(new Date());
 
@@ -44,7 +46,10 @@ export const Taskbar: React.FC = () => {
             {isSystemTrayOpen && <SystemTray onClose={() => setIsSystemTrayOpen(false)} />}
 
             {/* Taskbar Bar */}
-            <div className="absolute overflow-visible bottom-0 left-0 right-0 h-12 bg-white/60 dark:bg-slate-900/80 backdrop-blur-xl border-t border-white/20 shadow-2xl flex items-center px-2 z-[9999]">
+            <div className={twMerge(
+                "absolute overflow-visible bottom-0 left-0 right-0 bg-white/60 dark:bg-slate-900/80 backdrop-blur-xl border-t border-white/20 shadow-2xl flex items-center px-2 z-[9999]",
+                isTouch ? "h-14" : "h-12"
+            )}>
                 {/* Start Button */}
                 <button
                     id="start-button"
@@ -56,7 +61,7 @@ export const Taskbar: React.FC = () => {
                             : "bg-blue-600 hover:bg-blue-500 text-white"
                     )}
                 >
-                    <Cpu className="w-5 h-5 drop-shadow-sm" />
+                    <Cpu className={twMerge("drop-shadow-sm", isTouch ? "w-6 h-6" : "w-5 h-5")} />
                     <span>Start</span>
                 </button>
 

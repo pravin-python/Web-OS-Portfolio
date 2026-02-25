@@ -7,6 +7,7 @@ import { twMerge } from 'tailwind-merge';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { APP_REGISTRY } from '../../core/appRegistry';
 import { Icon } from '../Icon';
+import { isTouchDevice, VIRTUAL_WIDTH, VIRTUAL_HEIGHT } from '../../core/device/deviceDetector';
 
 interface BaseWindowProps {
     window: WindowInstance;
@@ -14,6 +15,7 @@ interface BaseWindowProps {
 }
 
 export const BaseWindow: React.FC<BaseWindowProps> = ({ window, children }) => {
+    const isTouch = isTouchDevice();
     const {
         focusedWindowId,
         focusWindow,
@@ -81,8 +83,9 @@ export const BaseWindow: React.FC<BaseWindowProps> = ({ window, children }) => {
     };
 
     // Compute actual pixel dimensions for maximized state
-    const maxWidth = viewportSize.width;
-    const maxHeight = viewportSize.height - 48; // Taskbar height is 48px
+    // On touch devices, use virtual dimensions since we CSS-scale
+    const maxWidth = isTouch ? VIRTUAL_WIDTH : viewportSize.width;
+    const maxHeight = (isTouch ? VIRTUAL_HEIGHT : viewportSize.height) - (isTouch ? 56 : 48);
 
     return (
         <Rnd
@@ -91,7 +94,7 @@ export const BaseWindow: React.FC<BaseWindowProps> = ({ window, children }) => {
             onDragStop={handleDragStop}
             onResizeStop={handleResizeStop}
             disableDragging={window.isMaximized}
-            enableResizing={!window.isMaximized}
+            enableResizing={!window.isMaximized && !isTouch}
             minWidth={300}
             minHeight={200}
             bounds="parent"
@@ -124,24 +127,24 @@ export const BaseWindow: React.FC<BaseWindowProps> = ({ window, children }) => {
                 </div>
 
                 {/* Window Controls */}
-                <div className="flex items-center space-x-1">
+                <div className={twMerge("flex items-center", isTouch ? "space-x-2" : "space-x-1")}>
                     <button
                         onClick={() => minimizeWindow(window.id)}
-                        className="p-1 hover:bg-white/20 rounded-md transition-colors"
+                        className={twMerge("hover:bg-white/20 rounded-md transition-colors", isTouch ? "p-2" : "p-1")}
                     >
-                        <Minus size={14} />
+                        <Minus size={isTouch ? 18 : 14} />
                     </button>
                     <button
                         onClick={toggleMaximize}
-                        className="p-1 hover:bg-white/20 rounded-md transition-colors"
+                        className={twMerge("hover:bg-white/20 rounded-md transition-colors", isTouch ? "p-2" : "p-1")}
                     >
-                        {window.isMaximized ? <Copy size={14} /> : <Square size={14} />}
+                        {window.isMaximized ? <Copy size={isTouch ? 18 : 14} /> : <Square size={isTouch ? 18 : 14} />}
                     </button>
                     <button
                         onClick={handleClose}
-                        className="p-1 hover:bg-red-500 hover:text-white rounded-md transition-colors"
+                        className={twMerge("hover:bg-red-500 hover:text-white rounded-md transition-colors", isTouch ? "p-2" : "p-1")}
                     >
-                        <X size={14} />
+                        <X size={isTouch ? 18 : 14} />
                     </button>
                 </div>
             </div>
