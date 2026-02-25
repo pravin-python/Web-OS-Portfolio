@@ -3,6 +3,7 @@
 This document contains the complete DevOps setup for the frontend application, including Dockerization, CI/CD pipelines, and automation scripts.
 
 ## File: Dockerfile
+
 ```dockerfile
 # Stage 1: Build
 FROM node:20-alpine AS builder
@@ -39,6 +40,7 @@ CMD ["nginx", "-g", "daemon off;"]
 ```
 
 ## File: .dockerignore
+
 ```text
 node_modules
 .git
@@ -62,6 +64,7 @@ LICENSE
 ```
 
 ## File: nginx.conf
+
 ```nginx
 server {
     listen 80;
@@ -88,6 +91,7 @@ server {
 ```
 
 ## File: docker-compose.yml
+
 ```yaml
 services:
   frontend:
@@ -99,14 +103,15 @@ services:
 ```
 
 ## File: .github/workflows/ci.yml
+
 ```yaml
 name: CI
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
   pull_request:
-    branches: [ main, master ]
+    branches: [main, master]
 
 jobs:
   build-and-test:
@@ -123,7 +128,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -139,6 +144,7 @@ jobs:
 ```
 
 ## File: .github/dependabot.yml
+
 ```yaml
 version: 2
 updates:
@@ -161,19 +167,16 @@ updates:
 ```
 
 ## File: .lintstagedrc
+
 ```json
 {
-  "*.{ts,tsx,js,jsx}": [
-    "eslint --fix",
-    "prettier --write"
-  ],
-  "*.{json,css,md,html}": [
-    "prettier --write"
-  ]
+  "*.{ts,tsx,js,jsx}": ["eslint --fix", "prettier --write"],
+  "*.{json,css,md,html}": ["prettier --write"]
 }
 ```
 
 ## File: run.sh
+
 ```bash
 #!/bin/bash
 
@@ -223,6 +226,7 @@ esac
 ```
 
 ## File: run.bat
+
 ```batch
 @echo off
 setlocal
