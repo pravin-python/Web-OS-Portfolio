@@ -6,7 +6,7 @@ To ensure no broken code enters the `main` or `develop` branches, please configu
 
 1. Go to your repository on GitHub.
 2. Click on **Settings** > **Branches**.
-3. Under *Branch protection rules*, click **Add branch protection rule**.
+3. Under _Branch protection rules_, click **Add branch protection rule**.
 4. In the **Branch name pattern** field, type `main` (and repeat for `develop` if applicable).
 
 ## Recommended Settings to Enable

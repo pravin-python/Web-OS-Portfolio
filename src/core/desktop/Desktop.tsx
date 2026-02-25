@@ -17,16 +17,19 @@ export const Desktop: React.FC = () => {
     const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
     const longPressFired = useRef(false);
 
-    const handleContextMenu = (e: React.MouseEvent) => {
-        e.preventDefault();
-        openContextMenu(e.clientX, e.clientY, [
-            { label: 'View', action: () => console.log('View') },
-            { label: 'Sort by', action: () => console.log('Sort by') },
-            { label: 'Refresh', action: () => window.location.reload() },
-            { divider: true },
-            { label: 'Personalize', action: () => launchApp('settings', undefined, navigate) },
-        ]);
-    };
+  const handleContextMenu = (e: React.MouseEvent) => {
+    e.preventDefault();
+    openContextMenu(e.clientX, e.clientY, [
+      { label: "View", action: () => console.log("View") },
+      { label: "Sort by", action: () => console.log("Sort by") },
+      { label: "Refresh", action: () => window.location.reload() },
+      { divider: true },
+      {
+        label: "Personalize",
+        action: () => launchApp("settings", undefined, navigate),
+      },
+    ]);
+  };
 
     const handlePointerDown = useCallback((e: React.PointerEvent) => {
         closeContextMenu();
@@ -55,10 +58,31 @@ export const Desktop: React.FC = () => {
         }
     }, []);
 
-    // Get apps from the registry instead of hardcoded list
-    const desktopApps = getDesktopApps();
+  // Get apps from the registry instead of hardcoded list
+  const desktopApps = getDesktopApps();
 
-    return (
+  return (
+    <div
+      ref={containerRef}
+      role="main"
+      aria-label="Desktop — Pravin Prajapati Interactive Portfolio"
+      className={twMerge(
+        "absolute inset-0 p-4 flex flex-col items-start content-start flex-wrap gap-4 overflow-hidden",
+        !wallpaper ? "bg-gradient-to-br from-[#008080] to-[#004040]" : "",
+      )}
+      style={
+        wallpaper
+          ? {
+              backgroundImage: `url(${wallpaper})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }
+          : {}
+      }
+      onContextMenu={handleContextMenu}
+      onPointerDown={handlePointerDown}
+    >
+      {desktopApps.map((app) => (
         <div
             ref={containerRef}
             role="main"
@@ -105,5 +129,7 @@ export const Desktop: React.FC = () => {
                 </div>
             ))}
         </div>
-    );
+      ))}
+    </div>
+  );
 };

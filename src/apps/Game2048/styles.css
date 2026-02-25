@@ -4,419 +4,421 @@
 
 /* ─── Root ─── */
 .game2048-root {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(145deg, #faf8ef 0%, #f0e6d3 100%);
-    font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-    overflow: hidden;
-    user-select: none;
-    padding: 16px;
-    box-sizing: border-box;
-    touch-action: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(145deg, #faf8ef 0%, #f0e6d3 100%);
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  overflow: hidden;
+  user-select: none;
+  padding: 16px;
+  box-sizing: border-box;
+  touch-action: none;
 }
 
 /* ─── Header / Score Bar ─── */
 .game2048-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    max-width: 380px;
-    margin-bottom: 12px;
-    gap: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 380px;
+  margin-bottom: 12px;
+  gap: 8px;
 }
 
 .game2048-logo {
-    font-size: clamp(32px, 6vw, 48px);
-    font-weight: 900;
-    color: #776e65;
-    line-height: 1;
+  font-size: clamp(32px, 6vw, 48px);
+  font-weight: 900;
+  color: #776e65;
+  line-height: 1;
 }
 
 .game2048-scores {
-    display: flex;
-    gap: 6px;
+  display: flex;
+  gap: 6px;
 }
 
 .game2048-score-box {
-    background: #bbada0;
-    border-radius: 6px;
-    padding: 6px 14px;
-    text-align: center;
-    min-width: 65px;
-    position: relative;
+  background: #bbada0;
+  border-radius: 6px;
+  padding: 6px 14px;
+  text-align: center;
+  min-width: 65px;
+  position: relative;
 }
 
 .game2048-score-label {
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: #eee4da;
-    line-height: 1;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #eee4da;
+  line-height: 1;
 }
 
 .game2048-score-value {
-    font-size: 20px;
-    font-weight: 800;
-    color: #fff;
-    line-height: 1.2;
+  font-size: 20px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.2;
 }
 
 /* Score Add animation */
 .game2048-score-add {
-    position: absolute;
-    top: -4px;
-    right: 10px;
-    font-size: 14px;
-    font-weight: 800;
-    color: rgba(119, 110, 101, 0.9);
-    animation: score-add-anim 0.7s ease forwards;
-    pointer-events: none;
+  position: absolute;
+  top: -4px;
+  right: 10px;
+  font-size: 14px;
+  font-weight: 800;
+  color: rgba(119, 110, 101, 0.9);
+  animation: score-add-anim 0.7s ease forwards;
+  pointer-events: none;
 }
 
 @keyframes score-add-anim {
-    0% {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
-    100% {
-        opacity: 0;
-        transform: translateY(-24px);
-    }
+  100% {
+    opacity: 0;
+    transform: translateY(-24px);
+  }
 }
 
 /* ─── Controls Row ─── */
 .game2048-controls {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    max-width: 380px;
-    margin-bottom: 10px;
-    gap: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 380px;
+  margin-bottom: 10px;
+  gap: 8px;
 }
 
 .game2048-subtitle {
-    font-size: 12px;
-    color: #776e65;
-    opacity: 0.7;
+  font-size: 12px;
+  color: #776e65;
+  opacity: 0.7;
 }
 
 .game2048-new-btn {
-    padding: 8px 18px;
-    font-size: 12px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: #faf8ef;
-    background: #8f7a66;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.15s ease;
+  padding: 8px 18px;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #faf8ef;
+  background: #8f7a66;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
 }
 
 .game2048-new-btn:hover {
-    background: #776e65;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: #776e65;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .game2048-new-btn:active {
-    transform: translateY(0);
+  transform: translateY(0);
 }
 
 /* ─── Board ─── */
 .game2048-board-wrapper {
-    position: relative;
-    width: 100%;
-    max-width: 380px;
-    aspect-ratio: 1;
-    flex-shrink: 0;
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  aspect-ratio: 1;
+  flex-shrink: 0;
 }
 
 .game2048-board {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background: #bbada0;
-    border-radius: 8px;
-    padding: 2.2%;
-    box-sizing: border-box;
-    box-shadow:
-        0 8px 32px rgba(0, 0, 0, 0.12),
-        0 2px 8px rgba(0, 0, 0, 0.08);
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #bbada0;
+  border-radius: 8px;
+  padding: 2.2%;
+  box-sizing: border-box;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .game2048-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(4, 1fr);
-    gap: 2.2%;
-    width: 100%;
-    height: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 2.2%;
+  width: 100%;
+  height: 100%;
 }
 
 .game2048-cell {
-    background: rgba(238, 228, 218, 0.35);
-    border-radius: 6px;
+  background: rgba(238, 228, 218, 0.35);
+  border-radius: 6px;
 }
 
 /* ─── Tiles ─── */
 .game2048-tiles-container {
-    position: absolute;
-    top: 2.2%;
-    left: 2.2%;
-    right: 2.2%;
-    bottom: 2.2%;
+  position: absolute;
+  top: 2.2%;
+  left: 2.2%;
+  right: 2.2%;
+  bottom: 2.2%;
 }
 
 .game2048-tile {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 800;
-    border-radius: 6px;
-    transition: left 120ms ease-in-out, top 120ms ease-in-out;
-    z-index: 1;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  border-radius: 6px;
+  transition:
+    left 120ms ease-in-out,
+    top 120ms ease-in-out;
+  z-index: 1;
 }
 
 /* Tile value color scale */
 .tile-2 {
-    background: #eee4da;
-    color: #776e65;
+  background: #eee4da;
+  color: #776e65;
 }
 
 .tile-4 {
-    background: #ede0c8;
-    color: #776e65;
+  background: #ede0c8;
+  color: #776e65;
 }
 
 .tile-8 {
-    background: #f2b179;
-    color: #f9f6f2;
+  background: #f2b179;
+  color: #f9f6f2;
 }
 
 .tile-16 {
-    background: #f59563;
-    color: #f9f6f2;
+  background: #f59563;
+  color: #f9f6f2;
 }
 
 .tile-32 {
-    background: #f67c5f;
-    color: #f9f6f2;
+  background: #f67c5f;
+  color: #f9f6f2;
 }
 
 .tile-64 {
-    background: #f65e3b;
-    color: #f9f6f2;
+  background: #f65e3b;
+  color: #f9f6f2;
 }
 
 .tile-128 {
-    background: #edcf72;
-    color: #f9f6f2;
-    box-shadow: 0 0 20px 4px rgba(237, 207, 114, 0.35);
+  background: #edcf72;
+  color: #f9f6f2;
+  box-shadow: 0 0 20px 4px rgba(237, 207, 114, 0.35);
 }
 
 .tile-256 {
-    background: #edcc61;
-    color: #f9f6f2;
-    box-shadow: 0 0 24px 5px rgba(237, 204, 97, 0.4);
+  background: #edcc61;
+  color: #f9f6f2;
+  box-shadow: 0 0 24px 5px rgba(237, 204, 97, 0.4);
 }
 
 .tile-512 {
-    background: #edc850;
-    color: #f9f6f2;
-    box-shadow: 0 0 28px 6px rgba(237, 200, 80, 0.45);
+  background: #edc850;
+  color: #f9f6f2;
+  box-shadow: 0 0 28px 6px rgba(237, 200, 80, 0.45);
 }
 
 .tile-1024 {
-    background: #edc53f;
-    color: #f9f6f2;
-    box-shadow: 0 0 32px 8px rgba(237, 197, 63, 0.5);
-    font-size: 85% !important;
+  background: #edc53f;
+  color: #f9f6f2;
+  box-shadow: 0 0 32px 8px rgba(237, 197, 63, 0.5);
+  font-size: 85% !important;
 }
 
 .tile-2048 {
-    background: #edc22e;
-    color: #f9f6f2;
-    box-shadow: 0 0 40px 10px rgba(237, 194, 46, 0.6);
-    font-size: 85% !important;
+  background: #edc22e;
+  color: #f9f6f2;
+  box-shadow: 0 0 40px 10px rgba(237, 194, 46, 0.6);
+  font-size: 85% !important;
 }
 
 .tile-super {
-    background: #3c3a32;
-    color: #f9f6f2;
-    font-size: 70% !important;
+  background: #3c3a32;
+  color: #f9f6f2;
+  font-size: 70% !important;
 }
 
 /* ─── Tile Animations ─── */
 .tile-new {
-    animation: tile-appear 200ms ease forwards;
+  animation: tile-appear 200ms ease forwards;
 }
 
 @keyframes tile-appear {
-    0% {
-        transform: scale(0);
-        opacity: 0;
-    }
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
 
-    50% {
-        opacity: 1;
-    }
+  50% {
+    opacity: 1;
+  }
 
-    100% {
-        transform: scale(1);
-    }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .tile-merged {
-    animation: tile-merge 200ms ease forwards;
-    z-index: 2;
+  animation: tile-merge 200ms ease forwards;
+  z-index: 2;
 }
 
 @keyframes tile-merge {
-    0% {
-        transform: scale(1);
-    }
+  0% {
+    transform: scale(1);
+  }
 
-    50% {
-        transform: scale(1.18);
-    }
+  50% {
+    transform: scale(1.18);
+  }
 
-    100% {
-        transform: scale(1);
-    }
+  100% {
+    transform: scale(1);
+  }
 }
 
 /* ─── Overlay ─── */
 .game2048-overlay {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: rgba(238, 228, 218, 0.73);
-    backdrop-filter: blur(3px);
-    border-radius: 8px;
-    z-index: 100;
-    animation: overlay-fade-in 0.4s ease;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(238, 228, 218, 0.73);
+  backdrop-filter: blur(3px);
+  border-radius: 8px;
+  z-index: 100;
+  animation: overlay-fade-in 0.4s ease;
 }
 
 .game2048-overlay.win {
-    background: rgba(237, 194, 46, 0.5);
+  background: rgba(237, 194, 46, 0.5);
 }
 
 @keyframes overlay-fade-in {
-    from {
-        opacity: 0;
-    }
+  from {
+    opacity: 0;
+  }
 
-    to {
-        opacity: 1;
-    }
+  to {
+    opacity: 1;
+  }
 }
 
 .game2048-overlay-title {
-    font-size: clamp(28px, 5vw, 44px);
-    font-weight: 900;
-    color: #776e65;
-    margin-bottom: 6px;
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 900;
+  color: #776e65;
+  margin-bottom: 6px;
 }
 
 .game2048-overlay.win .game2048-overlay-title {
-    color: #f9f6f2;
-    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+  color: #f9f6f2;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
 }
 
 .game2048-overlay-sub {
-    font-size: 14px;
-    color: #776e65;
-    opacity: 0.8;
-    margin-bottom: 20px;
+  font-size: 14px;
+  color: #776e65;
+  opacity: 0.8;
+  margin-bottom: 20px;
 }
 
 .game2048-overlay.win .game2048-overlay-sub {
-    color: #f9f6f2;
+  color: #f9f6f2;
 }
 
 .game2048-overlay-buttons {
-    display: flex;
-    gap: 10px;
+  display: flex;
+  gap: 10px;
 }
 
 .game2048-overlay-btn {
-    padding: 10px 24px;
-    font-size: 13px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.15s ease;
+  padding: 10px 24px;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
 }
 
 .game2048-overlay-btn.primary {
-    background: #8f7a66;
-    color: #faf8ef;
+  background: #8f7a66;
+  color: #faf8ef;
 }
 
 .game2048-overlay-btn.primary:hover {
-    background: #776e65;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: #776e65;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .game2048-overlay-btn.secondary {
-    background: #eee4da;
-    color: #776e65;
+  background: #eee4da;
+  color: #776e65;
 }
 
 .game2048-overlay-btn.secondary:hover {
-    background: #e0d4c4;
-    transform: translateY(-1px);
+  background: #e0d4c4;
+  transform: translateY(-1px);
 }
 
 /* ─── Hints ─── */
 .game2048-hints {
-    margin-top: 12px;
-    text-align: center;
-    font-size: 11px;
-    color: #776e65;
-    opacity: 0.5;
-    line-height: 1.6;
+  margin-top: 12px;
+  text-align: center;
+  font-size: 11px;
+  color: #776e65;
+  opacity: 0.5;
+  line-height: 1.6;
 }
 
 .game2048-hints kbd {
-    display: inline-block;
-    background: rgba(119, 110, 101, 0.1);
-    border: 1px solid rgba(119, 110, 101, 0.2);
-    border-radius: 3px;
-    padding: 0 4px;
-    font-family: inherit;
-    font-size: 10px;
+  display: inline-block;
+  background: rgba(119, 110, 101, 0.1);
+  border: 1px solid rgba(119, 110, 101, 0.2);
+  border-radius: 3px;
+  padding: 0 4px;
+  font-family: inherit;
+  font-size: 10px;
 }
 
 /* ─── Responsive ─── */
 @media (max-height: 500px) {
-    .game2048-root {
-        padding: 8px;
-    }
+  .game2048-root {
+    padding: 8px;
+  }
 
-    .game2048-header {
-        margin-bottom: 6px;
-    }
+  .game2048-header {
+    margin-bottom: 6px;
+  }
 
-    .game2048-controls {
-        margin-bottom: 6px;
-    }
+  .game2048-controls {
+    margin-bottom: 6px;
+  }
 }
