@@ -98,7 +98,8 @@ This generates a `dist/` folder containing the compiled, minified HTML, CSS, JS,
    "homepage": "https://<your-github-username>.github.io/Web-OS-Portfolio",
    ```
 
-   *Note: If deploying to a custom domain or apex, just use `.` or the absolute path.*
+   _Note: If deploying to a custom domain or apex, just use `.` or the absolute path._
+
 3. Add deploy scripts to `package.json`:
 
    ```json

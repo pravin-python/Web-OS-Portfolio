@@ -10,8 +10,8 @@ import { Icon } from '../Icon';
 import { isTouchDevice, VIRTUAL_WIDTH, VIRTUAL_HEIGHT } from '../../core/device/deviceDetector';
 
 interface BaseWindowProps {
-    window: WindowInstance;
-    children: React.ReactNode;
+  window: WindowInstance;
+  children: React.ReactNode;
 }
 
 export const BaseWindow: React.FC<BaseWindowProps> = ({ window, children }) => {
@@ -34,35 +34,19 @@ export const BaseWindow: React.FC<BaseWindowProps> = ({ window, children }) => {
         width: typeof globalThis.window !== 'undefined' ? globalThis.window.innerWidth : 1920,
         height: typeof globalThis.window !== 'undefined' ? globalThis.window.innerHeight : 1080,
     });
+    updateWindowPosition(window.id, position);
+  };
 
-    useEffect(() => {
-        const handleResize = () => {
-            setViewportSize({
-                width: globalThis.window.innerWidth,
-                height: globalThis.window.innerHeight,
-            });
-        };
-        globalThis.window.addEventListener('resize', handleResize);
-        return () => globalThis.window.removeEventListener('resize', handleResize);
-    }, []);
-
-    const isFocused = focusedWindowId === window.id;
-
-    if (window.isMinimized) {
-        return null; // Don't render if minimized
+  const toggleMaximize = () => {
+    if (window.isMaximized) {
+      restoreWindow(window.id);
+    } else {
+      maximizeWindow(window.id);
     }
+  };
 
-    const handleDragStop = (_e: any, d: { x: number; y: number }) => {
-        updateWindowPosition(window.id, { x: d.x, y: d.y });
-    };
-
-    const handleResizeStop = (_e: any, _direction: any, ref: any, _delta: any, position: { x: number; y: number }) => {
-        updateWindowSize(window.id, {
-            width: parseInt(ref.style.width, 10),
-            height: parseInt(ref.style.height, 10),
-        });
-        updateWindowPosition(window.id, position);
-    };
+  const handleClose = () => {
+    closeWindow(window.id);
 
     const toggleMaximize = () => {
         if (window.isMaximized) {

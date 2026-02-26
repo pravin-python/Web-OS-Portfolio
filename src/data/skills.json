@@ -1,55 +1,24 @@
 {
-    "categories": [
-        {
-            "name": "Languages",
-            "skills": [
-                "Python",
-                "TypeScript",
-                "JavaScript",
-                "SQL",
-                "HTML",
-                "CSS"
-            ]
-        },
-        {
-            "name": "Frameworks",
-            "skills": [
-                "Django",
-                "React",
-                "FastAPI",
-                "Next.js",
-                "TailwindCSS"
-            ]
-        },
-        {
-            "name": "Databases",
-            "skills": [
-                "PostgreSQL",
-                "Redis",
-                "SQLite",
-                "MongoDB"
-            ]
-        },
-        {
-            "name": "DevOps & Tools",
-            "skills": [
-                "Docker",
-                "AWS",
-                "Git",
-                "GitHub Actions",
-                "Nginx",
-                "Linux"
-            ]
-        },
-        {
-            "name": "Other",
-            "skills": [
-                "REST APIs",
-                "WebSockets",
-                "GraphQL",
-                "Testing",
-                "CI/CD"
-            ]
-        }
-    ]
+  "categories": [
+    {
+      "name": "Languages",
+      "skills": ["Python", "TypeScript", "JavaScript", "SQL", "HTML", "CSS"]
+    },
+    {
+      "name": "Frameworks",
+      "skills": ["Django", "React", "FastAPI", "Next.js", "TailwindCSS"]
+    },
+    {
+      "name": "Databases",
+      "skills": ["PostgreSQL", "Redis", "SQLite", "MongoDB"]
+    },
+    {
+      "name": "DevOps & Tools",
+      "skills": ["Docker", "AWS", "Git", "GitHub Actions", "Nginx", "Linux"]
+    },
+    {
+      "name": "Other",
+      "skills": ["REST APIs", "WebSockets", "GraphQL", "Testing", "CI/CD"]
+    }
+  ]
 }

@@ -1,76 +1,76 @@
 [
-    {
-        "id": "proj-1",
-        "title": "E-Commerce Platform",
-        "description": "A full-featured online store with product catalog, shopping cart, checkout, and payment integration. Built with Django REST Framework and React.",
-        "techStack": [
-            "Django",
-            "React",
-            "TypeScript",
-            "PostgreSQL",
-            "Redis",
-            "Docker",
-            "AWS",
-            "Stripe"
-        ],
-        "category": "Web App",
-        "status": "completed",
-        "links": {
-            "github": "https://github.com/pravin/ecommerce-platform",
-            "live": "https://ecommerce-demo.pravin.dev"
-        }
-    },
-    {
-        "id": "proj-2",
-        "title": "AI Assistant",
-        "description": "An intelligent chatbot powered by large language models with context-aware conversations and a plugin system for extensibility.",
-        "techStack": [
-            "Python",
-            "FastAPI",
-            "OpenAI",
-            "LangChain",
-            "React",
-            "WebSockets"
-        ],
-        "category": "AI/ML",
-        "status": "completed",
-        "links": {
-            "github": "https://github.com/pravin/ai-assistant"
-        }
-    },
-    {
-        "id": "proj-3",
-        "title": "Web-OS Portfolio",
-        "description": "A browser-based operating system that serves as a developer portfolio. Features window management, virtual file system, terminal emulator, and built-in games.",
-        "techStack": [
-            "React",
-            "TypeScript",
-            "TailwindCSS",
-            "Canvas API",
-            "Zustand"
-        ],
-        "category": "Creative",
-        "status": "in-progress",
-        "links": {
-            "github": "https://github.com/pravin/web-os-portfolio",
-            "live": "https://webos.pravin.dev"
-        }
-    },
-    {
-        "id": "proj-4",
-        "title": "Real-Time Chat App",
-        "description": "A real-time messaging platform with channels, direct messages, file sharing, and presence indicators.",
-        "techStack": [
-            "Django Channels",
-            "WebSockets",
-            "React",
-            "Redis",
-            "PostgreSQL"
-        ],
-        "category": "Web App",
-        "status": "completed",
-        "links": {
-            "github": "https://github.com/pravin/realtime-chat"
-        }
+  {
+    "id": "proj-1",
+    "title": "E-Commerce Platform",
+    "description": "A full-featured online store with product catalog, shopping cart, checkout, and payment integration. Built with Django REST Framework and React.",
+    "techStack": [
+      "Django",
+      "React",
+      "TypeScript",
+      "PostgreSQL",
+      "Redis",
+      "Docker",
+      "AWS",
+      "Stripe"
+    ],
+    "category": "Web App",
+    "status": "completed",
+    "links": {
+      "github": "https://github.com/pravin/ecommerce-platform",
+      "live": "https://ecommerce-demo.pravin.dev"
     }
+  },
+  {
+    "id": "proj-2",
+    "title": "AI Assistant",
+    "description": "An intelligent chatbot powered by large language models with context-aware conversations and a plugin system for extensibility.",
+    "techStack": [
+      "Python",
+      "FastAPI",
+      "OpenAI",
+      "LangChain",
+      "React",
+      "WebSockets"
+    ],
+    "category": "AI/ML",
+    "status": "completed",
+    "links": {
+      "github": "https://github.com/pravin/ai-assistant"
+    }
+  },
+  {
+    "id": "proj-3",
+    "title": "Web-OS Portfolio",
+    "description": "A browser-based operating system that serves as a developer portfolio. Features window management, virtual file system, terminal emulator, and built-in games.",
+    "techStack": [
+      "React",
+      "TypeScript",
+      "TailwindCSS",
+      "Canvas API",
+      "Zustand"
+    ],
+    "category": "Creative",
+    "status": "in-progress",
+    "links": {
+      "github": "https://github.com/pravin/web-os-portfolio",
+      "live": "https://webos.pravin.dev"
+    }
+  },
+  {
+    "id": "proj-4",
+    "title": "Real-Time Chat App",
+    "description": "A real-time messaging platform with channels, direct messages, file sharing, and presence indicators.",
+    "techStack": [
+      "Django Channels",
+      "WebSockets",
+      "React",
+      "Redis",
+      "PostgreSQL"
+    ],
+    "category": "Web App",
+    "status": "completed",
+    "links": {
+      "github": "https://github.com/pravin/realtime-chat"
+    }
+  }
 ]

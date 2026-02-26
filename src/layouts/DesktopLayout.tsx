@@ -9,7 +9,7 @@ import { OrientationGuard } from '../core/device/OrientationGuard';
 import { DesktopViewport } from '../core/device/DesktopViewport';
 
 export const DesktopLayout: React.FC = () => {
-    useDocumentTitle();
+  useDocumentTitle();
 
     return (
         <OrientationGuard>
