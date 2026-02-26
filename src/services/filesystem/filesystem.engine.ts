@@ -20,8 +20,8 @@ const SYSTEM_DIRS = new Set(["etc", "usr"]);
 
 // ─── In-memory state ─────────────────────────────────────────────
 
-let nodeMap = new Map<string, FileNode>();
-let childrenMap = new Map<string | null, Set<string>>(); // parentId → child ids
+const nodeMap = new Map<string, FileNode>();
+const childrenMap = new Map<string | null, Set<string>>(); // parentId → child ids
 
 // ─── Initialization ──────────────────────────────────────────────
 
