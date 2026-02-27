@@ -11,7 +11,7 @@ import type { NavigateFunction } from "react-router-dom";
  */
 export function launchApp(
   appKey: string,
-  appData?: any,
+  appData?: Record<string, unknown>,
   navigate?: NavigateFunction,
 ): void {
   const app = APP_REGISTRY[appKey];
@@ -22,24 +22,12 @@ export function launchApp(
 
   const store = useWindowStore.getState();
 
-  // Check if this app type already has an open window
-  const existingWindow = store.windows.find((w) => w.appType === appKey);
-  if (existingWindow) {
-    // Focus the existing window instead of opening a duplicate
-    store.focusWindow(existingWindow.id);
-
-    // Update appData if provided (e.g. deep link to a specific file)
-    if (appData) {
-      store.updateWindowAppData(existingWindow.id, appData);
-    }
-  } else {
-    // Open a new window
-    store.openWindow(app.title, appKey, undefined, app.defaultSize, appData);
-  }
+  // Always open a new instance of the app securely
+  store.openWindow(app.title, appKey, undefined, app.defaultSize, appData);
 
   // Update browser URL if navigate function is available
   if (navigate && app.route) {
-    navigate(app.route, { replace: true });
+    navigate(app.route, { replace: true, state: { os_handled: Date.now() } });
   }
 }
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { PROFILE_INFO } from "./profile.data";
 import type { TabId } from "./profile.data";
-import { useWindowStore } from "../../core/state/useWindowStore";
+import { launchApp } from "../../core/appLauncher";
 import { APP_REGISTRY } from "../../core/appRegistry";
 
 interface Props {
@@ -10,11 +10,10 @@ interface Props {
 
 export const ProfileHeader: React.FC<Props> = ({ onTabChange }) => {
   const p = PROFILE_INFO;
-  const { openWindow } = useWindowStore();
 
   const handleContactClick = () => {
     const appInfo = APP_REGISTRY.contactCenter;
-    openWindow(appInfo.title, appInfo.key, undefined, appInfo.defaultSize);
+    launchApp(appInfo.key);
   };
 
   return (

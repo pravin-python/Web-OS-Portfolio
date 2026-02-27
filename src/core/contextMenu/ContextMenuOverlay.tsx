@@ -1,12 +1,15 @@
 import React, { useEffect, useRef } from "react";
-import { useDesktopStore } from "../state/useDesktopStore";
+import {
+  useDesktopStore,
+  type ContextMenuItem,
+} from "../state/useDesktopStore";
 
 export const ContextMenuOverlay: React.FC = () => {
   const { contextMenu, closeContextMenu } = useDesktopStore();
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
+    const handleClickOutside = (e: Event) => {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
         closeContextMenu();
       }
@@ -14,6 +17,10 @@ export const ContextMenuOverlay: React.FC = () => {
 
     if (contextMenu.isOpen) {
       document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("pointerdown", handleClickOutside);
+      document.addEventListener("touchstart", handleClickOutside, {
+        passive: true,
+      });
       // Optional: Prevent default context menu globally when our menu is open
       const handleGlobalContext = (e: MouseEvent) => {
         if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
@@ -24,6 +31,8 @@ export const ContextMenuOverlay: React.FC = () => {
 
       return () => {
         document.removeEventListener("mousedown", handleClickOutside);
+        document.removeEventListener("pointerdown", handleClickOutside);
+        document.removeEventListener("touchstart", handleClickOutside);
         document.removeEventListener("contextmenu", handleGlobalContext);
       };
     }
@@ -46,7 +55,7 @@ export const ContextMenuOverlay: React.FC = () => {
       className="absolute z-[10000] w-48 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-md shadow-2xl border border-slate-200 dark:border-slate-700 py-1 text-sm select-none"
       style={{ left: x, top: y }}
     >
-      {contextMenu.items.map((item, index) => {
+      {contextMenu.items.map((item: ContextMenuItem, index) => {
         if (item.divider) {
           return (
             <div
@@ -61,7 +70,7 @@ export const ContextMenuOverlay: React.FC = () => {
             className="w-full text-left px-4 py-1.5 hover:bg-blue-500 hover:text-white dark:text-slate-200 dark:hover:bg-blue-600 transition-colors"
             onClick={(e) => {
               e.stopPropagation();
-              item.action();
+              item.action?.();
               closeContextMenu();
             }}
           >

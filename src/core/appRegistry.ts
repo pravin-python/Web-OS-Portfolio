@@ -12,11 +12,13 @@ import { SystemLogs } from "../apps/SystemLogs/SystemLogs";
 import { ModelLogs } from "../apps/ModelLogs/ModelLogs";
 import { ContactCenter } from "../apps/ContactCenter/ContactCenter";
 import { AboutProfile } from "../apps/AboutProfile/AboutProfile";
+import { Trash } from "../apps/Trash/Trash";
 
 export interface AppDefinition {
   key: string;
   title: string;
   icon: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   component: ComponentType<any>;
   route: string;
   defaultSize: { width: number; height: number };
@@ -171,10 +173,23 @@ export const APP_REGISTRY: Record<string, AppDefinition> = {
     key: "settings",
     title: "Settings",
     icon: "system/settings",
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     component: (() => null) as any,
     route: "/os/settings",
     defaultSize: { width: 600, height: 450 },
     showOnDesktop: false,
+    category: "system",
+  },
+
+  /* ─── Special ─── */
+  trash: {
+    key: "trash",
+    title: "Trash",
+    icon: "system/trash",
+    component: Trash,
+    route: "/os/trash",
+    defaultSize: { width: 480, height: 400 },
+    showOnDesktop: true,
     category: "system",
   },
 };
@@ -206,6 +221,7 @@ export function resolveRouteToAppKey(pathname: string): string | null {
 /**
  * Get the component for an app key.
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getAppComponent(appKey: string): ComponentType<any> {
   const app = APP_REGISTRY[appKey];
   return app?.component || (() => null);
