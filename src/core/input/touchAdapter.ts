@@ -1,40 +1,126 @@
-/* ═══════════════════════════════════════════════════
-   Touch Adapter — Long press hook & helpers
-   ═══════════════════════════════════════════════════ */
+import { getScale } from "./DesktopViewport";
 
-import { useRef, useCallback } from 'react';
-export { isTouchDevice } from '../device/deviceDetector';
+export function toVirtualCoords(clientX: number, clientY: number) {
+  const scale = getScale();
+  const root = document.getElementById("os-root");
+  if (!root) return { x: clientX, y: clientY };
 
-/**
- * Custom hook for long-press detection.
- *
- * Returns onPointerDown / onPointerUp / onPointerLeave handlers.
- * Calls `callback` after `ms` milliseconds of continuous press.
- */
-export function useLongPress(callback: (e: React.PointerEvent) => void, ms = 500) {
-    const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-    const firedRef = useRef(false);
+  const rect = root.getBoundingClientRect();
+  return {
+    x: (clientX - rect.left) / scale,
+    y: (clientY - rect.top) / scale,
+  };
+}
 
-    const start = useCallback((e: React.PointerEvent) => {
-        firedRef.current = false;
-        timerRef.current = setTimeout(() => {
-            firedRef.current = true;
-            callback(e);
-        }, ms);
-    }, [callback, ms]);
+export function initTouchAdapter(element: HTMLElement) {
+  let longPressTimer: ReturnType<typeof setTimeout> | null = null;
+  let touchStartX = 0,
+    touchStartY = 0;
+  let touchStartTime = 0;
+  let lastTap = 0;
 
-    const cancel = useCallback(() => {
-        if (timerRef.current) {
-            clearTimeout(timerRef.current);
-            timerRef.current = null;
+  element.addEventListener(
+    "touchstart",
+    (e) => {
+      const touch = e.touches[0];
+      touchStartX = touch.clientX;
+      touchStartY = touch.clientY;
+      touchStartTime = Date.now();
+
+      // Long press → right click
+      longPressTimer = setTimeout(() => {
+        const target = document.elementFromPoint(touch.clientX, touch.clientY);
+        if (target) {
+          const evt = new MouseEvent("contextmenu", {
+            bubbles: true,
+            clientX: touch.clientX,
+            clientY: touch.clientY,
+          });
+          target.dispatchEvent(evt);
         }
-    }, []);
+      }, 500);
+    },
+    { passive: true },
+  );
 
-    return {
-        onPointerDown: start,
-        onPointerUp: cancel,
-        onPointerLeave: cancel,
-        /** True if the long press already fired (use to suppress click) */
-        didFire: () => firedRef.current,
-    };
+  element.addEventListener(
+    "touchend",
+    (e) => {
+      if (longPressTimer) clearTimeout(longPressTimer);
+
+      const touch = e.changedTouches[0];
+      const dx = Math.abs(touch.clientX - touchStartX);
+      const dy = Math.abs(touch.clientY - touchStartY);
+      const dt = Date.now() - touchStartTime;
+
+      // If not a drag (moved < 10px) and quick tap
+      if (dx < 10 && dy < 10 && dt < 300) {
+        const now = Date.now();
+        const timeSinceLastTap = now - lastTap;
+
+        if (timeSinceLastTap < 350) {
+          // Double tap
+          const target = document.elementFromPoint(
+            touch.clientX,
+            touch.clientY,
+          );
+          if (target) {
+            const evt = new MouseEvent("dblclick", {
+              bubbles: true,
+              clientX: touch.clientX,
+              clientY: touch.clientY,
+            });
+            target.dispatchEvent(evt);
+          }
+        } else {
+          // Single tap → also fire click
+          const target = document.elementFromPoint(
+            touch.clientX,
+            touch.clientY,
+          );
+          if (target) {
+            if (target.closest(".desktop-icon")) {
+              // On touch: single tap opens app (no double-click required)
+              target
+                .closest(".desktop-icon")
+                ?.dispatchEvent(new MouseEvent("dblclick", { bubbles: true }));
+            } else {
+              target.dispatchEvent(
+                new MouseEvent("click", {
+                  bubbles: true,
+                  clientX: touch.clientX,
+                  clientY: touch.clientY,
+                }),
+              );
+            }
+          }
+        }
+        lastTap = now;
+      }
+    },
+    { passive: true },
+  );
+
+  // Touch drag → mouse drag
+  element.addEventListener(
+    "touchmove",
+    (e) => {
+      if (longPressTimer) clearTimeout(longPressTimer);
+      const touch = e.touches[0];
+      const target = document.elementFromPoint(touch.clientX, touch.clientY);
+
+      // Synthesize mousemove for drag handlers
+      if (target) {
+        target.dispatchEvent(
+          new MouseEvent("mousemove", {
+            bubbles: true,
+            clientX: touch.clientX,
+            clientY: touch.clientY,
+            buttons: 1,
+          }),
+        );
+      }
+    },
+    { passive: true },
+  );
 }
