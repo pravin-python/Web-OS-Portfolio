@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useWindowStore } from "../state/useWindowStore";
 import { APP_REGISTRY } from "../appRegistry";
+import { isMobile } from "../device/isMobile";
 
 export const Menubar: React.FC = () => {
   const focusedWindowId = useWindowStore((s) => s.focusedWindowId);
@@ -46,7 +47,7 @@ export const Menubar: React.FC = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        padding: "0 12px",
+        padding: isMobile() ? "0 20px" : "0 12px",
         zIndex: 10000,
         fontFamily: "var(--font-system)",
         fontSize: "var(--text-sm)",
@@ -136,7 +137,13 @@ export const Menubar: React.FC = () => {
         </div>
 
         {/* Date & Time */}
-        <span style={{ fontWeight: 400, fontSize: "var(--text-xs)" }}>
+        <span
+          style={{
+            fontWeight: 400,
+            fontSize: "var(--text-xs)",
+            display: isMobile() ? "none" : "block",
+          }}
+        >
           {dateStr} {timeStr}
         </span>
 

@@ -38,6 +38,16 @@ export function useDraggable(windowId: string) {
     // Define movement handler
     const onPointerMove = (moveEvent: PointerEvent) => {
       if (!isDragging.current) return;
+
+      const rawDx = Math.abs(moveEvent.clientX - dragStart.current.mouseX);
+      const rawDy = Math.abs(moveEvent.clientY - dragStart.current.mouseY);
+
+      // Add a movement threshold for touch devices (pointerType === 'touch' or 'pen')
+      // to prevent tiny accidental drags when making a tap.
+      if (moveEvent.pointerType !== "mouse" && rawDx < 6 && rawDy < 6) {
+        return;
+      }
+
       moveEvent.preventDefault(); // Stop text selection / scrolling while moving
 
       const scale = getScale();

@@ -1,4 +1,4 @@
-import { getScale } from "./DesktopViewport";
+import { getScale } from "../device/DesktopViewport";
 
 export function toVirtualCoords(clientX: number, clientY: number) {
   const scale = getScale();
@@ -79,11 +79,18 @@ export function initTouchAdapter(element: HTMLElement) {
             touch.clientY,
           );
           if (target) {
-            if (target.closest(".desktop-icon")) {
+            const iconEl = target.closest(".desktop-icon");
+            if (iconEl) {
+              // Add tap animation
+              iconEl.classList.add("tapped");
+              setTimeout(() => {
+                iconEl.classList.remove("tapped");
+              }, 200);
+
               // On touch: single tap opens app (no double-click required)
-              target
-                .closest(".desktop-icon")
-                ?.dispatchEvent(new MouseEvent("dblclick", { bubbles: true }));
+              iconEl.dispatchEvent(
+                new MouseEvent("dblclick", { bubbles: true }),
+              );
             } else {
               target.dispatchEvent(
                 new MouseEvent("click", {

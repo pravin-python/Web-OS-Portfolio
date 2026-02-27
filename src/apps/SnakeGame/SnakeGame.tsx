@@ -628,6 +628,43 @@ export const SnakeGame: React.FC<{ window: WindowInstance }> = ({
     }
   }, []);
 
+  /* ─── Touch Swipe handler ─── */
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    if (e.touches.length > 0) {
+      touchStartRef.current = {
+        x: e.touches[0].clientX,
+        y: e.touches[0].clientY,
+      };
+    }
+  }, []);
+
+  const handleTouchEnd = useCallback(
+    (e: React.TouchEvent) => {
+      if (!touchStartRef.current) return;
+      const touchEndX = e.changedTouches[0].clientX;
+      const touchEndY = e.changedTouches[0].clientY;
+
+      const dx = touchEndX - touchStartRef.current.x;
+      const dy = touchEndY - touchStartRef.current.y;
+
+      if (Math.abs(dx) > Math.abs(dy)) {
+        // Horizontal swipe
+        if (Math.abs(dx) > 30) {
+          handleDpad(dx > 0 ? 1 : -1, 0);
+        }
+      } else {
+        // Vertical swipe
+        if (Math.abs(dy) > 30) {
+          handleDpad(0, dy > 0 ? 1 : -1);
+        }
+      }
+      touchStartRef.current = null;
+    },
+    [handleDpad],
+  );
+
   /* ─── Pause when losing focus ─── */
   const isPaused = gameState === "playing" && focusedWindowId !== win.id;
 
@@ -744,7 +781,12 @@ export const SnakeGame: React.FC<{ window: WindowInstance }> = ({
       </div>
 
       {/* ─── Canvas Area ─── */}
-      <div className="snake-canvas-area" ref={containerRef}>
+      <div
+        className="snake-canvas-area"
+        ref={containerRef}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
         <canvas ref={canvasRef} />
 
         {/* Combo popup */}

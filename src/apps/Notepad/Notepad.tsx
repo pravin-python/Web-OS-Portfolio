@@ -1,15 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { Save, Plus, Trash2 } from "lucide-react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
+import {
+  Plus,
+  Trash2,
+  Search,
+  CheckCircle2,
+  Loader2,
+  Menu,
+} from "lucide-react";
 import { storage } from "../../services/storage";
+import "./Notepad.css";
 
 interface Note {
   id: string;
   title: string;
   content: string;
   updatedAt: number;
+  createdAt: number;
 }
 
-const NOTES_KEY = "notes";
+const NOTES_KEY = "notepad_notes";
+const LAST_ACTIVE_KEY = "notepad_last_active_id";
 
 function loadNotes(): Note[] {
   return storage.get<Note[]>(NOTES_KEY, []) ?? [];
@@ -19,162 +29,342 @@ function saveNotes(notes: Note[]): void {
   storage.set(NOTES_KEY, notes);
 }
 
+// Custom hook for debounced value
+function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+
+const generateId = () =>
+  `note-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
 export const Notepad: React.FC = () => {
   const [notes, setNotes] = useState<Note[]>([]);
-  const [activeNote, setActiveNote] = useState<Note | null>(null);
-  const [content, setContent] = useState("");
-  const [title, setTitle] = useState("");
+  const [activeNoteId, setActiveNoteId] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  // Load notes from localStorage on mount
+  // Local editor state for current active note
+  const [localTitle, setLocalTitle] = useState("");
+  const [localContent, setLocalContent] = useState("");
+  const [saveStatus, setSaveStatus] = useState<"saved" | "saving" | "idle">(
+    "idle",
+  );
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const editorRef = useRef<HTMLTextAreaElement>(null);
+
+  // Debounce the local content & title for auto-saving
+  const debouncedContent = useDebounce(localContent, 800);
+  const debouncedTitle = useDebounce(localTitle, 800);
+
+  // 1. Initial Load
   useEffect(() => {
     const saved = loadNotes();
+    // Sort by most recently updated
+    saved.sort((a, b) => b.updatedAt - a.updatedAt);
     setNotes(saved);
-    if (saved.length > 0) {
-      handleSelectNote(saved[0]);
+
+    const lastActive = storage.get<string | null>(LAST_ACTIVE_KEY, null);
+    if (lastActive && saved.some((n) => n.id === lastActive)) {
+      handleSelectNote(lastActive, saved);
+    } else if (saved.length > 0) {
+      handleSelectNote(saved[0].id, saved);
     }
   }, []);
 
-  const handleSelectNote = (note: Note) => {
-    setActiveNote(note);
-    setTitle(note.title);
-    setContent(note.content);
+  // 2. Select Note Logic
+  const handleSelectNote = (id: string, notesList = notes) => {
+    const note = notesList.find((n) => n.id === id);
+    if (note) {
+      setActiveNoteId(id);
+      setLocalTitle(note.title);
+      setLocalContent(note.content);
+      storage.set(LAST_ACTIVE_KEY, id);
+      setSaveStatus("idle");
+      // Close sidebar on mobile
+      setIsSidebarOpen(false);
+      // Give React a tick to mount the textArea if it's the first time
+      setTimeout(() => {
+        editorRef.current?.focus();
+      }, 0);
+    }
   };
 
-  const handleSave = () => {
-    if (!title.trim() && !content.trim()) return;
+  // 3. Auto-Save Logic
+  useEffect(() => {
+    if (!activeNoteId) return;
 
-    let updatedNotes: Note[];
+    const currentNote = notes.find((n) => n.id === activeNoteId);
+    if (!currentNote) return;
 
-    if (activeNote) {
-      // Update existing note
-      updatedNotes = notes.map((n) =>
-        n.id === activeNote.id
-          ? { ...n, title: title || "Untitled", content, updatedAt: Date.now() }
-          : n,
-      );
-    } else {
-      // Create new note
-      const newNote: Note = {
-        id: `note-${Date.now()}`,
-        title: title || "Untitled",
-        content,
-        updatedAt: Date.now(),
-      };
-      updatedNotes = [newNote, ...notes];
-      setActiveNote(newNote);
+    // Check if anything actually changed vs what is stored
+    if (
+      currentNote.title === debouncedTitle &&
+      currentNote.content === debouncedContent
+    ) {
+      if (saveStatus === "saving") setSaveStatus("saved");
+      return;
     }
+
+    // Auto-save
+    const updatedNotes = notes.map((n) => {
+      if (n.id === activeNoteId) {
+        return {
+          ...n,
+          title: debouncedTitle,
+          content: debouncedContent,
+          updatedAt: Date.now(),
+        };
+      }
+      return n;
+    });
 
     setNotes(updatedNotes);
     saveNotes(updatedNotes);
+    setSaveStatus("saved");
+
+    // Auto-hide the "Saved" indicator after 2s
+    const t = setTimeout(() => setSaveStatus("idle"), 2000);
+    return () => clearTimeout(t);
+  }, [debouncedContent, debouncedTitle, activeNoteId]);
+
+  // Handle immediate typing state
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLocalTitle(e.target.value);
+    setSaveStatus("saving");
   };
 
+  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setLocalContent(e.target.value);
+    setSaveStatus("saving");
+  };
+
+  // 4. Create New Note
   const handleCreateNew = () => {
-    setActiveNote(null);
-    setTitle("");
-    setContent("");
+    const newNote: Note = {
+      id: generateId(),
+      title: "",
+      content: "",
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    };
+
+    const updatedNotes = [newNote, ...notes];
+    setNotes(updatedNotes);
+    saveNotes(updatedNotes);
+    handleSelectNote(newNote.id, updatedNotes);
   };
 
-  const handleDelete = (noteId: string) => {
+  // 5. Delete Note
+  const handleDelete = (noteId: string, e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+
     const updatedNotes = notes.filter((n) => n.id !== noteId);
     setNotes(updatedNotes);
     saveNotes(updatedNotes);
 
-    if (activeNote?.id === noteId) {
+    if (activeNoteId === noteId) {
+      storage.set(LAST_ACTIVE_KEY, null);
       if (updatedNotes.length > 0) {
-        handleSelectNote(updatedNotes[0]);
+        handleSelectNote(updatedNotes[0].id, updatedNotes);
       } else {
-        handleCreateNew();
+        setActiveNoteId(null);
+        setLocalTitle("");
+        setLocalContent("");
       }
     }
   };
 
+  // 6. Keyboard Shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "n") {
+        e.preventDefault(); // prevent browser new window
+        handleCreateNew();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [notes]);
+
+  // 7. Filtered Notes
+  const filteredNotes = useMemo(() => {
+    if (!searchQuery.trim())
+      return notes.sort((a, b) => b.updatedAt - a.updatedAt);
+    const q = searchQuery.toLowerCase();
+    return notes
+      .filter(
+        (n) =>
+          n.title.toLowerCase().includes(q) ||
+          n.content.toLowerCase().includes(q),
+      )
+      .sort((a, b) => b.updatedAt - a.updatedAt);
+  }, [notes, searchQuery]);
+
+  // Derived state
+  const activeNote = notes.find((n) => n.id === activeNoteId);
+
   return (
-    <div className="flex h-full w-full bg-white dark:bg-slate-900 border border-transparent">
-      {/* Sidebar ListView */}
-      <div className="w-full md:w-64 shrink-0 border-r border-slate-200 dark:border-slate-700 flex flex-col bg-slate-50 dark:bg-slate-800/50 hidden md:flex">
-        <div className="p-2 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
-          <span className="font-semibold text-slate-700 dark:text-slate-300">
-            Notes
-          </span>
-          <button
-            onClick={handleCreateNew}
-            className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded transition-colors text-slate-600 dark:text-slate-400"
-            title="New note"
-          >
-            <Plus size={16} />
+    <div className="notepad-root">
+      {/* Mobile Sidebar Toggle Area */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 z-[5] bg-black/20 md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
+      {/* 1️⃣ Left Sidebar — Notes Manager */}
+      <div className={`notepad-sidebar ${isSidebarOpen ? "open" : ""}`}>
+        <div className="notepad-sidebar-header">
+          <button className="btn-new-note" onClick={handleCreateNew}>
+            <Plus size={16} /> New Note
           </button>
+          <div className="relative">
+            <Search
+              size={14}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+            />
+            <input
+              type="text"
+              placeholder="Search notes..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="notepad-search pl-9"
+            />
+          </div>
         </div>
-        <div className="flex-1 overflow-y-auto">
-          {notes.length === 0 && (
-            <div className="p-4 text-center text-sm text-slate-400">
-              No notes yet. Click + to create one.
+
+        <div className="notepad-list">
+          {filteredNotes.length === 0 ? (
+            <div className="p-4 text-center text-xs text-slate-400">
+              {searchQuery ? "No matches found." : "No notes yet."}
             </div>
-          )}
-          {notes.map((n) => (
-            <div
-              key={n.id}
-              className={`p-3 border-b border-slate-200 dark:border-slate-700 cursor-pointer hover:bg-white dark:hover:bg-slate-800 transition-colors group ${
-                activeNote?.id === n.id
-                  ? "bg-white dark:bg-slate-800 border-l-4 border-l-blue-500"
-                  : ""
-              }`}
-              onClick={() => handleSelectNote(n)}
-            >
-              <div className="flex items-center justify-between">
-                <div className="font-medium text-slate-800 dark:text-slate-200 truncate flex-1">
-                  {n.title}
+          ) : (
+            filteredNotes.map((n) => (
+              <div
+                key={n.id}
+                className={`notepad-list-item ${n.id === activeNoteId ? "active" : ""}`}
+                onClick={() => handleSelectNote(n.id)}
+              >
+                <div className="notepad-item-title">
+                  {n.title || "Untitled Note"}
                 </div>
+                <div className="notepad-item-preview">
+                  {n.content || "Empty content"}
+                </div>
+                <div className="notepad-item-date">
+                  {new Date(n.updatedAt).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </div>
+
                 <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDelete(n.id);
-                  }}
-                  className="p-1 rounded opacity-0 group-hover:opacity-100 hover:bg-red-100 dark:hover:bg-red-900/30 text-red-400 transition-all"
-                  title="Delete note"
+                  className="notepad-item-delete"
+                  onClick={(e) => handleDelete(n.id, e)}
+                  title="Delete Note"
                 >
-                  <Trash2 size={12} />
+                  <Trash2 size={14} />
                 </button>
               </div>
-              <div className="text-xs text-slate-500 truncate mt-1">
-                {n.content || "(empty)"}
-              </div>
-              <div className="text-[10px] text-slate-400 mt-1">
-                {new Date(n.updatedAt).toLocaleDateString()}
-              </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
 
-      {/* Editor View */}
-      <div className="flex-1 flex flex-col bg-white dark:bg-slate-900">
-        <div className="p-2 border-b border-slate-200 dark:border-slate-700 flex space-x-2 items-center">
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Note Title"
-            className="flex-1 bg-transparent px-2 py-1 outline-none text-lg font-medium text-slate-800 dark:text-slate-200"
-          />
-          <button
-            onClick={handleSave}
-            className="flex items-center space-x-1 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded shadow-sm text-sm transition-colors"
-          >
-            <Save size={14} />
-            <span>Save</span>
-          </button>
-        </div>
-        <textarea
-          className="flex-1 p-4 bg-transparent outline-none resize-none text-slate-800 dark:text-slate-200 leading-relaxed font-sans"
-          placeholder="Start typing..."
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-        />
-        <div className="px-4 py-1 text-[10px] text-slate-400 border-t border-slate-100 dark:border-slate-800">
-          {activeNote
-            ? `Saved locally • ${new Date(activeNote.updatedAt).toLocaleString()}`
-            : "New note — click Save to persist locally"}
-        </div>
+      {/* 2️⃣ Main Editor Area */}
+      <div className="notepad-main">
+        {activeNote ? (
+          <>
+            {/* Top Toolbar */}
+            <div className="notepad-toolbar">
+              <div className="flex items-center gap-2 flex-1">
+                <button
+                  className="md:hidden p-2 -ml-2 text-slate-500 hover:bg-slate-100 rounded"
+                  onClick={() => setIsSidebarOpen(true)}
+                >
+                  <Menu size={18} />
+                </button>
+                <input
+                  type="text"
+                  value={localTitle}
+                  onChange={handleTitleChange}
+                  placeholder="Note Title"
+                  className="notepad-title-input"
+                />
+              </div>
+
+              <div className="notepad-status">
+                {saveStatus === "saving" && (
+                  <>
+                    <Loader2 size={14} className="animate-spin text-blue-500" />
+                    <span>Saving...</span>
+                  </>
+                )}
+                {saveStatus === "saved" && (
+                  <>
+                    <CheckCircle2 size={14} className="text-emerald-500" />
+                    <span>Saved</span>
+                  </>
+                )}
+                <button
+                  onClick={() => handleDelete(activeNote.id)}
+                  className="ml-3 p-1.5 hover:bg-red-50 text-slate-400 hover:text-red-500 rounded transition-colors"
+                  title="Delete Note"
+                >
+                  <Trash2 size={16} />
+                </button>
+              </div>
+            </div>
+
+            {/* Editor Workspace */}
+            <textarea
+              ref={editorRef}
+              className="notepad-editor"
+              placeholder="Start writing your thoughts..."
+              value={localContent}
+              onChange={handleContentChange}
+              spellCheck={false}
+            />
+          </>
+        ) : (
+          <div className="notepad-empty">
+            <button
+              className="md:hidden absolute top-4 left-4 p-2 text-slate-500 hover:bg-slate-100 rounded"
+              onClick={() => setIsSidebarOpen(true)}
+            >
+              <Menu size={20} />
+            </button>
+            <div className="w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-4 text-slate-300">
+              <Plus size={32} />
+            </div>
+            <h3 className="text-lg font-medium text-slate-700 dark:text-slate-200">
+              No Note Selected
+            </h3>
+            <p className="text-sm">
+              Select a note or create a new one to start writing.
+            </p>
+            <button
+              className="mt-4 btn-new-note"
+              style={{ width: "auto", padding: "8px 20px" }}
+              onClick={handleCreateNew}
+            >
+              Create Note (Ctrl + N)
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

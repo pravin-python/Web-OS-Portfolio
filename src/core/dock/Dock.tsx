@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { launchApp } from "../appLauncher";
 import { Icon } from "../../components/Icon";
 import { APP_REGISTRY } from "../appRegistry";
+import { isMobile } from "../device/isMobile";
 
 const PINNED_DOCK_APPS = [
   { id: "terminal", icon: "system/terminal", label: "Terminal" },
@@ -116,12 +117,16 @@ export const Dock: React.FC = () => {
                   : undefined,
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.transform =
-                  "scale(1.38) translateY(-8px)";
+                if (!isMobile()) {
+                  (e.currentTarget as HTMLElement).style.transform =
+                    "scale(1.38) translateY(-8px)";
+                }
               }}
               onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.transform =
-                  "scale(1) translateY(0)";
+                if (!isMobile()) {
+                  (e.currentTarget as HTMLElement).style.transform =
+                    "scale(1) translateY(0)";
+                }
               }}
             >
               <Icon name={app.icon} size={42} />

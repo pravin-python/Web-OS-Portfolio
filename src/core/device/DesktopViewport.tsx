@@ -1,14 +1,24 @@
 /* eslint-disable react-refresh/only-export-components */
 import React, { useLayoutEffect, useRef } from "react";
-import { initTouchAdapter } from "./TouchAdapter";
+import { initTouchAdapter } from "../input/touchAdapter";
 import { useWindowStore } from "../state/useWindowStore";
 import { isTouchDevice, isMobilePerformance } from "./deviceDetector";
+import { isMobile } from "./isMobile";
 
 export const VIRTUAL_WIDTH = 1366;
 export const VIRTUAL_HEIGHT = 768;
 
 export function getScale() {
   if (typeof window === "undefined") return 1;
+
+  if (isMobile()) {
+    // For mobile landscape, scale the virtual desktop to fit the mobile screen dimensions
+    return Math.min(
+      window.innerWidth / VIRTUAL_WIDTH,
+      window.innerHeight / VIRTUAL_HEIGHT,
+    );
+  }
+
   return Math.min(
     window.innerWidth / VIRTUAL_WIDTH,
     window.innerHeight / VIRTUAL_HEIGHT,
@@ -72,6 +82,7 @@ export const DesktopViewport: React.FC<DesktopViewportProps> = ({
   const containerClasses = [
     isTouchDevice() ? "touch-mode" : "",
     isMobilePerformance() ? "perf-mode" : "",
+    isMobile() ? "mobile-mode" : "",
   ]
     .filter(Boolean)
     .join(" ");

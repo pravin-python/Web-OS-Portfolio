@@ -9,6 +9,7 @@ import {
   VIRTUAL_HEIGHT,
 } from "../../core/device/deviceDetector";
 import { getScale } from "../../core/device/DesktopViewport";
+import { isMobile } from "../../core/device/isMobile";
 import { useDraggable } from "../../hooks/useDraggable";
 
 interface BaseWindowProps {
@@ -78,19 +79,24 @@ export const BaseWindow: React.FC<BaseWindowProps> = ({ window, children }) => {
 
   const maxWidth = VIRTUAL_WIDTH;
   const maxHeight = VIRTUAL_HEIGHT - 28 - 76; // canvas minus menubar minus dock
+  const isMobileView = isMobile();
 
   return (
     <Rnd
       scale={scale}
       size={
-        window.isMaximized
+        window.isMaximized || isMobileView
           ? { width: maxWidth, height: maxHeight }
           : window.size
       }
-      position={window.isMaximized ? { x: 0, y: 28 } : window.position}
+      position={
+        window.isMaximized || isMobileView ? { x: 0, y: 28 } : window.position
+      }
       onResizeStop={handleResizeStop}
-      disableDragging={true}
-      enableResizing={!window.isMaximized && scale >= 0.65}
+      disableDragging={isMobileView ? true : false}
+      enableResizing={
+        isMobileView ? false : !window.isMaximized && scale >= 0.65
+      }
       minWidth={320}
       minHeight={200}
       bounds="parent"
@@ -197,15 +203,27 @@ export const BaseWindow: React.FC<BaseWindowProps> = ({ window, children }) => {
               <span
                 className="tl-icon"
                 style={{
-                  fontSize: 10,
-                  fontWeight: 700,
-                  color: "rgba(0,0,0,0.7)",
-                  lineHeight: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                   opacity: 0,
                   transition: "opacity 100ms",
+                  width: "100%",
+                  height: "100%",
                 }}
               >
-                ×
+                <svg
+                  width="8"
+                  height="8"
+                  viewBox="0 0 8 8"
+                  fill="none"
+                  stroke="rgba(0,0,0,0.7)"
+                  strokeWidth="1.2"
+                  strokeLinecap="round"
+                >
+                  <path d="M1.5 1.5L6.5 6.5" />
+                  <path d="M1.5 6.5L6.5 1.5" />
+                </svg>
               </span>
             </button>
             {/* Minimize */}
@@ -242,62 +260,96 @@ export const BaseWindow: React.FC<BaseWindowProps> = ({ window, children }) => {
               <span
                 className="tl-icon"
                 style={{
-                  fontSize: 10,
-                  fontWeight: 700,
-                  color: "rgba(0,0,0,0.7)",
-                  lineHeight: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                   opacity: 0,
                   transition: "opacity 100ms",
+                  width: "100%",
+                  height: "100%",
                 }}
               >
-                −
+                <svg
+                  width="8"
+                  height="8"
+                  viewBox="0 0 8 8"
+                  fill="none"
+                  stroke="rgba(0,0,0,0.7)"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                >
+                  <path d="M1.5 4H6.5" />
+                </svg>
               </span>
             </button>
             {/* Maximize */}
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                toggleMaximize();
-              }}
-              style={{
-                width: 14,
-                height: 14,
-                borderRadius: "50%",
-                background: isFocused ? "var(--tl-maximize)" : "#555",
-                border: "none",
-                cursor: "pointer",
-                padding: 0,
-                transition: "box-shadow 150ms, background 150ms",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                position: "relative",
-              }}
-              onMouseEnter={(e) => {
-                if (isFocused) {
-                  (e.currentTarget as HTMLElement).style.boxShadow =
-                    "0 0 6px var(--tl-maximize-hover)";
-                }
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.boxShadow = "none";
-              }}
-              aria-label="Maximize window"
-            >
-              <span
-                className="tl-icon"
-                style={{
-                  fontSize: 10,
-                  fontWeight: 700,
-                  color: "rgba(0,0,0,0.7)",
-                  lineHeight: 1,
-                  opacity: 0,
-                  transition: "opacity 100ms",
+            {!isMobileView && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleMaximize();
                 }}
+                style={{
+                  width: 14,
+                  height: 14,
+                  borderRadius: "50%",
+                  background: isFocused ? "var(--tl-maximize)" : "#555",
+                  border: "none",
+                  cursor: "pointer",
+                  padding: 0,
+                  transition: "box-shadow 150ms, background 150ms",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  position: "relative",
+                }}
+                onMouseEnter={(e) => {
+                  if (isFocused) {
+                    (e.currentTarget as HTMLElement).style.boxShadow =
+                      "0 0 6px var(--tl-maximize-hover)";
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.boxShadow = "none";
+                }}
+                aria-label="Maximize window"
               >
-                +
-              </span>
-            </button>
+                <span
+                  className="tl-icon"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    opacity: 0,
+                    transition: "opacity 100ms",
+                    width: "100%",
+                    height: "100%",
+                  }}
+                >
+                  {window.isMaximized ? (
+                    <svg
+                      width="8"
+                      height="8"
+                      viewBox="0 0 8 8"
+                      fill="rgba(0,0,0,0.7)"
+                    >
+                      <path d="M3.5 3.5 L1 3.5 L3.5 1 Z" />
+                      <path d="M4.5 4.5 L7 4.5 L4.5 7 Z" />
+                    </svg>
+                  ) : (
+                    <svg
+                      width="8"
+                      height="8"
+                      viewBox="0 0 8 8"
+                      fill="rgba(0,0,0,0.7)"
+                    >
+                      <path d="M0.5 0.5 L3.5 0.5 L0.5 3.5 Z" />
+                      <path d="M7.5 7.5 L4.5 7.5 L7.5 4.5 Z" />
+                    </svg>
+                  )}
+                </span>
+              </button>
+            )}
           </div>
 
           {/* Centered Window Title */}
