@@ -1,93 +1,111 @@
-/* ═══════════════════════════════════════════════════
-   Desktop Viewport — CSS transform scaling for mobile
-   ═══════════════════════════════════════════════════ */
+/* eslint-disable react-refresh/only-export-components */
+import React, { useLayoutEffect, useRef } from "react";
+import { initTouchAdapter } from "../input/touchAdapter";
+import { useWindowStore } from "../state/useWindowStore";
+import { isTouchDevice, isMobilePerformance } from "./deviceDetector";
+import { isMobile } from "./isMobile";
 
-import React, { useState, useLayoutEffect, useRef } from "react";
-import { isTouchDevice, VIRTUAL_WIDTH, VIRTUAL_HEIGHT } from "./deviceDetector";
+export const VIRTUAL_WIDTH = 1366;
+export const VIRTUAL_HEIGHT = 768;
+
+export function getScale() {
+  if (typeof window === "undefined") return 1;
+
+  if (isMobile()) {
+    // For mobile landscape, scale the virtual desktop to fit the mobile screen dimensions
+    return Math.min(
+      window.innerWidth / VIRTUAL_WIDTH,
+      window.innerHeight / VIRTUAL_HEIGHT,
+    );
+  }
+
+  return Math.min(
+    window.innerWidth / VIRTUAL_WIDTH,
+    window.innerHeight / VIRTUAL_HEIGHT,
+  );
+}
 
 interface DesktopViewportProps {
   children: React.ReactNode;
 }
 
 /**
- * On touch devices, renders children inside a fixed-size virtual canvas
- * (1366×768) and CSS-scales it to fit the screen. On desktop, renders
- * children normally with no scaling.
+ * Renders the OS inside a fixed 1366x768 virtual canvas, and CSS-scales
+ * it to fit symmetrically on any screen size.
  */
 export const DesktopViewport: React.FC<DesktopViewportProps> = ({
   children,
 }) => {
-  const [scale, setScale] = useState(1);
-  const isTouch = isTouchDevice();
   const containerRef = useRef<HTMLDivElement>(null);
+  const repositionAllWindows = useWindowStore(
+    (state) => state.repositionAllWindows,
+  );
 
   useLayoutEffect(() => {
-    if (!isTouch) return;
-
-    function recalc() {
-      const s = Math.min(
-        window.innerWidth / VIRTUAL_WIDTH,
-        window.innerHeight / VIRTUAL_HEIGHT,
-      );
-      setScale(s);
+    if (containerRef.current) {
+      initTouchAdapter(containerRef.current);
     }
 
-    recalc();
+    function applyScale() {
+      if (!containerRef.current) return;
+      const scale = getScale();
+      containerRef.current.style.setProperty("--os-scale", scale.toString());
 
-    // Throttled resize handler
-    let rafId = 0;
-    function onResize() {
-      cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(recalc);
+      const scaledW = VIRTUAL_WIDTH * scale;
+      const scaledH = VIRTUAL_HEIGHT * scale;
+      const offsetX = Math.max(0, (window.innerWidth - scaledW) / 2);
+      const offsetY = Math.max(0, (window.innerHeight - scaledH) / 2);
+
+      containerRef.current.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
+
+      // Reposition windows to ensure they are inside canvas bounds
+      repositionAllWindows();
     }
 
-    const onOrientationChange = () => {
-      // Delay slightly for orientation change to settle
-      setTimeout(recalc, 150);
-    };
+    applyScale();
+    const handleOrientation = () => setTimeout(applyScale, 150);
 
-    window.addEventListener("resize", onResize);
-    window.addEventListener("orientationchange", onOrientationChange);
+    window.addEventListener("orientationchange", handleOrientation);
+
+    // Provide robust scale recalculation when containing box changes size
+    const resizeObserver = new ResizeObserver(() => {
+      applyScale();
+    });
+    resizeObserver.observe(document.body);
 
     return () => {
-      window.removeEventListener("resize", onResize);
-      window.removeEventListener("orientationchange", onOrientationChange);
-      cancelAnimationFrame(rafId);
+      resizeObserver.disconnect();
+      window.removeEventListener("orientationchange", handleOrientation);
     };
-  }, [isTouch]);
+  }, [repositionAllWindows]);
 
-  // Desktop — no scaling wrapper
-  if (!isTouch) {
-    return <>{children}</>;
-  }
+  const containerClasses = [
+    isTouchDevice() ? "touch-mode" : "",
+    isMobilePerformance() ? "perf-mode" : "",
+    isMobile() ? "mobile-mode" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
-  // Mobile — scaled virtual canvas
   return (
     <div
+      id="os-root"
       ref={containerRef}
+      className={containerClasses}
       style={{
-        width: window.innerWidth,
-        height: window.innerHeight,
-        overflow: "hidden",
+        width: VIRTUAL_WIDTH,
+        height: VIRTUAL_HEIGHT,
+        transformOrigin: "top left",
         position: "fixed",
         top: 0,
         left: 0,
+        overflow: "hidden",
+        /* Enforce theme defaults here so inner elements inherit correctly */
+        background: "#0d0d1a",
+        color: "var(--text-primary)",
       }}
     >
-      <div
-        style={{
-          width: VIRTUAL_WIDTH,
-          height: VIRTUAL_HEIGHT,
-          transform: `scale(${scale})`,
-          transformOrigin: "top left",
-          overflow: "hidden",
-          position: "absolute",
-          top: 0,
-          left: 0,
-        }}
-      >
-        {children}
-      </div>
+      {children}
     </div>
   );
 };

@@ -14,31 +14,41 @@ export const VIRTUAL_HEIGHT = 768;
  * Returns true if the device has touch capability.
  */
 export function isTouchDevice(): boolean {
-    if (typeof window === 'undefined') return false;
-    return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  if (typeof window === "undefined") return false;
+  return "ontouchstart" in window || navigator.maxTouchPoints > 0;
 }
 
-export type Orientation = 'portrait' | 'landscape';
+/**
+ * Returns true if the device is likely mobile/tablet needing performance mode.
+ */
+export function isMobilePerformance(): boolean {
+  if (typeof window === "undefined") return false;
+  return (
+    isTouchDevice() && Math.max(window.innerWidth, window.innerHeight) < 1366
+  );
+}
+
+export type Orientation = "portrait" | "landscape";
 
 export interface ScreenInfo {
-    width: number;
-    height: number;
-    orientation: Orientation;
-    isTouch: boolean;
+  width: number;
+  height: number;
+  orientation: Orientation;
+  isTouch: boolean;
 }
 
 /**
  * Returns current screen information.
  */
 export function getScreenInfo(): ScreenInfo {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    return {
-        width,
-        height,
-        orientation: height > width ? 'portrait' : 'landscape',
-        isTouch: isTouchDevice(),
-    };
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  return {
+    width,
+    height,
+    orientation: height > width ? "portrait" : "landscape",
+    isTouch: isTouchDevice(),
+  };
 }
 
 /**
@@ -46,11 +56,11 @@ export function getScreenInfo(): ScreenInfo {
  * (i.e. even rotating won't help).
  */
 export function isUnsupportedDevice(): boolean {
-    const w = window.screen.width;
-    const h = window.screen.height;
-    const maxDim = Math.max(w, h);
-    const minDim = Math.min(w, h);
-    return maxDim < MIN_WIDTH || minDim < MIN_HEIGHT;
+  const w = window.screen.width;
+  const h = window.screen.height;
+  const maxDim = Math.max(w, h);
+  const minDim = Math.min(w, h);
+  return maxDim < MIN_WIDTH || minDim < MIN_HEIGHT;
 }
 
 /**
@@ -58,6 +68,6 @@ export function isUnsupportedDevice(): boolean {
  * AND is a touch device (i.e. needs rotation prompt).
  */
 export function needsRotation(): boolean {
-    if (!isTouchDevice()) return false;
-    return window.innerHeight > window.innerWidth;
+  if (!isTouchDevice()) return false;
+  return window.innerHeight > window.innerWidth;
 }

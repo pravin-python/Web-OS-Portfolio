@@ -1116,20 +1116,67 @@
   }
 }
 
-/* ─── Responsive: collapse sidebar when window is narrow ─── */
+/* ─── Responsive: Mobile Fallback ─── */
 @media (max-width: 600px) {
+  .ap-body {
+    flex-direction: column;
+  }
+
   .ap-sidebar {
-    width: 48px;
-    min-width: 48px;
+    width: 100%;
+    min-width: 100%;
+    height: 70px;
+    min-height: 70px;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0 10px;
+    /* Hide scrollbar for cleaner look */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+  }
+
+  .ap-sidebar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ap-sidebar-btn {
+    flex-direction: column;
+    padding: 6px 16px;
+    gap: 4px;
+    font-size: 10px;
+    justify-content: center;
+    border-right: none !important;
+    border-bottom: 3px solid transparent;
+  }
+
+  .ap-sidebar-btn.active {
+    background: transparent;
+    border-right: none;
+    border-bottom: 3px solid #818cf8;
+  }
+
+  .ap-sidebar-btn .ap-tab-icon {
+    font-size: 20px;
   }
 
   .ap-sidebar-btn span:not(.ap-tab-icon) {
-    display: none;
+    display: block;
   }
 
   .ap-header {
     flex-direction: column;
     text-align: center;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .ap-header-titles {
+    justify-content: center;
   }
 
   .ap-header-actions {
@@ -1141,6 +1188,10 @@
   }
 
   .ap-overview-highlights {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+  }
+
+  .ap-overview-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

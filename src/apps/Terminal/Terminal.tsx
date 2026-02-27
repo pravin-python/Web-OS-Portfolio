@@ -1,9 +1,13 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { executeCommand } from "../../services/terminal";
-import { resolveAppAlias } from "../../core/appLauncher";
-import { launchApp } from "../../core/appLauncher";
+import { resolveAppAlias, launchApp } from "../../core/appLauncher";
+import {
+  useWindowStore,
+  type WindowInstance,
+} from "../../core/state/useWindowStore";
 
-export const Terminal: React.FC = () => {
+export const Terminal: React.FC<{ window?: WindowInstance }> = ({ window }) => {
+  const focusedWindowId = useWindowStore((s) => s.focusedWindowId);
   const [history, setHistory] = useState<
     { type: "command" | "output" | "error"; text: string }[]
   >([
@@ -32,8 +36,10 @@ export const Terminal: React.FC = () => {
   }, [history, scrollToBottom]);
 
   useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
+    if (!window || focusedWindowId === window.id) {
+      inputRef.current?.focus();
+    }
+  }, [focusedWindowId, window]);
 
   const focusInput = () => {
     inputRef.current?.focus();
