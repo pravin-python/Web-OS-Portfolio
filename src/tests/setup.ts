@@ -1,8 +1,8 @@
-import "@testing-library/jest-dom";
+import "@testing-library/jest-dom/vitest";
 import { vi } from "vitest";
 
 // Mock fetch for SVG loading
-global.fetch = vi.fn().mockImplementation(() => {
+globalThis.fetch = vi.fn().mockImplementation(() => {
   // Return a dummy SVG for all fetch requests in tests
   return Promise.resolve({
     ok: true,
