@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemaps
-Sitemap: https://pravin-python.github.io/Web-OS-Portfolio/sitemap.xml
+Sitemap: https://pravin-python.github.io/sitemap.xml
 
 # Crawl-delay (optional, be polite)
 Crawl-delay: 1
