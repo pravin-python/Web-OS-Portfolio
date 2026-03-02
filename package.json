@@ -10,7 +10,9 @@
     "preview": "vite preview",
     "type-check": "tsc --noEmit",
     "test": "vitest run",
-    "prepare": "husky"
+    "prepare": "husky",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@tailwindcss/vite": ">=4.2.1",
