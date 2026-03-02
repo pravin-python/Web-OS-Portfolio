@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="100%" height="100%">
+  <!-- Pipeline structure -->
+  <path d="M10 32 L20 32 L24 20 L40 20 L44 32 L54 32" fill="none" stroke="#3b82f6" stroke-width="8" stroke-linejoin="round"/>
+  <path d="M10 32 L20 32 L24 20 L40 20 L44 32 L54 32" fill="none" stroke="#1e293b" stroke-width="4" stroke-linejoin="round"/>
+  
+  <!-- Gear 1 -->
+  <circle cx="26" cy="24" r="5" fill="#1e293b" stroke="#8b5cf6" stroke-width="2"/>
+  <path d="M26 17 L26 19 M26 29 L26 31 M19 24 L21 24 M31 24 L33 24 M21 19 L22.5 20.5 M29.5 27.5 L31 29 M21 29 L22.5 27.5 M29.5 20.5 L31 19" fill="none" stroke="#8b5cf6" stroke-width="2"/>
+
+  <!-- Gear 2 -->
+  <circle cx="38" cy="24" r="4" fill="#1e293b" stroke="#f43f5e" stroke-width="2"/>
+  <path d="M38 18 L38 20 M38 28 L38 30 M32 24 L34 24 M42 24 L44 24 M33.5 19.5 L34.5 20.5 M41.5 27.5 L42.5 28.5 M33.5 28.5 L34.5 27.5 M41.5 19.5 L42.5 20.5" fill="none" stroke="#f43f5e" stroke-width="2"/>
+
+  <!-- Data Flow (Packets) -->
+  <circle cx="12" cy="32" r="2" fill="#10b981">
+    <animateMotion path="M0 0 L10 0 L14 -12 L30 -12 L34 0 L44 0" dur="3s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="12" cy="32" r="2" fill="#10b981">
+    <animateMotion path="M0 0 L10 0 L14 -12 L30 -12 L34 0 L44 0" dur="3s" begin="1s" repeatCount="indefinite" />
+  </circle>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <!-- Shield body -->
+  <path d="M24 3 L42 11 L42 24 C42 35 33 43 24 47 C15 43 6 35 6 24 L6 11 Z" fill="#16a34a" stroke="#15803d" stroke-width="1.5" stroke-linejoin="round"/>
+  <!-- Shield inner highlight -->
+  <path d="M24 7 L38 13 L38 24 C38 32 31 39 24 43 C17 39 10 32 10 24 L10 13 Z" fill="#22c55e" stroke="#16a34a" stroke-width="1"/>
+  <!-- Lock body -->
+  <rect x="18" y="23" width="12" height="10" rx="2.5" fill="#15803d" stroke="#14532d" stroke-width="1.2"/>
+  <!-- Lock shackle -->
+  <path d="M20 23 L20 19 C20 15.5 21.8 14 24 14 C26.2 14 28 15.5 28 19 L28 23" fill="none" stroke="#14532d" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Keyhole -->
+  <circle cx="24" cy="27.5" r="2" fill="#86efac"/>
+  <rect x="23" y="28.5" width="2" height="3" rx="0.8" fill="#86efac"/>
+  <!-- Shield shine -->
+  <path d="M12 14 L24 9 L36 14" fill="none" stroke="white" stroke-width="1" stroke-linecap="round" opacity="0.35"/>
+</svg>
