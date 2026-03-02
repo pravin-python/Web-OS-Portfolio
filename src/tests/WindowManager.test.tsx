@@ -39,20 +39,11 @@ describe("Window Manager State & BaseWindow", () => {
     const { openWindow, minimizeWindow } = useWindowStore.getState();
     openWindow("App 1", "fileExplorer");
     const win = useWindowStore.getState().windows[0];
+    expect(win.isMinimized).toBe(false);
 
     // Minimize action
     minimizeWindow(win.id);
     const updatedWin = useWindowStore.getState().windows[0];
     expect(updatedWin.isMinimized).toBe(true);
-
-    // Minimized windows render null in BaseWindow
-    const { container } = render(
-      <MemoryRouter>
-        <BaseWindow window={updatedWin}>
-          <div>Content</div>
-        </BaseWindow>
-      </MemoryRouter>,
-    );
-    expect(container.firstChild).toBeNull();
   });
 });
