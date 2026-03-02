@@ -46,6 +46,7 @@ interface WindowState {
   focusWindow: (id: string) => void;
   updateWindowPosition: (id: string, position: Position) => void;
   updateWindowSize: (id: string, size: Size) => void;
+  minimizeAllWindows: () => void;
   repositionAllWindows: () => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   updateWindowAppData: (id: string, appData: any) => void;
@@ -218,6 +219,36 @@ export const useWindowStore = create<WindowState>()(
             }),
             focusedWindowId:
               state.focusedWindowId === id ? null : state.focusedWindowId,
+          };
+        });
+      },
+
+      minimizeAllWindows: () => {
+        set((state) => {
+          let scale = 1;
+          const root = document.getElementById("os-root");
+          if (root) {
+            scale = root.getBoundingClientRect().width / VIRTUAL_WIDTH;
+          }
+
+          return {
+            windows: state.windows.map((win) => {
+              if (win.isMinimized) return win;
+
+              const dockEl = document.querySelector(
+                `[data-dock-app="${win.appType}"]`,
+              );
+              const dockRect = dockEl?.getBoundingClientRect();
+
+              return {
+                ...win,
+                isMinimized: true,
+                minimizeTarget: dockRect
+                  ? { x: dockRect.left / scale, y: dockRect.top / scale }
+                  : null,
+              };
+            }),
+            focusedWindowId: null,
           };
         });
       },

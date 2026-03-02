@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { PROJECTS } from "./profile.data";
+import { ProfileIcon } from "./ProfileIcon";
 
 export const ProjectsSection: React.FC = () => {
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -11,7 +12,15 @@ export const ProjectsSection: React.FC = () => {
   return (
     <div>
       <h2 className="ap-section-title">
-        <span className="icon">📂</span> Projects
+        <span className="icon">
+          <img
+            alt="icon"
+            className="profile-svg-icon "
+            draggable="false"
+            src="/svg/system/folder.svg"
+          />
+        </span>{" "}
+        Projects
       </h2>
       <div className="ap-projects-grid">
         {PROJECTS.map((proj) => (
@@ -20,7 +29,9 @@ export const ProjectsSection: React.FC = () => {
             className={`ap-project-card ${expandedId === proj.id ? "expanded" : ""}`}
             onClick={() => toggle(proj.id)}
           >
-            <div className="ap-project-icon">{proj.icon}</div>
+            <div className="ap-project-icon">
+              <ProfileIcon icon={proj.icon} />
+            </div>
             <h3 className="ap-project-name">{proj.name}</h3>
             <p className="ap-project-desc">{proj.description}</p>
             <div className="ap-project-tech">

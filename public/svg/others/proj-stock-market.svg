@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="100%" height="100%">
+  <!-- Graph Paper / Grid -->
+  <path d="M12 52 L52 52 M12 52 L12 12" fill="none" stroke="#475569" stroke-width="2" stroke-linecap="round"/>
+  <path d="M12 40 L52 40 M12 28 L52 28 M12 16 L52 16" fill="none" stroke="#1e293b" stroke-width="1" />
+  
+  <!-- Candlesticks -->
+  <!-- Red down -->
+  <line x1="20" y1="20" x2="20" y2="36" stroke="#f43f5e" stroke-width="1.5"/>
+  <rect x="17" y="24" width="6" height="10" rx="1" fill="#f43f5e"/>
+  
+  <!-- Green up -->
+  <line x1="30" y1="28" x2="30" y2="44" stroke="#10b981" stroke-width="1.5"/>
+  <rect x="27" y="32" width="6" height="8" rx="1" fill="#10b981"/>
+  
+  <!-- Green up large -->
+  <line x1="40" y1="14" x2="40" y2="32" stroke="#10b981" stroke-width="1.5"/>
+  <rect x="37" y="16" width="6" height="12" rx="1" fill="#10b981"/>
+  
+  <!-- AI Predictive Trend Line -->
+  <path d="M12 44 Q 24 16 34 36 T 50 12" fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-dasharray="2 2" stroke-linecap="round"/>
+  
+  <!-- Neural Nodes analyzing pattern -->
+  <circle cx="20" cy="30" r="2" fill="#60a5fa"/>
+  <circle cx="30" cy="36" r="2" fill="#60a5fa"/>
+  <circle cx="40" cy="22" r="2" fill="#60a5fa"/>
+  <circle cx="50" cy="12" r="3" fill="#facc15">
+    <animate attributeName="r" values="3;4.5;3" dur="1.5s" repeatCount="indefinite"/>
+  </circle>
+  
+  <path d="M40 22 L50 12" fill="none" stroke="#facc15" stroke-width="1.5" stroke-dasharray="1 1"/>
+</svg>

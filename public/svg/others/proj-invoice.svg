@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="100%" height="100%">
+  <!-- Document Base -->
+  <rect x="14" y="8" width="36" height="48" rx="2" fill="#1e293b" stroke="#cbd5e1" stroke-width="2"/>
+  
+  <!-- Text lines (Invoice content) -->
+  <line x1="20" y1="16" x2="34" y2="16" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/>
+  <line x1="20" y1="22" x2="44" y2="22" stroke="#475569" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="20" y1="26" x2="40" y2="26" stroke="#475569" stroke-width="1.5" stroke-linecap="round"/>
+  
+  <line x1="20" y1="34" x2="44" y2="34" stroke="#475569" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="20" y1="38" x2="38" y2="38" stroke="#475569" stroke-width="1.5" stroke-linecap="round"/>
+  
+  <!-- Total -->
+  <line x1="30" y1="46" x2="44" y2="46" stroke="#f43f5e" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- AI Scanner Overlay -->
+  <rect x="18" y="14" width="18" height="4" fill="none" stroke="#10b981" stroke-width="1" stroke-dasharray="1 1"/>
+  <rect x="28" y="44" width="18" height="4" fill="none" stroke="#10b981" stroke-width="1" stroke-dasharray="1 1"/>
+  
+  <line x1="10" y1="30" x2="54" y2="30" stroke="#3b82f6" stroke-width="3" opacity="0.8">
+    <animate attributeName="y1" values="8;56;8" dur="3s" repeatCount="indefinite" />
+    <animate attributeName="y2" values="8;56;8" dur="3s" repeatCount="indefinite" />
+  </line>
+</svg>

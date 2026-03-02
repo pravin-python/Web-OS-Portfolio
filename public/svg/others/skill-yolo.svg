@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="100%" height="100%">
+  <!-- Background Image/Frame -->
+  <rect x="10" y="14" width="44" height="36" rx="4" fill="#1e293b" stroke="#475569" stroke-width="2"/>
+  
+  <!-- Object 1 (Car/Person) -->
+  <rect x="16" y="24" width="12" height="18" fill="none" stroke="#10b981" stroke-width="2" stroke-dasharray="2 2"/>
+  <rect x="14" y="20" width="16" height="4" fill="#10b981" />
+  <text x="22" y="23" fill="#ffffff" font-family="sans-serif" font-size="3" text-anchor="middle" font-weight="bold">ID: 1</text>
+  
+  <!-- Object 2 -->
+  <rect x="36" y="30" width="10" height="12" fill="none" stroke="#3b82f6" stroke-width="2" stroke-dasharray="2 2"/>
+  <rect x="34" y="26" width="14" height="4" fill="#3b82f6" />
+  <text x="41" y="29" fill="#ffffff" font-family="sans-serif" font-size="3" text-anchor="middle" font-weight="bold">ID: 2</text>
+  
+  <!-- DeepSORT tracking arrows -->
+  <path d="M22 46 C20 52, 16 52, 16 52" fill="none" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="2 2"/>
+  <path d="M41 46 C41 50, 48 50, 48 50" fill="none" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="2 2"/>
+</svg>

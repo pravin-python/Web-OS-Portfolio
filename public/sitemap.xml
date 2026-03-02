@@ -97,4 +97,12 @@
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
+
+  <!-- DSA Lab — Data Structures & Algorithms Explorer -->
+  <url>
+    <loc>https://pravin-python.github.io/Web-OS-Portfolio/os/dsa-lab</loc>
+    <lastmod>2026-03-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>

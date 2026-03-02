@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bookCoverGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#818cf8" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.1" />
+    </linearGradient>
+    <linearGradient id="nodeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6ee7b7" />
+      <stop offset="100%" stop-color="#10b981" />
+    </linearGradient>
+  </defs>
+
+  <!-- Glowing background effect -->
+  <circle cx="32" cy="32" r="28" fill="url(#bookCoverGrad)" opacity="0.6" filter="blur(8px)" />
+
+  <!-- The Open Book Structure -->
+  <path d="M12 44 L12 16 C12 16, 22 16, 32 22 C42 16, 52 16, 52 16 L52 44 C52 44, 42 40, 32 46 C22 40, 12 44, 12 44 Z" fill="#1e293b" stroke="#818cf8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Book spine/center fold -->
+  <path d="M32 22 L32 46" fill="none" stroke="#6366f1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Left Page Details -->
+  <path d="M16 26 L26 29" stroke="#475569" stroke-width="2" stroke-linecap="round"/>
+  <path d="M16 32 L26 35" stroke="#475569" stroke-width="2" stroke-linecap="round"/>
+  <path d="M16 38 L26 41" stroke="#475569" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Right Page: Artificial Intelligence Network (Self-Study in ML/AI) -->
+  <path d="M38 28 L46 28 L42 38 Z" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M38 28 L42 22 L46 28" fill="none" stroke="#60a5fa" stroke-width="2" stroke-dasharray="2 2" />
+
+  <!-- Neural Nodes -->
+  <circle cx="38" cy="28" r="2.5" fill="url(#nodeGrad)" />
+  <circle cx="46" cy="28" r="2.5" fill="url(#nodeGrad)" />
+  <circle cx="42" cy="38" r="2.5" fill="#f43f5e" />
+  <circle cx="42" cy="22" r="2.5" fill="#facc15" />
+
+</svg>

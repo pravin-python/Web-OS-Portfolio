@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { CAREER_TIMELINE } from "./profile.data";
+import { ProfileIcon } from "./ProfileIcon";
 
 export const CareerTimeline: React.FC = () => {
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -11,7 +12,15 @@ export const CareerTimeline: React.FC = () => {
   return (
     <div>
       <h2 className="ap-section-title">
-        <span className="icon">📈</span> Career Timeline
+        <span className="icon">
+          <img
+            alt="icon"
+            className="profile-svg-icon "
+            draggable="false"
+            src="/svg/social icons/linkedin.svg"
+          />
+        </span>{" "}
+        Career Timeline
       </h2>
       <div className="ap-career-timeline">
         {CAREER_TIMELINE.map((entry) => (
@@ -28,7 +37,9 @@ export const CareerTimeline: React.FC = () => {
                 marginBottom: 4,
               }}
             >
-              <span style={{ fontSize: 20 }}>{entry.icon}</span>
+              <span style={{ fontSize: 20 }}>
+                <ProfileIcon icon={entry.icon} />
+              </span>
               <h3 className="ap-career-role">{entry.role}</h3>
             </div>
             <p className="ap-career-company">{entry.company}</p>

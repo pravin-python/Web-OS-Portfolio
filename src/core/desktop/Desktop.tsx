@@ -1,5 +1,6 @@
 import React, { useRef, useCallback } from "react";
 import { useDesktopStore, WALLPAPER_PRESETS } from "../state/useDesktopStore";
+import { useWindowStore } from "../state/useWindowStore";
 import { useNavigate } from "react-router-dom";
 import { getDesktopApps } from "../appRegistry";
 import { launchApp } from "../appLauncher";
@@ -43,6 +44,10 @@ export const Desktop: React.FC = () => {
     (e: React.PointerEvent) => {
       closeContextMenu();
       clearSelection();
+
+      if (e.target === containerRef.current) {
+        useWindowStore.getState().minimizeAllWindows();
+      }
 
       if (isTouch) {
         longPressFired.current = false;
