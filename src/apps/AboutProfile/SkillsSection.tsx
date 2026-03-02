@@ -10,7 +10,7 @@ export const SkillsSection: React.FC = () => (
           alt="icon"
           className="profile-svg-icon "
           draggable="false"
-          src="/svg/apps/ai-lab.svg"
+          src={`${import.meta.env.BASE_URL}svg/apps/ai-lab.svg`}
         />
       </span>{" "}
       Skills & Technologies

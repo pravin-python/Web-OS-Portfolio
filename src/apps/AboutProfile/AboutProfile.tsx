@@ -35,7 +35,7 @@ const OverviewSection: React.FC<{ onTabChange: (tab: TabId) => void }> = ({
             alt="icon"
             className="profile-svg-icon "
             draggable="false"
-            src="/svg/system/about.svg"
+            src={`${import.meta.env.BASE_URL}svg/system/about.svg`}
           />
         </span>{" "}
         Overview

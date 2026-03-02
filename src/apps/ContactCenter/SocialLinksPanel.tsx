@@ -14,7 +14,7 @@ interface SocialCard {
 const SOCIALS: SocialCard[] = [
   {
     id: "telegram",
-    icon: "/image/telegram-1.jpg",
+    icon: import.meta.env.BASE_URL + "image/telegram-1.jpg",
     label: "Telegram",
     username: `@${CONTACT.telegram.username}`,
     description: "Direct chat — usually replies within 24 hours",
@@ -22,7 +22,7 @@ const SOCIALS: SocialCard[] = [
   },
   {
     id: "linkedin",
-    icon: "/image/linkedin.png",
+    icon: import.meta.env.BASE_URL + "image/linkedin.png",
     label: "LinkedIn",
     username: "Pravin Prajapati",
     description: "Professional network & recommendations",
@@ -30,7 +30,7 @@ const SOCIALS: SocialCard[] = [
   },
   {
     id: "twitter",
-    icon: "/image/x.jpg",
+    icon: import.meta.env.BASE_URL + "image/x.jpg",
     label: "X (Twitter)",
     username: "@_pravin_py",
     description: "Follow for AI/ML updates & experiments",
@@ -38,7 +38,7 @@ const SOCIALS: SocialCard[] = [
   },
   {
     id: "instagram",
-    icon: "/image/instagram.png",
+    icon: import.meta.env.BASE_URL + "image/instagram.png",
     label: "Instagram",
     username: "@pravin.py",
     description: "Behind-the-scenes of projects",
@@ -46,7 +46,7 @@ const SOCIALS: SocialCard[] = [
   },
   {
     id: "github",
-    icon: "/image/github.png",
+    icon: import.meta.env.BASE_URL + "image/github.png",
     label: "GitHub",
     username: "pravin-python",
     description: "Open source projects & contributions",
@@ -54,7 +54,7 @@ const SOCIALS: SocialCard[] = [
   },
   {
     id: "discord",
-    icon: "/image/discord.png",
+    icon: import.meta.env.BASE_URL + "image/discord.png",
     label: "Discord",
     username: "pravin_py",
     description: "Join the community or direct message",

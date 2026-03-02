@@ -68,18 +68,22 @@ export const QRSection: React.FC = () => {
         <QRCard
           label="LinkedIn"
           url={CONTACT.linkedin}
-          icon="/image/linkedin.png"
+          icon={`${import.meta.env.BASE_URL}image/linkedin.png`}
         />
         <QRCard
           label="Telegram"
           url={`https://t.me/${CONTACT.telegram.username}`}
-          icon="/image/telegram-1.jpg"
+          icon={`${import.meta.env.BASE_URL}image/telegram-1.jpg`}
         />
-        <QRCard label="GitHub" url={CONTACT.github} icon="/image/github.png" />
+        <QRCard
+          label="GitHub"
+          url={CONTACT.github}
+          icon={`${import.meta.env.BASE_URL}image/github.png`}
+        />
         <QRCard
           label="Email"
           url={`mailto:${CONTACT.email}`}
-          icon="/image/email.png"
+          icon={`${import.meta.env.BASE_URL}image/email.png`}
         />
       </div>
     </div>

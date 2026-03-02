@@ -17,7 +17,7 @@ export const CareerTimeline: React.FC = () => {
             alt="icon"
             className="profile-svg-icon "
             draggable="false"
-            src="/svg/social icons/linkedin.svg"
+            src={`${import.meta.env.BASE_URL}svg/social icons/linkedin.svg`}
           />
         </span>{" "}
         Career Timeline
