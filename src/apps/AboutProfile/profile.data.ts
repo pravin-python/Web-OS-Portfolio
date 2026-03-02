@@ -395,6 +395,38 @@ export const SKILLS: SkillCategory[] = [
       },
     ],
   },
+  {
+    category: "Databases",
+    icon: "/svg/databases/mysql.svg",
+    skills: [
+      { name: "MySQL", icon: "/svg/databases/mysql.svg", level: 85, years: 4 },
+      {
+        name: "PostgreSQL",
+        icon: "/svg/databases/postgresql.svg",
+        level: 80,
+        years: 3,
+      },
+      {
+        name: "MongoDB",
+        icon: "/svg/databases/mongodb.svg",
+        level: 75,
+        years: 2,
+      },
+      { name: "Redis", icon: "/svg/databases/redis.svg", level: 70, years: 2 },
+      {
+        name: "Oracle",
+        icon: "/svg/databases/oracle.svg",
+        level: 60,
+        years: 1,
+      },
+      {
+        name: "Cassandra",
+        icon: "/svg/databases/cassandra.svg",
+        level: 55,
+        years: 1,
+      },
+    ],
+  },
 ];
 
 export const TECH_STACK: TechStackAxis[] = [

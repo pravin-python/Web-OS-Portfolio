@@ -13,6 +13,7 @@ import { ModelLogs } from "../apps/ModelLogs/ModelLogs";
 import { ContactCenter } from "../apps/ContactCenter/ContactCenter";
 import { AboutProfile } from "../apps/AboutProfile/AboutProfile";
 import { Trash } from "../apps/Trash/Trash";
+import { DSALab } from "../apps/DSALab/DSALab";
 
 export interface AppDefinition {
   key: string;
@@ -69,6 +70,18 @@ export const APP_REGISTRY: Record<string, AppDefinition> = {
     defaultSize: { width: 750, height: 500 },
     showOnDesktop: true,
     category: "data",
+  },
+
+  /* ─── DSA Lab ─── */
+  dsaLab: {
+    key: "dsaLab",
+    title: "DSA Lab",
+    icon: "apps/dsa-lab",
+    component: DSALab,
+    route: "/os/dsa-lab",
+    defaultSize: { width: 1000, height: 700 },
+    showOnDesktop: true,
+    category: "ai",
   },
 
   /* ─── Security ─── */

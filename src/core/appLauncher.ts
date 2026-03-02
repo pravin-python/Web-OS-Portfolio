@@ -51,6 +51,9 @@ const APP_ALIASES: Record<string, string> = {
   settings: "settings",
   contact: "contactCenter",
   "contact-center": "contactCenter",
+  dsa: "dsaLab",
+  "dsa-lab": "dsaLab",
+  dsalab: "dsaLab",
 };
 
 export function resolveAppAlias(name: string): string | null {
