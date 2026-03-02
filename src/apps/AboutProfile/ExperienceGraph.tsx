@@ -61,7 +61,15 @@ export const ExperienceGraph: React.FC = () => {
   return (
     <div>
       <h2 className="ap-section-title">
-        <span className="icon">📊</span> Experience Growth
+        <span className="icon">
+          <img
+            alt="icon"
+            className="profile-svg-icon "
+            draggable="false"
+            src="/svg/system/dataset.svg"
+          />
+        </span>{" "}
+        Experience Graph
       </h2>
       <div className="ap-graph-container">
         <svg

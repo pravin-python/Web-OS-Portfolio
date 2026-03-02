@@ -18,6 +18,7 @@ import { ProjectsSection } from "./ProjectsSection";
 import { AchievementsSection } from "./AchievementsSection";
 import { LearningRoadmap } from "./LearningRoadmap";
 import { ResumePanel } from "./ResumePanel";
+import { ProfileIcon } from "./ProfileIcon";
 import "./styles.css";
 
 /* ─── Overview Dashboard ─── */
@@ -29,7 +30,15 @@ const OverviewSection: React.FC<{ onTabChange: (tab: TabId) => void }> = ({
   return (
     <div>
       <h2 className="ap-section-title">
-        <span className="icon">🏠</span> Overview
+        <span className="icon">
+          <img
+            alt="icon"
+            className="profile-svg-icon "
+            draggable="false"
+            src="/svg/system/about.svg"
+          />
+        </span>{" "}
+        Overview
       </h2>
 
       {/* Stat Cards */}
@@ -81,7 +90,9 @@ const OverviewSection: React.FC<{ onTabChange: (tab: TabId) => void }> = ({
                   key={s.name}
                   style={{ display: "flex", alignItems: "center", gap: 8 }}
                 >
-                  <span style={{ fontSize: 14 }}>{s.icon}</span>
+                  <span style={{ fontSize: 14 }}>
+                    <ProfileIcon icon={s.icon} />
+                  </span>
                   <span style={{ fontSize: 12, color: "#e2e8f0", flex: 1 }}>
                     {s.name}
                   </span>
@@ -114,7 +125,9 @@ const OverviewSection: React.FC<{ onTabChange: (tab: TabId) => void }> = ({
                 key={item.id}
                 style={{ display: "flex", alignItems: "center", gap: 8 }}
               >
-                <span style={{ fontSize: 14 }}>{item.icon}</span>
+                <span style={{ fontSize: 14 }}>
+                  <ProfileIcon icon={item.icon} />
+                </span>
                 <span style={{ fontSize: 12, color: "#e2e8f0", flex: 1 }}>
                   {item.topic}
                 </span>
@@ -199,7 +212,9 @@ export const AboutProfile: React.FC = () => {
               className={`ap-sidebar-btn ${activeTab === tab.id ? "active" : ""}`}
               onClick={() => setActiveTab(tab.id)}
             >
-              <span className="ap-tab-icon">{tab.icon}</span>
+              <span className="ap-tab-icon">
+                <ProfileIcon icon={tab.icon} />
+              </span>
               <span>{tab.label}</span>
             </button>
           ))}

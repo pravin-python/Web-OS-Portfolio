@@ -68,6 +68,14 @@
   text-align: center;
 }
 
+.profile-svg-icon {
+  width: 1.2em;
+  height: 1.2em;
+  object-fit: contain;
+  vertical-align: middle;
+  display: inline-block;
+}
+
 /* ─── Content Area ─── */
 .ap-content {
   flex: 1;

@@ -41,7 +41,15 @@ export const TechStack: React.FC = () => {
   return (
     <div>
       <h2 className="ap-section-title">
-        <span className="icon">⚙️</span> Tech Stack Radar
+        <span className="icon">
+          <img
+            alt="icon"
+            className="profile-svg-icon "
+            draggable="false"
+            src="/svg/system/settings.svg"
+          />
+        </span>{" "}
+        Tech Stack Radar
       </h2>
       <div className="ap-radar-container">
         <svg

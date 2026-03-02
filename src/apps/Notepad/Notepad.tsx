@@ -241,7 +241,7 @@ export const Notepad: React.FC = () => {
               placeholder="Search notes..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="notepad-search pl-9"
+              className="notepad-search"
             />
           </div>
         </div>

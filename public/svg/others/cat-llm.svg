@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="100%" height="100%">
+  <!-- Central AI Core -->
+  <circle cx="32" cy="32" r="16" fill="#1e293b" stroke="#8b5cf6" stroke-width="3"/>
+  
+  <!-- Glowing inner rings -->
+  <circle cx="32" cy="32" r="10" fill="none" stroke="#a78bfa" stroke-width="2" stroke-dasharray="4 4">
+    <animateTransform attributeName="transform" type="rotate" from="0 32 32" to="360 32 32" dur="8s" repeatCount="indefinite"/>
+  </circle>
+  
+  <circle cx="32" cy="32" r="4" fill="#c4b5fd" />
+  
+  <!-- Agent Nodes orbiting the core -->
+  <!-- Top Agent -->
+  <circle cx="32" cy="8" r="4" fill="#10b981" />
+  <path d="M32 12 L32 16" fill="none" stroke="#6ee7b7" stroke-width="2"/>
+  
+  <!-- Bottom Left Agent -->
+  <circle cx="12" cy="46" r="4" fill="#3b82f6" />
+  <path d="M15 42 L18 39" fill="none" stroke="#93c5fd" stroke-width="2"/>
+  
+  <!-- Bottom Right Agent -->
+  <circle cx="52" cy="46" r="4" fill="#f43f5e" />
+  <path d="M49 42 L46 39" fill="none" stroke="#fda4af" stroke-width="2"/>
+  
+  <!-- Synapse arcs -->
+  <path d="M14 42 Q 20 20 28 10" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="2 2" opacity="0.6"/>
+  <path d="M50 42 Q 44 20 36 10" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="2 2" opacity="0.6"/>
+</svg>

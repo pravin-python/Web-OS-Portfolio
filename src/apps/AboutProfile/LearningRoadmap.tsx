@@ -1,10 +1,19 @@
 import React from "react";
 import { LEARNING_ROADMAP } from "./profile.data";
+import { ProfileIcon } from "./ProfileIcon";
 
 export const LearningRoadmap: React.FC = () => (
   <div>
     <h2 className="ap-section-title">
-      <span className="icon">🚀</span> Currently Learning
+      <span className="icon">
+        <img
+          alt="icon"
+          className="profile-svg-icon "
+          draggable="false"
+          src="/svg/apps/experiments.svg"
+        />
+      </span>{" "}
+      Learning Roadmap
     </h2>
     <div className="ap-learning-list">
       {LEARNING_ROADMAP.map((item) => {
@@ -17,7 +26,9 @@ export const LearningRoadmap: React.FC = () => (
 
         return (
           <div key={item.id} className="ap-learning-card">
-            <div className="ap-learning-icon">{item.icon}</div>
+            <div className="ap-learning-icon">
+              <ProfileIcon icon={item.icon} />
+            </div>
             <div className="ap-learning-info">
               <h3 className="ap-learning-topic">{item.topic}</h3>
               <div className="ap-learning-bar-bg">
