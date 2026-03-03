@@ -1126,8 +1126,17 @@
 
 /* ─── Responsive: Mobile Fallback ─── */
 @media (max-width: 600px) {
+  .ap-root {
+    overflow-y: auto;
+    /* Allow full page to scroll */
+    overflow-x: hidden;
+  }
+
   .ap-body {
     flex-direction: column;
+    overflow: visible;
+    /* Prevent this from trapping scroll */
+    min-height: auto;
   }
 
   .ap-sidebar {
@@ -1193,6 +1202,8 @@
 
   .ap-content {
     padding: 16px;
+    overflow: visible;
+    /* Let the parent ap-root handle scrolling */
   }
 
   .ap-overview-highlights {
