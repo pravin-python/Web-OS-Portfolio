@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Brain outline -->
+  <circle cx="32" cy="28" r="20" stroke="#3b8beb" stroke-width="2.5" fill="rgba(59,139,235,0.08)"/>
+  <!-- Neural network nodes -->
+  <circle cx="22" cy="22" r="4" fill="#3b8beb" opacity="0.9"/>
+  <circle cx="38" cy="18" r="4" fill="#bf5af2" opacity="0.9"/>
+  <circle cx="28" cy="34" r="4" fill="#30d158" opacity="0.9"/>
+  <circle cx="42" cy="30" r="4" fill="#ff9f0a" opacity="0.9"/>
+  <circle cx="32" cy="24" r="3" fill="#ffd60a" opacity="0.9"/>
+  <!-- Connections -->
+  <line x1="22" y1="22" x2="32" y2="24" stroke="#9999b0" stroke-width="1.2" opacity="0.5"/>
+  <line x1="38" y1="18" x2="32" y2="24" stroke="#9999b0" stroke-width="1.2" opacity="0.5"/>
+  <line x1="28" y1="34" x2="32" y2="24" stroke="#9999b0" stroke-width="1.2" opacity="0.5"/>
+  <line x1="42" y1="30" x2="32" y2="24" stroke="#9999b0" stroke-width="1.2" opacity="0.5"/>
+  <line x1="22" y1="22" x2="28" y2="34" stroke="#9999b0" stroke-width="1" opacity="0.35"/>
+  <line x1="38" y1="18" x2="42" y2="30" stroke="#9999b0" stroke-width="1" opacity="0.35"/>
+  <!-- Label -->
+  <text x="32" y="56" text-anchor="middle" font-family="SF Pro Display, -apple-system, sans-serif" font-size="8" font-weight="700" fill="#3b8beb">ML LAB</text>
+</svg>

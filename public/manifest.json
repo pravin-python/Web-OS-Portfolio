@@ -2,7 +2,7 @@
   "name": "Pravin Prajapati — AI & ML Portfolio",
   "short_name": "WebOS Portfolio",
   "description": "Interactive OS-style developer portfolio showcasing AI, Machine Learning, Python, and Cyber Security projects by Pravin Prajapati.",
-  "start_url": "/Web-OS-Portfolio/os/desktop",
+  "start_url": "/Web-OS-Portfolio/desktop",
   "display": "standalone",
   "background_color": "#0f1729",
   "theme_color": "#6366f1",
