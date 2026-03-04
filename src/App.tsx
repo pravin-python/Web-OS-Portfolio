@@ -9,10 +9,10 @@ function App() {
     <>
       <MobileOrientationGuard>
         <Routes>
-          {/* All /os/* routes render the OS desktop shell */}
-          <Route path="/os/*" element={<DesktopLayout />} />
+          {/* All routes render the OS desktop shell */}
+          <Route path="/*" element={<DesktopLayout />} />
           {/* Everything else redirects to the desktop */}
-          <Route path="*" element={<Navigate to="/os/desktop" replace />} />
+          <Route path="*" element={<Navigate to="/desktop" replace />} />
         </Routes>
         <CookieConsent />
       </MobileOrientationGuard>
