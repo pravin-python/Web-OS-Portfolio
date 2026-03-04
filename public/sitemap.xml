@@ -105,4 +105,13 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+
+  <!-- ML Lab — Machine Learning Playground -->
+  <url>
+    <loc>https://pravin-python.github.io/Web-OS-Portfolio/ml-lab</loc>
+    <lastmod>2026-03-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
 </urlset>

@@ -7,7 +7,18 @@
   "background_color": "#0f1729",
   "theme_color": "#6366f1",
   "orientation": "any",
-  "categories": ["portfolio", "developer-tools", "games", "productivity"],
+  "categories": [
+    "portfolio",
+    "developer-tools",
+    "games",
+    "productivity",
+    "ai",
+    "security",
+    "data",
+    "dsa",
+    "machine-learning",
+    "freelancing"
+  ],
   "icons": [
     {
       "src": "/Web-OS-Portfolio/vite.svg",
