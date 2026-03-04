@@ -446,12 +446,31 @@
         ]
       }
     </script>
-    <script type="module" crossorigin src="/Web-OS-Portfolio/assets/index-C7oz0oQy.js"></script>
-    <link rel="stylesheet" crossorigin href="/Web-OS-Portfolio/assets/index-f3GrlkMX.css">
+    <script type="module" crossorigin src="/Web-OS-Portfolio/assets/index-B-X-FA0u.js"></script>
+    <link rel="stylesheet" crossorigin href="/Web-OS-Portfolio/assets/index-rEFrjRcc.css">
   </head>
 
   <body>
     <div id="root"></div>
+    <!-- GitHub Pages SPA redirect restore -->
+    <script>
+      (function (l) {
+        if (l.search[1] === "/") {
+          var decoded = l.search
+            .slice(1)
+            .split("&")
+            .map(function (s) {
+              return s.replace(/~and~/g, "&");
+            })
+            .join("?");
+          window.history.replaceState(
+            null,
+            null,
+            l.pathname.slice(0, -1) + decoded + l.hash,
+          );
+        }
+      })(window.location);
+    </script>
 
     <!-- ═══ Noscript SEO Fallback ═══ -->
     <!-- Search engine crawlers that don't execute JS will see this content -->
