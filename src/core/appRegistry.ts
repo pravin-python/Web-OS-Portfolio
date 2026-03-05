@@ -16,6 +16,7 @@ import { Trash } from "../apps/Trash/Trash";
 import { DSALab } from "../apps/DSALab/DSALab";
 import { MLLab } from "../apps/MLLab/MLLab";
 import { MLCalculator } from "../apps/MLCalculator/MLCalculator";
+import { MLStudio } from "../apps/MLStudio/MLStudio";
 
 export interface AppDefinition {
   key: string;
@@ -105,6 +106,18 @@ export const APP_REGISTRY: Record<string, AppDefinition> = {
     icon: "apps/ml-calc",
     component: MLCalculator,
     route: "/ml-calculator",
+    defaultSize: { width: 1100, height: 720 },
+    showOnDesktop: true,
+    category: "ai",
+  },
+
+  /* ─── ML Studio (Pyodide) ─── */
+  mlStudio: {
+    key: "mlStudio",
+    title: "ML Studio",
+    icon: "apps/ml-studio",
+    component: MLStudio,
+    route: "/ml-studio",
     defaultSize: { width: 1100, height: 720 },
     showOnDesktop: true,
     category: "ai",

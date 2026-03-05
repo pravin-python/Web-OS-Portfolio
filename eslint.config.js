@@ -16,6 +16,8 @@ export default defineConfig([
     "src/apps/Game2048/ScoreBoard.tsx",
     "src/apps/Game2048/useGame2048.ts",
     "src/apps/AboutProfile/ExperienceGraph.tsx",
+    "src/apps/MLStudio/MLStudio.tsx",
+    "src/apps/MLStudio/ResultsDashboard.tsx",
   ]),
   {
     files: ["**/*.{ts,tsx}"],
