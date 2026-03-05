@@ -15,6 +15,7 @@ import { AboutProfile } from "../apps/AboutProfile/AboutProfile";
 import { Trash } from "../apps/Trash/Trash";
 import { DSALab } from "../apps/DSALab/DSALab";
 import { MLLab } from "../apps/MLLab/MLLab";
+import { MLCalculator } from "../apps/MLCalculator/MLCalculator";
 
 export interface AppDefinition {
   key: string;
@@ -93,6 +94,18 @@ export const APP_REGISTRY: Record<string, AppDefinition> = {
     component: MLLab,
     route: "/ml-lab",
     defaultSize: { width: 1050, height: 720 },
+    showOnDesktop: true,
+    category: "ai",
+  },
+
+  /* ─── ML Calculator ─── */
+  mlCalculator: {
+    key: "mlCalculator",
+    title: "ML Calculator",
+    icon: "apps/ml-calc",
+    component: MLCalculator,
+    route: "/ml-calculator",
+    defaultSize: { width: 1100, height: 720 },
     showOnDesktop: true,
     category: "ai",
   },

@@ -54,6 +54,9 @@ const APP_ALIASES: Record<string, string> = {
   dsa: "dsaLab",
   "dsa-lab": "dsaLab",
   dsalab: "dsaLab",
+  "ml-calculator": "mlCalculator",
+  mlcalculator: "mlCalculator",
+  mlcalc: "mlCalculator",
 };
 
 export function resolveAppAlias(name: string): string | null {
