@@ -17,6 +17,7 @@ import { DSALab } from "../apps/DSALab/DSALab";
 import { MLLab } from "../apps/MLLab/MLLab";
 import { MLCalculator } from "../apps/MLCalculator/MLCalculator";
 import { MLStudio } from "../apps/MLStudio/MLStudio";
+import { PhantomTTT } from "../apps/PhantomTTT/PhantomTTT";
 
 export interface AppDefinition {
   key: string;
@@ -205,6 +206,16 @@ export const APP_REGISTRY: Record<string, AppDefinition> = {
     component: TwentyFortyEight,
     route: "/games/2048",
     defaultSize: { width: 450, height: 600 },
+    showOnDesktop: true,
+    category: "game",
+  },
+  phantomTTT: {
+    key: "phantomTTT",
+    title: "Phantom TTT",
+    icon: "apps/tictactoe",
+    component: PhantomTTT,
+    route: "/games/phantom-ttt",
+    defaultSize: { width: 420, height: 620 },
     showOnDesktop: true,
     category: "game",
   },

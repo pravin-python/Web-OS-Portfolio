@@ -96,13 +96,13 @@ export interface LearningItem {
 export const PROFILE_INFO: ProfileInfo = {
   name: "Pravin Prajapati",
   titles: [
-    "Freelance Full-Stack Developer",
-    "Python & Java Developer",
-    "AI Agent & Automation Expert",
-    "Web Scraping Specialist",
+    "Python Developer & AI/ML Engineer",
+    "Backend & SaaS Architecture",
+    "Agentic AI & LLM Integration",
+    "Computer Vision & Deep Learning",
   ],
   tagline:
-    "Building intelligent systems, AI agents, and automation workflows for clients worldwide.",
+    "Building intelligent automation systems, deep learning models, and enterprise-grade SaaS backends with measurable business impact.",
   photoUrl: import.meta.env.BASE_URL + "image/profile.jpg",
   github: "https://github.com/pravin-python",
   linkedin: "https://linkedin.com/in/pravin-prajapati-706722281",
@@ -112,7 +112,7 @@ export const PROFILE_INFO: ProfileInfo = {
 export const EDUCATION: EducationEntry[] = [
   {
     id: "edu-1",
-    institute: "Gujarat University",
+    institute: "Indus University",
     degree: "Bachelor of Computer Applications (BCA)",
     years: "2019 – 2022",
     subjects: [
@@ -125,11 +125,11 @@ export const EDUCATION: EducationEntry[] = [
       "Web Technologies",
       "C / C++ Programming",
     ],
-    icon: import.meta.env.BASE_URL + "image/Gujarat-university.png",
+    icon: import.meta.env.BASE_URL + "image/indus.jpg",
   },
   {
     id: "edu-2",
-    institute: "Indus University",
+    institute: "Gujarat University",
     degree: "Master of Computer Applications (MCA)",
     years: "2022 – 2024",
     subjects: [
@@ -145,7 +145,7 @@ export const EDUCATION: EducationEntry[] = [
       "IoT",
       "Data Processing Pipelines",
     ],
-    icon: import.meta.env.BASE_URL + "image/indus.jpg",
+    icon: import.meta.env.BASE_URL + "image/Gujarat-university.png",
   },
   {
     id: "edu-3",
@@ -175,30 +175,31 @@ export const CAREER_TIMELINE: CareerEntry[] = [
     company: "Dolphin Web Solution - India",
     duration: "August 2024 – Present",
     responsibilities: [
-      "Designed scalable backend services using Python, Django, FastAPI",
-      "Built automated invoice processing systems using OCR & AI models (Processed 100K+ docs/month)",
-      "Developed web scraping solutions using Selenium, BeautifulSoup & Crawlee",
-      "Integrated AWS S3 buckets for secure file storage",
-      "Implemented real-time socket connectivity and multi-database connections",
-      "Built automated invoice processing systems using OCR & AI models (Processed 100K+ docs/month)",
-      "Developed web scraping solutions using Selenium, BeautifulSoup & Crawlee",
-      "Integrated AWS S3 buckets for secure file storage",
-      "Implemented real-time socket connectivity and multi-database connections",
+      "Designed scalable backend services using Python, FastAPI, and Django — delivering high-availability REST APIs for enterprise SaaS clients",
+      "Engineered AI-powered invoice & document processing systems using OCR and ML models, automating 100K+ documents/month with 60% reduction in manual effort",
+      "Developed advanced web scraping and data extraction pipelines for e-commerce using Selenium, BeautifulSoup, and Crawlee",
+      "Designed and deployed computer vision-based barcode recognition models using image processing for automated data extraction at scale",
+      "Implemented real-time socket connectivity for system-to-system communication in distributed environments",
+      "Managed multi-database connections (PostgreSQL, NoSQL) within a single web application for complex data workflows",
+      "Containerised applications using Docker and deployed cloud-based services on AWS (EC2, S3, IAM)",
+      "Won 1st Place Hackathon by architecting WorkSynapse — an AI-driven Operational Intelligence SaaS platform",
     ],
     tools: [
       "Python",
-      "Django",
       "FastAPI",
+      "Django",
       "OCR",
+      "Computer Vision",
       "Docker",
       "AWS",
-      "SQL",
-      "NoSQL",
+      "PostgreSQL",
+      "Redis",
+      "Celery",
+      "RabbitMQ",
       "LangChain",
       "LLMs",
-      "OpenAI",
-      "Zapier",
-      "Web scraping",
+      "JWT",
+      "RBAC",
     ],
     icon: import.meta.env.BASE_URL + "image/dolphin-web-solution.png",
   },
@@ -625,15 +626,61 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "proj-13",
-    name: "HiveBrain — Operational Intelligence SaaS",
+    name: "WorkSynapse — Operational Intelligence SaaS",
     description:
-      "Designed a secure multi-tenant SaaS platform with project-based isolation and AI-powered work detection.",
-    tech: ["Python", "FastAPI", "PostgreSQL", "Next.js", "TypeScript"],
+      "Hackathon-winning AI-driven multi-tenant SaaS platform with project-based isolation, JWT auth, RBAC, AI-powered work detection, and real-time analytics.",
+    tech: [
+      "Python",
+      "FastAPI",
+      "PostgreSQL",
+      "SQLAlchemy",
+      "Next.js",
+      "TypeScript",
+    ],
     problem:
-      "Enterprises lacked a consolidated intelligence platform with fine-grained RBAC.",
+      "Enterprises lacked a consolidated intelligence platform with fine-grained RBAC and AI-driven operational insights.",
     learned:
-      "Database-driven RBAC, audit logging, multi-tenant architecture, and full-stack integration.",
+      "Database-driven RBAC, audit logging, multi-tenant architecture, JWT token management, and full-stack SaaS integration.",
     icon: import.meta.env.BASE_URL + "svg/frameworks/react.svg",
+  },
+  {
+    id: "proj-20",
+    name: "LeadBridge — LinkedIn B2B Lead Generation",
+    description:
+      "Production-ready Django 4.x application with 50+ REST API endpoints, LinkedIn API integration, automated email campaigns, Celery async tasks, and Fernet encryption.",
+    tech: [
+      "Python",
+      "Django",
+      "DRF",
+      "PostgreSQL",
+      "Celery",
+      "Redis",
+      "Gunicorn",
+      "Nginx",
+    ],
+    problem:
+      "Manual LinkedIn outreach and B2B lead management was time-consuming and unscalable for growing teams.",
+    learned:
+      "LinkedIn API integration, async email delivery with Celery/Redis, Fernet symmetric encryption, and production Django deployment.",
+    icon: import.meta.env.BASE_URL + "svg/frameworks/django.svg",
+  },
+  {
+    id: "proj-21",
+    name: "Recommendation System",
+    description:
+      "Machine learning recommendation engine using collaborative filtering and similarity-based algorithms with a full model training and evaluation pipeline.",
+    tech: [
+      "Python",
+      "scikit-learn",
+      "Collaborative Filtering",
+      "NumPy",
+      "Pandas",
+    ],
+    problem:
+      "Users needed personalised content recommendations without expensive deep learning infrastructure.",
+    learned:
+      "Collaborative filtering techniques, feature engineering, similarity metrics, and end-to-end ML evaluation pipelines.",
+    icon: import.meta.env.BASE_URL + "svg/others/proj-ai-predict.svg",
   },
   {
     id: "proj-14",
