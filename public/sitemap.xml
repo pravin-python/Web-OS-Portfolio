@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
   <!-- Homepage / Desktop -->
   <url>
     <loc>https://pravin-python.github.io/Web-OS-Portfolio/desktop</loc>
-    <lastmod>2026-02-24</lastmod>
+    <lastmod>2026-04-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -11,7 +12,7 @@
   <!-- About Me / Developer Profile -->
   <url>
     <loc>https://pravin-python.github.io/Web-OS-Portfolio/about</loc>
-    <lastmod>2026-02-24</lastmod>
+    <lastmod>2026-04-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -19,47 +20,51 @@
   <!-- Contact Center -->
   <url>
     <loc>https://pravin-python.github.io/Web-OS-Portfolio/contact</loc>
-    <lastmod>2026-02-24</lastmod>
+    <lastmod>2026-04-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-  </url>
-
-  <!-- Games -->
-  <url>
-    <loc>https://pravin-python.github.io/Web-OS-Portfolio/games/snake</loc>
-    <lastmod>2026-02-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://pravin-python.github.io/Web-OS-Portfolio/games/tictactoe</loc>
-    <lastmod>2026-02-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://pravin-python.github.io/Web-OS-Portfolio/games/2048</loc>
-    <lastmod>2026-02-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
   </url>
 
   <!-- AI & Research Tools -->
   <url>
     <loc>https://pravin-python.github.io/Web-OS-Portfolio/ai-predictor</loc>
-    <lastmod>2026-02-24</lastmod>
+    <lastmod>2026-04-12</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pravin-python.github.io/Web-OS-Portfolio/ml-lab</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pravin-python.github.io/Web-OS-Portfolio/ml-calculator</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pravin-python.github.io/Web-OS-Portfolio/ml-studio</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pravin-python.github.io/Web-OS-Portfolio/dsa-lab</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://pravin-python.github.io/Web-OS-Portfolio/datasets</loc>
-    <lastmod>2026-02-24</lastmod>
+    <lastmod>2026-04-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://pravin-python.github.io/Web-OS-Portfolio/model-logs</loc>
-    <lastmod>2026-02-24</lastmod>
+    <lastmod>2026-04-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -67,51 +72,61 @@
   <!-- Security -->
   <url>
     <loc>https://pravin-python.github.io/Web-OS-Portfolio/security</loc>
-    <lastmod>2026-02-24</lastmod>
+    <lastmod>2026-04-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+
+  <!-- Games -->
+  <url>
+    <loc>https://pravin-python.github.io/Web-OS-Portfolio/games/snake</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://pravin-python.github.io/Web-OS-Portfolio/games/tictactoe</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://pravin-python.github.io/Web-OS-Portfolio/games/phantom-ttt</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://pravin-python.github.io/Web-OS-Portfolio/games/2048</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
 
   <!-- System Tools -->
   <url>
     <loc>https://pravin-python.github.io/Web-OS-Portfolio/terminal</loc>
-    <lastmod>2026-02-24</lastmod>
+    <lastmod>2026-04-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://pravin-python.github.io/Web-OS-Portfolio/files</loc>
-    <lastmod>2026-02-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://pravin-python.github.io/Web-OS-Portfolio/notes</loc>
-    <lastmod>2026-02-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://pravin-python.github.io/Web-OS-Portfolio/system-logs</loc>
-    <lastmod>2026-02-24</lastmod>
+    <lastmod>2026-04-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
-
-  <!-- DSA Lab — Data Structures & Algorithms Explorer -->
   <url>
-    <loc>https://pravin-python.github.io/Web-OS-Portfolio/dsa-lab</loc>
-    <lastmod>2026-03-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://pravin-python.github.io/Web-OS-Portfolio/notes</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
   </url>
-
-  <!-- ML Lab — Machine Learning Playground -->
   <url>
-    <loc>https://pravin-python.github.io/Web-OS-Portfolio/ml-lab</loc>
-    <lastmod>2026-03-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://pravin-python.github.io/Web-OS-Portfolio/system-logs</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
   </url>
 
 </urlset>
