@@ -20,11 +20,7 @@ export const OSRouter: React.FC = () => {
     const pathname = location.pathname;
 
     // Skip desktop route and already-processed paths
-    if (
-      pathname === "/os/desktop" ||
-      pathname === "/os" ||
-      pathname === "/os/"
-    ) {
+    if (pathname === "/desktop" || pathname === "/" || pathname === "") {
       lastProcessedPath.current = pathname;
       isInitialMount.current = false;
       return;
@@ -70,7 +66,7 @@ export const OSRouter: React.FC = () => {
       appData[key] = value;
     });
 
-    // Parse path params (e.g. /os/notes/123 → deepLinkId: 123)
+    // Parse path params (e.g. /notes/123 → deepLinkId: 123)
     const routeApp = Object.values(APP_REGISTRY).find((app) =>
       pathname.startsWith(app.route),
     );

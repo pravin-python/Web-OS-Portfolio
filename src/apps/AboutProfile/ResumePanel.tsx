@@ -11,53 +11,12 @@ export const ResumePanel: React.FC = () => {
   const p = PROFILE_INFO;
 
   const handleDownload = () => {
-    const lines: string[] = [];
-    lines.push(p.name);
-    lines.push(p.titles.join(" | "));
-    lines.push(p.tagline);
-    lines.push(
-      `Email: ${p.email}  |  GitHub: ${p.github}  |  LinkedIn: ${p.linkedin}`,
-    );
-    lines.push("");
-    lines.push("=== EDUCATION ===");
-    EDUCATION.forEach((e) => {
-      lines.push(`${e.degree} — ${e.institute} (${e.years})`);
-      lines.push(`  Subjects: ${e.subjects.join(", ")}`);
-      lines.push("");
-    });
-    lines.push("=== EXPERIENCE ===");
-    CAREER_TIMELINE.forEach((c) => {
-      lines.push(`${c.role} — ${c.company} (${c.duration})`);
-      c.responsibilities.forEach((r) => lines.push(`  • ${r}`));
-      lines.push(`  Tools: ${c.tools.join(", ")}`);
-      lines.push("");
-    });
-    lines.push("=== SKILLS ===");
-    SKILLS.forEach((cat) => {
-      lines.push(
-        `${cat.category}: ${cat.skills.map((s) => s.name).join(", ")}`,
-      );
-    });
-    lines.push("");
-    lines.push("=== PROJECTS ===");
-    PROJECTS.forEach((proj) => {
-      lines.push(`${proj.name}`);
-      lines.push(`  ${proj.description}`);
-      lines.push(`  Tech: ${proj.tech.join(", ")}`);
-      lines.push("");
-    });
-
-    const blob = new Blob([lines.join("\n")], {
-      type: "text/plain;charset=utf-8",
-    });
-    const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
-    a.href = url;
-    a.download = `${p.name.replace(/\s+/g, "_")}_Resume.txt`;
+    a.href = import.meta.env.BASE_URL + "Pravin_Prajapati_Resume.pdf";
+    a.download = "Pravin_Prajapati_Resume.pdf";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    URL.revokeObjectURL(url);
   };
 
   return (

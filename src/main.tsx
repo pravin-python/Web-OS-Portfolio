@@ -9,7 +9,7 @@ window.addEventListener("contextmenu", (e) => e.preventDefault());
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/Web-OS-Portfolio">
       <App />
     </BrowserRouter>
   </StrictMode>,

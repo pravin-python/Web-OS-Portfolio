@@ -73,7 +73,7 @@ export const BaseWindow: React.FC<BaseWindowProps> = ({ window, children }) => {
     closeWindow(window.id);
     const appDef = APP_REGISTRY[window.appType];
     if (appDef && location.pathname.startsWith(appDef.route)) {
-      navigate("/os/desktop", { replace: true });
+      navigate("/desktop", { replace: true });
     }
   };
 

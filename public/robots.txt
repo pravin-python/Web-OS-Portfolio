@@ -1,11 +1,5 @@
 User-agent: *
 Allow: /
 
-# Sitemaps
+# Sitemap
 Sitemap: https://pravin-python.github.io/Web-OS-Portfolio/sitemap.xml
-
-# Crawl-delay (optional, be polite)
-Crawl-delay: 1
-
-# Block non-essential assets from being indexed
-Disallow: /assets/

@@ -66,7 +66,7 @@ export const ExperienceGraph: React.FC = () => {
             alt="icon"
             className="profile-svg-icon "
             draggable="false"
-            src="/svg/system/dataset.svg"
+            src={`${import.meta.env.BASE_URL}svg/system/dataset.svg`}
           />
         </span>{" "}
         Experience Graph

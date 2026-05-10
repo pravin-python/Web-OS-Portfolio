@@ -46,7 +46,7 @@ export const TechStack: React.FC = () => {
             alt="icon"
             className="profile-svg-icon "
             draggable="false"
-            src="/svg/system/settings.svg"
+            src={`${import.meta.env.BASE_URL}svg/system/settings.svg`}
           />
         </span>{" "}
         Tech Stack Radar

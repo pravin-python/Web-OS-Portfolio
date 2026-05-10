@@ -10,7 +10,7 @@ export const LearningRoadmap: React.FC = () => (
           alt="icon"
           className="profile-svg-icon "
           draggable="false"
-          src="/svg/apps/experiments.svg"
+          src={`${import.meta.env.BASE_URL}svg/apps/experiments.svg`}
         />
       </span>{" "}
       Learning Roadmap

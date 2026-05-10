@@ -53,12 +53,14 @@ export const Icon: React.FC<IconProps> = ({
   size = 24,
   className = "",
 }) => {
-  const [svg, setSvg] = useState(() => svgCache.get(`/svg/${name}.svg`) ?? "");
+  const [svg, setSvg] = useState(
+    () => svgCache.get(`${import.meta.env.BASE_URL}svg/${name}.svg`) ?? "",
+  );
   const containerRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     let cancelled = false;
-    const path = `/svg/${name}.svg`;
+    const path = `${import.meta.env.BASE_URL}svg/${name}.svg`;
 
     // If already cached, set immediately
     if (svgCache.has(path)) {

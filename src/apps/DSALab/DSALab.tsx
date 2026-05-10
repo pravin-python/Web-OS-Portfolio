@@ -266,7 +266,7 @@ const TopicPanel: React.FC<TopicPanelProps> = ({
           onClick={() => setCodeLang("python")}
         >
           <img
-            src="/svg/language/python.svg"
+            src={`${import.meta.env.BASE_URL}svg/language/python.svg`}
             alt="Python"
             style={{ width: 25, height: 25 }}
           />{" "}
@@ -277,7 +277,7 @@ const TopicPanel: React.FC<TopicPanelProps> = ({
           onClick={() => setCodeLang("java")}
         >
           <img
-            src="/svg/language/java.svg"
+            src={`${import.meta.env.BASE_URL}svg/language/java.svg`}
             alt="Java"
             style={{ width: 25, height: 25 }}
           />{" "}

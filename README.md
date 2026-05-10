@@ -1,127 +1,157 @@
-# Web-OS Portfolio Simulator (Frontend-Only Edition)
+# 🖥️ Web-OS Portfolio — Interactive Developer Portfolio
 
-A robust, production-grade Web-based Operating System Simulator designed as a portfolio showcase. This project is a **100% frontend-only static application** built with React, TypeScript, and TailwindCSS, managing the Window Desktop environment entirely in the browser.
+> A fully interactive **Operating System-style portfolio** hosted on GitHub Pages.  
+> 🌐 **Live Demo:** [pravin-python.github.io/Web-OS-Portfolio](https://pravin-python.github.io/Web-OS-Portfolio)
 
-There is **no backend, no database, and no server-side processing**. All state is managed locally via `localStorage` and static JSON files, making it incredibly fast and deployable anywhere.
+A real desktop OS experience in the browser — built with **React, TypeScript, Zustand, and TailwindCSS v4**. Drag windows, use the terminal, open apps, play games, and explore my work — all without a backend.
 
-## 🚀 Features
+---
 
-- **Window Management**: Fully functional draggable, resizable, and minimizable windows with Z-index handling.
-- **Virtual File System**: A simulated file system reading dynamically from static JSON (`src/data/filesystem.json`).
-- **Interactive Terminal**: An integrated command-line interface capable of executing simulated commands (e.g., `cd`, `ls`, `help`, `cat`, `run snake`).
-- **Core OS Applications**:
-  - File Explorer (JSON-based read-only view)
-  - Notepad (saves locally to `localStorage`)
-  - Games: Snake, Tic Tac Toe, and 2048
-- **Customization**: Glassmorphism UI, context-menu support on the desktop, and persistent state across reloads.
-- **Frontend Architecture**: Pure static application. Role-based access and backend APIs have been completely removed for maximum simplicity and portability.
+## ✨ Features
 
-## 🛠️ Technology Stack
+### 🗂️ Desktop Environment
 
-**Frontend**:
+- **Window Manager** — Draggable, resizable, minimizable, maximizable windows with macOS-style traffic light buttons
+- **Taskbar & Dock** — Running apps shown in taskbar with minimize/restore support
+- **System Tray** — Clock, notifications, and quick-access menu
+- **Right-click Context Menu** — Desktop-level actions
+- **Mobile Support** — Responsive layout with mobile orientation guard and popup
 
-- React 19 + TypeScript
-- Vite
-- Zustand (State Management)
-- TailwindCSS v4
-- `react-rnd` (Window interactions)
-- Lucide React (Icons)
-- LocalStorage Engine for state persistence
+### 📱 Installed Applications
+
+| App                                                                                                              | Route              | Description                                                               |
+| ---------------------------------------------------------------------------------------------------------------- | ------------------ | ------------------------------------------------------------------------- |
+| <img src="https://pravin-python.github.io/Web-OS-Portfolio/svg/system/about.svg" width="20"> About Me            | `/about`           | Developer profile — skills, education, experience                         |
+| <img src="https://pravin-python.github.io/Web-OS-Portfolio/svg/system/contact.svg" width="20"> Contact Center    | `/contact`         | Email, LinkedIn, GitHub, social links                                     |
+| <img src="https://pravin-python.github.io/Web-OS-Portfolio/svg/apps/predictor.svg" width="20"> AI Predictor      | `/ai-predictor`    | ML model-powered interactive predictions                                  |
+| <img src="https://pravin-python.github.io/Web-OS-Portfolio/svg/apps/model-logs.svg" width="20"> AI Research Lab  | `/model-logs`      | Model experiments and training logs                                       |
+| <img src="https://pravin-python.github.io/Web-OS-Portfolio/svg/system/dataset.svg" width="20"> Datasets          | `/datasets`        | Dataset viewer for ML experiments                                         |
+| <img src="https://pravin-python.github.io/Web-OS-Portfolio/svg/apps/dsa-lab.svg" width="20"> DSA Lab             | `/dsa-lab`         | Interactive Data Structures & Algorithms explorer with Python & Java code |
+| <img src="https://pravin-python.github.io/Web-OS-Portfolio/svg/apps/ml-lab.svg" width="20"> ML Lab               | `/ml-lab`          | Machine Learning learning lab — concepts, algorithms, visualizations      |
+| <img src="https://pravin-python.github.io/Web-OS-Portfolio/svg/system/security.svg" width="20"> Security Toolkit | `/security`        | URL/phishing detection, hashing, encryption tools                         |
+| <img src="https://pravin-python.github.io/Web-OS-Portfolio/svg/system/terminal.svg" width="20"> Terminal         | `/terminal`        | Integrated CLI with OS commands (`ls`, `cd`, `run snake`, `help`, etc.)   |
+| <img src="https://pravin-python.github.io/Web-OS-Portfolio/svg/system/folder.svg" width="20"> Files              | `/files`           | Virtual file system explorer (JSON-based)                                 |
+| <img src="https://pravin-python.github.io/Web-OS-Portfolio/svg/apps/notepad.svg" width="20"> Notepad             | `/notes`           | Local notepad with `localStorage` persistence                             |
+| <img src="https://pravin-python.github.io/Web-OS-Portfolio/svg/system/log.svg" width="20"> System Logs           | `/system-logs`     | Real-time OS event log viewer                                             |
+| <img src="https://pravin-python.github.io/Web-OS-Portfolio/svg/apps/snake.svg" width="20"> Neural Snake          | `/games/snake`     | Cyberpunk snake game with neon visuals                                    |
+| <img src="https://pravin-python.github.io/Web-OS-Portfolio/svg/apps/tictactoe.svg" width="20"> TicTacToe AI      | `/games/tictactoe` | Minimax algorithm AI opponent                                             |
+| <img src="https://pravin-python.github.io/Web-OS-Portfolio/svg/apps/game-2048.svg" width="20"> Logic Grid 2048   | `/games/2048`      | Classic 2048 sliding puzzle                                               |
+| <img src="https://pravin-python.github.io/Web-OS-Portfolio/svg/system/trash.svg" width="20"> Trash               | `/trash`           | Trash bin for deleted virtual files                                       |
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer               | Technology                        |
+| ------------------- | --------------------------------- |
+| Framework           | React 19 + TypeScript             |
+| Build Tool          | Vite                              |
+| State Management    | Zustand                           |
+| Styling             | TailwindCSS v4                    |
+| Routing             | React Router v7 (`BrowserRouter`) |
+| Window Interactions | `react-rnd`                       |
+| Icons               | Lucide React + Custom SVGs        |
+| Persistence         | `localStorage`                    |
+| Hosting             | GitHub Pages                      |
+
+---
+
+## 🌐 Live Deployment
+
+**URL:** [https://pravin-python.github.io/Web-OS-Portfolio](https://pravin-python.github.io/Web-OS-Portfolio)
+
+This app uses **React Router `BrowserRouter`** with clean paths (no `#`).  
+A custom `public/404.html` handles GitHub Pages SPA deep-link redirects, allowing direct URL access to any route like `/about` or `/dsa-lab`.
+
+---
 
 ## 📦 Local Development
 
-### 1. Clone the repository
+### 1. Clone
 
 ```bash
 git clone https://github.com/pravin-python/Web-OS-Portfolio.git
-cd Web-OS-Portfolio/frontend
+cd Web-OS-Portfolio
 ```
 
-### 2. Install dependencies
+### 2. Install
 
 ```bash
 npm install
 ```
 
-### 3. Run Development Server
+### 3. Run
 
 ```bash
 npm run dev
 ```
 
-The frontend will be available at `http://localhost:5173`.
+App runs at: `http://localhost:5173/Web-OS-Portfolio/`
 
-## 🚀 Build & Deploy Instructions (Static Hosting)
+---
 
-Because this project is 100% static, it can be deployed on any static hosting provider like GitHub Pages, Vercel, Netlify, or Cloudflare Pages.
-
-### Local Build
+## 🚀 Build & Deploy
 
 ```bash
-cd frontend
 npm run build
 ```
 
-This generates a `dist/` folder containing the compiled, minified HTML, CSS, JS, and JSON data files.
+Generates a `dist/` folder. Deploy it to GitHub Pages with:
 
-### 🟢 Deploying to Vercel
+```bash
+npm run deploy
+```
 
-1. Push your code to GitHub.
-2. Log in to [Vercel](https://vercel.com/) and create a "New Project".
-3. Import your repository.
-4. Set the Framework Preset to **Vite** (Vercel usually detects this automatically).
-5. Set the Root Directory to `frontend`.
-6. Click **Deploy**.
+> Requires `gh-pages` and a `deploy` script in `package.json`.
 
-### 🟢 Deploying to Netlify
-
-1. Push your code to GitHub.
-2. Log in to [Netlify](https://www.netlify.com/) and click "Add new site" > "Import an existing project".
-3. Connect your GitHub repository.
-4. Base directory: `frontend`
-5. Build command: `npm run build`
-6. Publish directory: `frontend/dist`
-7. Click **Deploy site**.
-
-### 🟢 Deploying to GitHub Pages
-
-1. Install the `gh-pages` package:
-
-   ```bash
-   cd frontend
-   npm install gh-pages --save-dev
-   ```
-
-2. Update `frontend/package.json` with a homepage URL:
-
-   ```json
-   "homepage": "https://<your-github-username>.github.io/Web-OS-Portfolio",
-   ```
-
-   _Note: If deploying to a custom domain or apex, just use `.` or the absolute path._
-
-3. Add deploy scripts to `package.json`:
-
-   ```json
-   "scripts": {
-     "predeploy": "npm run build",
-     "deploy": "gh-pages -d dist",
-     ...
-   }
-   ```
-
-4. Run the deploy command:
-
-   ```bash
-   npm run deploy
-   ```
+---
 
 ## 📂 Project Structure
 
-- `frontend/src/apps/`: Individual OS applications (File Explorer, Terminal, Games).
-- `frontend/src/core/`: OS system components (Desktop, Taskbar, Window Manager).
-- `frontend/src/data/`: Static JSON data serving as the "database" (Filesystem, Projects, Skills, etc.).
-- `frontend/src/services/`: Local service wrappers (`storage.ts` for localStorage, `filesystem.ts` for JSON parsing).
+```
+src/
+├── apps/               # Individual applications (Terminal, Games, DSALab, MLLab, etc.)
+├── core/               # OS core (appRegistry, appLauncher, state, device detection)
+│   ├── appRegistry.ts  # All app definitions & routes
+│   ├── appLauncher.ts  # App launch logic
+│   └── state/          # Zustand stores (windows, notifications, etc.)
+├── components/         # Shared UI components (Window, Taskbar, Dock, Tray, etc.)
+├── layouts/            # DesktopLayout — wraps all apps in the OS shell
+├── router/             # OSRouter — bridges URL changes to window management
+├── hooks/              # Custom hooks (useDraggable, etc.)
+└── data/               # Static JSON data (filesystem, projects, skills)
+
+public/
+├── svg/                # App icons (system/, apps/)
+├── 404.html            # GitHub Pages SPA redirect handler
+├── manifest.json       # PWA manifest
+└── sitemap.xml         # SEO sitemap
+```
+
+---
+
+## 🔒 No Backend Required
+
+This is a **100% frontend-only static application**.
+
+- No server, no database, no API calls
+- All data served from static JSON files
+- State persisted via `localStorage`
+- Deployable on any static host (GitHub Pages, Vercel, Netlify)
+
+---
+
+## 👨‍💻 Author
+
+**Pravin Prajapati** — Freelance Full-Stack Developer  
+Python · Java · AI Agent Development · Web Scraping · PHP eCommerce
+
+- 🌐 [Portfolio](https://pravin-python.github.io/Web-OS-Portfolio)
+- 💼 [LinkedIn](https://linkedin.com/in/pravin-prajapati-706722281)
+- 🐙 [GitHub](https://github.com/pravin-python)
+- 📧 pravin.prajapati0126@gmail.com
+
+---
 
 ## 📄 License
 

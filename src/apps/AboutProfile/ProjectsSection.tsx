@@ -17,7 +17,7 @@ export const ProjectsSection: React.FC = () => {
             alt="icon"
             className="profile-svg-icon "
             draggable="false"
-            src="/svg/system/folder.svg"
+            src={`${import.meta.env.BASE_URL}svg/system/folder.svg`}
           />
         </span>{" "}
         Projects
