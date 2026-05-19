@@ -64,7 +64,7 @@ const DATASETS = [...LOCAL_DATASETS, ...API_DATASETS];
 
 const PER_PAGE = 8;
 
-function parseJSONToCSVData(data: any[]): CSVData {
+function parseJSONToCSVData(data: Record<string, unknown>[]): CSVData {
   if (!data || data.length === 0)
     return { headers: [], rows: [], totalRows: 0 };
   const headers = Object.keys(data[0]);
@@ -128,11 +128,11 @@ export const DatasetViewer: React.FC = () => {
   const activeDataset = DATASETS[activeTab];
 
   const raw = useMemo(() => {
-    if (activeDataset.type === "local") {
-      const content = readByPath((activeDataset as any).path);
+    if (activeDataset.type === "local" && "path" in activeDataset) {
+      const content = readByPath(activeDataset.path);
       return content ? parseCSV(content) : null;
-    } else {
-      const key = (activeDataset as any).key;
+    } else if (activeDataset.type === "api" && "key" in activeDataset) {
+      const key = activeDataset.key;
       if (apiDataMap[key]) return apiDataMap[key];
       const stored = localStorage.getItem(key);
       if (stored) {
@@ -144,7 +144,8 @@ export const DatasetViewer: React.FC = () => {
       }
       return null;
     }
-  }, [activeTab, activeDataset, apiDataMap]);
+    return null;
+  }, [activeDataset, apiDataMap]);
 
   const filtered = useMemo(() => {
     if (!raw) return null;
