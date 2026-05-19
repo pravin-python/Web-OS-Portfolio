@@ -22,7 +22,7 @@ describe("pyodideService", () => {
     });
 
     // Attach destroy to the mock function
-    (runMlTaskProxy as any).destroy = destroyMock;
+    (runMlTaskProxy as unknown as Record<string, unknown>).destroy = destroyMock;
 
     const globalsGetMock = vi.fn().mockReturnValue(runMlTaskProxy);
 
@@ -33,9 +33,9 @@ describe("pyodideService", () => {
       },
     };
 
-    // Inject mock into private property using any
-    (pyodideService as any).pyodide = pyodideMock;
-    (pyodideService as any).status = "ready";
+    // Inject mock into private property using unknown
+    (pyodideService as unknown as Record<string, unknown>).pyodide = pyodideMock;
+    (pyodideService as unknown as Record<string, unknown>).status = "ready";
 
     const config = {
       dataset_id: "test_ds",
@@ -68,14 +68,14 @@ describe("pyodideService", () => {
     const runMlTaskProxy = vi.fn().mockImplementation(() => {
       return JSON.stringify({ error: "Test python error" });
     });
-    (runMlTaskProxy as any).destroy = destroyMock;
+    (runMlTaskProxy as unknown as Record<string, unknown>).destroy = destroyMock;
 
-    (pyodideService as any).pyodide = {
+    (pyodideService as unknown as Record<string, unknown>).pyodide = {
       globals: {
         get: () => runMlTaskProxy,
       },
     };
-    (pyodideService as any).status = "ready";
+    (pyodideService as unknown as Record<string, unknown>).status = "ready";
 
     const config = {
       dataset_id: "test_ds",
