@@ -67,7 +67,6 @@ class PyodideService {
       await this.pyodide.runPythonAsync(mlEngineCode);
 
       this.setStatus("ready");
-      console.log("[PyodideService] Successfully initialized ML Engine");
     } catch (err) {
       console.error("[PyodideService] Initialization failed:", err);
       this.setStatus("error");
