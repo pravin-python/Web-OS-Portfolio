@@ -19,12 +19,14 @@ import { MLCalculator } from "../apps/MLCalculator/MLCalculator";
 import { MLStudio } from "../apps/MLStudio/MLStudio";
 import { PhantomTTT } from "../apps/PhantomTTT/PhantomTTT";
 
+import type { WindowInstance } from "./state/useWindowStore";
+
 export interface AppDefinition {
   key: string;
   title: string;
   icon: string;
 
-  component: ComponentType;
+  component: ComponentType<{ window?: WindowInstance }>;
   route: string;
   defaultSize: { width: number; height: number };
   showOnDesktop: boolean;
@@ -285,7 +287,7 @@ export function resolveRouteToAppKey(pathname: string): string | null {
  * Get the component for an app key.
  */
 
-export function getAppComponent(appKey: string): ComponentType {
+export function getAppComponent(appKey: string): ComponentType<{ window?: WindowInstance }> {
   const app = APP_REGISTRY[appKey];
   return app?.component || (() => null);
 }
