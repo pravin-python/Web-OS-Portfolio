@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { paginateData, CSVData } from '../services/dataService';
+import { paginateData, type CSVData } from '../services/dataService';
 
 describe('paginateData', () => {
   const mockData: CSVData = {
