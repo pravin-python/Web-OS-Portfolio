@@ -13,6 +13,7 @@ export const TelegramBotPanel: React.FC = () => {
     "idle" | "sending" | "success" | "error"
   >("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [isCooldown, setIsCooldown] = useState(false);
   const cooldownRef = useRef(false);
 
   const isValid =
@@ -21,7 +22,7 @@ export const TelegramBotPanel: React.FC = () => {
     message.length <= MAX_MSG_LENGTH;
 
   const handleSend = async () => {
-    if (!isValid || cooldownRef.current) return;
+    if (!isValid || isCooldown) return;
 
     if (!CONTACT.botToken || !CONTACT.telegram.chatId) {
       setStatus("error");
@@ -32,8 +33,10 @@ export const TelegramBotPanel: React.FC = () => {
     }
 
     // Rate limit
+    setIsCooldown(true);
     cooldownRef.current = true;
     setTimeout(() => {
+      setIsCooldown(false);
       cooldownRef.current = false;
     }, RATE_LIMIT_MS);
 
@@ -78,9 +81,13 @@ export const TelegramBotPanel: React.FC = () => {
       setEmail("");
       setMessage("");
       setTimeout(() => setStatus("idle"), 4000);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setStatus("error");
-      setErrorMsg(err.message || "Network error — please try again.");
+      setErrorMsg(
+        err instanceof Error && err.message
+          ? err.message
+          : "Network error — please try again."
+      );
     }
   };
 
@@ -164,7 +171,7 @@ export const TelegramBotPanel: React.FC = () => {
       {/* Send button */}
       <button
         onClick={handleSend}
-        disabled={!isValid || status === "sending" || cooldownRef.current}
+        disabled={!isValid || status === "sending" || isCooldown}
         className={`w-full py-2.5 rounded-lg text-sm font-semibold transition-all flex items-center justify-center shadow-sm ${
           !isValid || status === "sending"
             ? "bg-slate-200 dark:bg-slate-700 text-slate-400 cursor-not-allowed"
