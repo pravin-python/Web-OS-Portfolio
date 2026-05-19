@@ -13,6 +13,7 @@ export const TelegramBotPanel: React.FC = () => {
     "idle" | "sending" | "success" | "error"
   >("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [inCooldown, setInCooldown] = useState(false);
   const cooldownRef = useRef(false);
 
   const isValid =
@@ -33,8 +34,10 @@ export const TelegramBotPanel: React.FC = () => {
 
     // Rate limit
     cooldownRef.current = true;
+    setInCooldown(true);
     setTimeout(() => {
       cooldownRef.current = false;
+      setInCooldown(false);
     }, RATE_LIMIT_MS);
 
     setStatus("sending");
@@ -164,7 +167,7 @@ export const TelegramBotPanel: React.FC = () => {
       {/* Send button */}
       <button
         onClick={handleSend}
-        disabled={!isValid || status === "sending" || cooldownRef.current}
+        disabled={!isValid || status === "sending" || inCooldown}
         className={`w-full py-2.5 rounded-lg text-sm font-semibold transition-all flex items-center justify-center shadow-sm ${
           !isValid || status === "sending"
             ? "bg-slate-200 dark:bg-slate-700 text-slate-400 cursor-not-allowed"
