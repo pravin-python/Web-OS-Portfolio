@@ -168,7 +168,7 @@ function freshState(): GameState {
 /* ═══════════════════════════════════════════════════
    Component
    ═══════════════════════════════════════════════════ */
-export const PhantomTTT: React.FC<{ window: WindowInstance }> = () => {
+export const PhantomTTT: React.FC<{ window?: WindowInstance }> = () => {
   const [mode, setMode] = useState<GameMode>("pvp");
   const [difficulty, setDifficulty] = useState<AIDifficulty>("hard");
   const [phase, setPhase] = useState<Phase>("idle");
