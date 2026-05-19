@@ -24,8 +24,7 @@ export interface WindowInstance {
   preMaxSize?: Size;
   minimizeTarget?: { x: number; y: number } | null;
   zIndex: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  appData?: any;
+  appData?: Record<string, unknown>;
 }
 
 interface WindowState {
@@ -36,8 +35,7 @@ interface WindowState {
     appType: string,
     position?: Position,
     size?: Size,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    appData?: any,
+    appData?: Record<string, unknown>,
   ) => void;
   closeWindow: (id: string) => void;
   minimizeWindow: (id: string) => void;
@@ -48,8 +46,7 @@ interface WindowState {
   updateWindowSize: (id: string, size: Size) => void;
   minimizeAllWindows: () => void;
   repositionAllWindows: () => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  updateWindowAppData: (id: string, appData: any) => void;
+  updateWindowAppData: (id: string, appData: Record<string, unknown>) => void;
 }
 
 const TASKBAR_HEIGHT = 28; // menubar
