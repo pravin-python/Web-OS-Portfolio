@@ -25,7 +25,8 @@ export interface WindowInstance {
   minimizeTarget?: { x: number; y: number } | null;
   zIndex: number;
 
-  appData?: unknown;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  appData?: any;
 }
 
 interface WindowState {
@@ -37,7 +38,8 @@ interface WindowState {
     position?: Position,
     size?: Size,
 
-    appData?: unknown,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    appData?: any,
   ) => void;
   closeWindow: (id: string) => void;
   minimizeWindow: (id: string) => void;
@@ -49,7 +51,8 @@ interface WindowState {
   minimizeAllWindows: () => void;
   repositionAllWindows: () => void;
 
-  updateWindowAppData: (id: string, appData: unknown) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  updateWindowAppData: (id: string, appData: any) => void;
 }
 
 const TASKBAR_HEIGHT = 28; // menubar
@@ -353,7 +356,13 @@ export const useWindowStore = create<WindowState>()(
         set((state) => ({
           windows: state.windows.map((win) =>
             win.id === id
-              ? { ...win, appData: { ...win.appData, ...appData } }
+              ? {
+                  ...win,
+                  appData: {
+                    ...((win.appData as Record<string, unknown>) || {}),
+                    ...((appData as Record<string, unknown>) || {}),
+                  },
+                }
               : win,
           ),
         }));
