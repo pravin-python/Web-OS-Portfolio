@@ -23,8 +23,8 @@ export interface AppDefinition {
   key: string;
   title: string;
   icon: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  component: ComponentType<any>;
+
+  component: ComponentType;
   route: string;
   defaultSize: { width: number; height: number };
   showOnDesktop: boolean;
@@ -236,8 +236,8 @@ export const APP_REGISTRY: Record<string, AppDefinition> = {
     key: "settings",
     title: "Settings",
     icon: "system/settings",
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    component: (() => null) as any,
+
+    component: () => null,
     route: "/settings",
     defaultSize: { width: 600, height: 450 },
     showOnDesktop: false,
@@ -284,8 +284,8 @@ export function resolveRouteToAppKey(pathname: string): string | null {
 /**
  * Get the component for an app key.
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function getAppComponent(appKey: string): ComponentType<any> {
+
+export function getAppComponent(appKey: string): ComponentType {
   const app = APP_REGISTRY[appKey];
   return app?.component || (() => null);
 }
