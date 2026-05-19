@@ -283,7 +283,9 @@ export function resolveRouteToAppKey(pathname: string): string | null {
 /**
  * Get the component for an app key.
  */
-export function getAppComponent(appKey: string): ComponentType<{ window?: WindowInstance }> {
+export function getAppComponent(
+  appKey: string,
+): ComponentType<{ window?: WindowInstance }> {
   const app = APP_REGISTRY[appKey];
   return app?.component || (() => null);
 }
