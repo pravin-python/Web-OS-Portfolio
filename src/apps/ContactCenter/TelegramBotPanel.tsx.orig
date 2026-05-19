@@ -32,9 +32,9 @@ export const TelegramBotPanel: React.FC = () => {
     }
 
     // Rate limit
-    setCooldown(true);
+    cooldown = true;
     setTimeout(() => {
-      setCooldown(false);
+      cooldown = false;
     }, RATE_LIMIT_MS);
 
     setStatus("sending");

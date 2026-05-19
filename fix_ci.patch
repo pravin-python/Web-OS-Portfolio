@@ -1,0 +1,34 @@
+--- a/src/apps/ContactCenter/TelegramBotPanel.tsx
++++ b/src/apps/ContactCenter/TelegramBotPanel.tsx
+@@ -35,9 +35,9 @@
+     }
+
+     // Rate limit
+-    cooldownRef.current = true;
++    setCooldown(true);
+     setTimeout(() => {
+-      cooldownRef.current = false;
++      setCooldown(false);
+     }, RATE_LIMIT_MS);
+
+     setStatus("sending");
+@@ -79,9 +79,9 @@
+       setMessage("");
+       setTimeout(() => setStatus("idle"), 4000);
+-    } catch (err: any) {
++    } catch (err: unknown) {
+       setStatus("error");
+-      setErrorMsg(err.message || "Network error — please try again.");
++      setErrorMsg(err instanceof Error && err.message ? err.message : "Network error — please try again.");
+     }
+   };
+
+@@ -165,7 +165,7 @@
+       {/* Send button */}
+       <button
+         onClick={handleSend}
+-        disabled={!isValid || status === "sending" || cooldownRef.current}
++        disabled={!isValid || status === "sending" || cooldown}
+         className={`w-full py-2.5 rounded-lg text-sm font-semibold transition-all flex items-center justify-center shadow-sm ${
+           !isValid || status === "sending"
+             ? "bg-slate-200 dark:bg-slate-700 text-slate-400 cursor-not-allowed"

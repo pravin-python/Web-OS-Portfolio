@@ -1,0 +1,86 @@
+<<<<<<< SEARCH
+const LOCAL_DATASETS = [
+=======
+interface LocalDataset {
+  type: "local";
+  name: string;
+  path: string;
+}
+
+const LOCAL_DATASETS: LocalDataset[] = [
+>>>>>>> REPLACE
+<<<<<<< SEARCH
+const API_DATASETS = [
+=======
+interface ApiDataset {
+  type: "api";
+  name: string;
+  url: string;
+  key: string;
+}
+
+const API_DATASETS: ApiDataset[] = [
+>>>>>>> REPLACE
+<<<<<<< SEARCH
+const DATASETS = [...LOCAL_DATASETS, ...API_DATASETS];
+=======
+type Dataset = LocalDataset | ApiDataset;
+
+const DATASETS: Dataset[] = [...LOCAL_DATASETS, ...API_DATASETS];
+>>>>>>> REPLACE
+<<<<<<< SEARCH
+function parseJSONToCSVData(data: any[]): CSVData {
+  if (!data || data.length === 0)
+    return { headers: [], rows: [], totalRows: 0 };
+  const headers = Object.keys(data[0]);
+  const rows = data.map((item) =>
+    headers.map((h) => {
+      const val = item[h];
+=======
+function parseJSONToCSVData(data: unknown[]): CSVData {
+  if (!data || data.length === 0)
+    return { headers: [], rows: [], totalRows: 0 };
+  const headers = Object.keys(data[0] as Record<string, unknown>);
+  const rows = data.map((item) =>
+    headers.map((h) => {
+      const val = (item as Record<string, unknown>)[h];
+>>>>>>> REPLACE
+<<<<<<< SEARCH
+  const raw = useMemo(() => {
+    if (activeDataset.type === "local") {
+      const content = readByPath((activeDataset as any).path);
+      return content ? parseCSV(content) : null;
+    } else {
+      const key = (activeDataset as any).key;
+      if (apiDataMap[key]) return apiDataMap[key];
+      const stored = localStorage.getItem(key);
+      if (stored) {
+        try {
+          return JSON.parse(stored) as CSVData;
+        } catch {
+          return null;
+        }
+      }
+      return null;
+    }
+  }, [activeTab, activeDataset, apiDataMap]);
+=======
+  const raw = useMemo(() => {
+    if (activeDataset.type === "local") {
+      const content = readByPath(activeDataset.path);
+      return content ? parseCSV(content) : null;
+    } else {
+      const key = activeDataset.key;
+      if (apiDataMap[key]) return apiDataMap[key];
+      const stored = localStorage.getItem(key);
+      if (stored) {
+        try {
+          return JSON.parse(stored) as CSVData;
+        } catch {
+          return null;
+        }
+      }
+      return null;
+    }
+  }, [activeDataset, apiDataMap]);
+>>>>>>> REPLACE

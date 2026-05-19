@@ -1,0 +1,14 @@
+--- a/src/apps/ContactCenter/TelegramBotPanel.tsx
++++ b/src/apps/ContactCenter/TelegramBotPanel.tsx
+@@ -35,9 +35,9 @@
+     }
+
+     // Rate limit
+-    cooldownRef.current = true;
++    setCooldown(true);
+     setTimeout(() => {
+-      cooldownRef.current = false;
++      setCooldown(false);
+     }, RATE_LIMIT_MS);
+
+     setStatus("sending");

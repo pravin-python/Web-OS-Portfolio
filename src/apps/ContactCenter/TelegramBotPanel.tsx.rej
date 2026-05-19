@@ -1,0 +1,14 @@
+--- TelegramBotPanel.tsx
++++ TelegramBotPanel.tsx
+@@ -35,9 +35,9 @@
+     }
+
+     // Rate limit
+-    cooldownRef.current = true;
++    setCooldown(true);
+     setTimeout(() => {
+-      cooldownRef.current = false;
++      setCooldown(false);
+     }, RATE_LIMIT_MS);
+
+     setStatus("sending");
