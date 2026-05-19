@@ -78,9 +78,13 @@ export const TelegramBotPanel: React.FC = () => {
       setEmail("");
       setMessage("");
       setTimeout(() => setStatus("idle"), 4000);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setStatus("error");
-      setErrorMsg(err.message || "Network error — please try again.");
+      setErrorMsg(
+        err instanceof Error && err.message
+          ? err.message
+          : "Network error — please try again.",
+      );
     }
   };
 
@@ -164,7 +168,7 @@ export const TelegramBotPanel: React.FC = () => {
       {/* Send button */}
       <button
         onClick={handleSend}
-        disabled={!isValid || status === "sending" || cooldownRef.current}
+        disabled={!isValid || status === "sending"}
         className={`w-full py-2.5 rounded-lg text-sm font-semibold transition-all flex items-center justify-center shadow-sm ${
           !isValid || status === "sending"
             ? "bg-slate-200 dark:bg-slate-700 text-slate-400 cursor-not-allowed"

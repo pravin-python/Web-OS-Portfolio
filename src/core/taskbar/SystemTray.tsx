@@ -114,7 +114,7 @@ export const SystemTray: React.FC<SystemTrayProps> = ({ onClose }) => {
         } else {
           throw new Error("Fallback required");
         }
-      } catch (e) {
+      } catch {
         // Fallback to simulation if CORS fails for real world showcase capability
         finalDl = await mockSpeedTest(100, 300, setDownloadSpeed);
       }
@@ -140,7 +140,7 @@ export const SystemTray: React.FC<SystemTrayProps> = ({ onClose }) => {
         } else {
           throw new Error("Fallback required");
         }
-      } catch (e) {
+      } catch {
         // Fallback to simulation if CORS fails
         finalUl = await mockSpeedTest(40, 120, setUploadSpeed);
       }
