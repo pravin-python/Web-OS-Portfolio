@@ -27,7 +27,7 @@ export const SystemLogs: React.FC = () => {
       const entry = generateLogEntry();
       initial.push({ ...entry, id: logId++ });
     }
-    setLogs(initial);
+    setTimeout(() => setLogs(initial), 0);
   }, []);
 
   // Auto-append logs
