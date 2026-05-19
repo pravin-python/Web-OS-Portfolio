@@ -78,9 +78,13 @@ export const TelegramBotPanel: React.FC = () => {
       setEmail("");
       setMessage("");
       setTimeout(() => setStatus("idle"), 4000);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setStatus("error");
-      setErrorMsg(err.message || "Network error — please try again.");
+      setErrorMsg(
+        err instanceof Error && err.message
+          ? err.message
+          : "Network error — please try again.",
+      );
     }
   };
 
