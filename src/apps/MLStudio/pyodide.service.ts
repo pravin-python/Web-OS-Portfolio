@@ -87,13 +87,18 @@ class PyodideService {
     if (!this.pyodide) throw new Error("Pyodide not loaded");
 
     const jsonStr = JSON.stringify(config);
-    // Escape quotes to safely pass JSON string into python eval
-    const escapedStr = jsonStr.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
 
     // Call the python function
-    const resultJson = await this.pyodide.runPythonAsync(`
-run_ml_task("${escapedStr}")
-    `);
+    let runMlTaskProxy;
+    let resultJson;
+    try {
+      runMlTaskProxy = this.pyodide.globals.get("run_ml_task");
+      resultJson = runMlTaskProxy(jsonStr);
+    } finally {
+      if (runMlTaskProxy && typeof runMlTaskProxy.destroy === "function") {
+        runMlTaskProxy.destroy();
+      }
+    }
 
     const result = JSON.parse(resultJson);
     if (result.error) {
