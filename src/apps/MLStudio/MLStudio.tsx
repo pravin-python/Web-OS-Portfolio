@@ -10,7 +10,7 @@ import "./styles.css";
 /* ═══════════════════════════════════════════════════
    ML Studio — Main Container
    ═══════════════════════════════════════════════════ */
-export const MLStudio: React.FC = () => {
+export const MLStudio: React.FC<{ window?: WindowInstance }> = () => {
   /* ─── State ─── */
   const [pyStatus, setPyStatus] = useState<PyodideStatus>("loading");
   const [dataset, setDataset] = useState<DatasetConfig | null>(null);

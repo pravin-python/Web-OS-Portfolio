@@ -6,7 +6,7 @@ import { ScorePanel } from "./ScorePanel";
 import { GameControls } from "./GameControls";
 import { GameOverlay } from "./GameOverlay";
 
-export const TicTacToe: React.FC = () => {
+export const TicTacToe: React.FC<{ window?: WindowInstance }> = () => {
   const game = useTicTacToe();
 
   // Turn indicator text

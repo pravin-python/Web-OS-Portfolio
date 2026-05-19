@@ -14,7 +14,7 @@ import "./SecurityToolkit.css";
 
 type Tab = "password" | "hash" | "url" | "logs";
 
-export const SecurityToolkit: React.FC = () => {
+export const SecurityToolkit: React.FC<{ window?: WindowInstance }> = () => {
   const [tab, setTab] = useState<Tab>("password");
 
   return (

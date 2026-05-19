@@ -4,7 +4,7 @@ import "./DSALab.css";
 
 type CodeLang = "python" | "java";
 
-export const DSALab: React.FC = () => {
+export const DSALab: React.FC<{ window?: WindowInstance }> = () => {
   const [level, setLevel] = useState<Level | "all">("all");
   const [search, setSearch] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(null);

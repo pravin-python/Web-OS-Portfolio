@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { generateLogEntry } from "../../services/dataService";
+import type { WindowInstance } from "../../core/state/useWindowStore";
 import "./SystemLogs.css";
 
 interface LogEntry {
@@ -13,7 +14,7 @@ let logId = 1;
 
 const LEVEL_FILTER_OPTIONS = ["ALL", "INFO", "SUCCESS", "WARN", "ERROR"];
 
-export const SystemLogs: React.FC = () => {
+export const SystemLogs: React.FC<{ window?: WindowInstance }> = () => {
   const [logs, setLogs] = useState<LogEntry[]>(() => {
     const initial: LogEntry[] = [];
     for (let i = 0; i < 12; i++) {

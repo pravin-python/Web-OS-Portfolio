@@ -94,7 +94,7 @@ function parseJSONToCSVData(data: unknown[]): CSVData {
   return { headers, rows, totalRows: rows.length };
 }
 
-export const DatasetViewer: React.FC = () => {
+export const DatasetViewer: React.FC<{ window?: WindowInstance }> = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);

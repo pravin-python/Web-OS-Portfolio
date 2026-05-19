@@ -7,7 +7,7 @@ import {
 } from "../../services/filesystem";
 import type { FileNode } from "../../services/filesystem";
 
-export const FileExplorer: React.FC = () => {
+export const FileExplorer: React.FC<{ window?: WindowInstance }> = () => {
   const [currentFolderId, setCurrentFolderId] = useState<string | null>("root");
   const [historyStack, setHistoryStack] = useState<string[]>([]);
   const [selectedFile, setSelectedFile] = useState<FileNode | null>(null);

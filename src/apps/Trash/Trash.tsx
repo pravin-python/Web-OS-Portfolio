@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Trash: React.FC = () => {
+export const Trash: React.FC<{ window?: WindowInstance }> = () => {
   const deletedItems = [
     { name: "self-doubt.exe", size: "∞ KB", date: "Every day" },
     { name: "imposter-syndrome.dll", size: "99.9 MB", date: "Weekly" },
