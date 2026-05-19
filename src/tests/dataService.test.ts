@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getDatasetStats, CSVData } from '../services/dataService';
+import { getDatasetStats, type CSVData } from '../services/dataService';
 
 describe('getDatasetStats', () => {
   it('should generate statistics for a standard dataset', () => {
