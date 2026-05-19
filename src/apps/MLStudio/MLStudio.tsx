@@ -4,7 +4,8 @@ import { DATASETS, ALGORITHMS } from "./configs";
 import type { DatasetConfig, AlgorithmConfig, TrainResult } from "./types";
 import { ResultsDashboard } from "./ResultsDashboard";
 import { HyperParamEditor } from "./HyperParamEditor";
-import { ComparisonView, saveHistory } from "./ComparisonView";
+import { ComparisonView } from "./ComparisonView";
+import { saveHistory } from "./history";
 import "./styles.css";
 
 /* ═══════════════════════════════════════════════════
