@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { Send, CheckCircle2, AlertCircle, Bot } from "lucide-react";
 import { CONTACT } from "./contact.data";
 
@@ -10,10 +10,9 @@ export const TelegramBotPanel: React.FC = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<
-    "idle" | "sending" | "success" | "error"
+    "idle" | "sending" | "success" | "error" | "cooldown"
   >("idle");
   const [errorMsg, setErrorMsg] = useState("");
-  const cooldownRef = useRef(false);
 
   const isValid =
     name.trim().length > 0 &&
@@ -21,7 +20,7 @@ export const TelegramBotPanel: React.FC = () => {
     message.length <= MAX_MSG_LENGTH;
 
   const handleSend = async () => {
-    if (!isValid || cooldownRef.current) return;
+    if (!isValid || status === "cooldown") return;
 
     if (!CONTACT.botToken || !CONTACT.telegram.chatId) {
       setStatus("error");
@@ -32,11 +31,6 @@ export const TelegramBotPanel: React.FC = () => {
     }
 
     // Rate limit
-    cooldownRef.current = true;
-    setTimeout(() => {
-      cooldownRef.current = false;
-    }, RATE_LIMIT_MS);
-
     setStatus("sending");
     setErrorMsg("");
 
@@ -77,10 +71,15 @@ export const TelegramBotPanel: React.FC = () => {
       setName("");
       setEmail("");
       setMessage("");
-      setTimeout(() => setStatus("idle"), 4000);
-    } catch (err: any) {
+      setTimeout(() => {
+        setStatus("cooldown");
+        setTimeout(() => setStatus("idle"), RATE_LIMIT_MS - 4000);
+      }, 4000);
+    } catch (err: unknown) {
       setStatus("error");
-      setErrorMsg(err.message || "Network error — please try again.");
+      setErrorMsg(err instanceof Error ? err.message : "Network error — please try again.");
+      setTimeout(() => setStatus("cooldown"), 4000);
+      setTimeout(() => setStatus("idle"), RATE_LIMIT_MS);
     }
   };
 
@@ -164,9 +163,9 @@ export const TelegramBotPanel: React.FC = () => {
       {/* Send button */}
       <button
         onClick={handleSend}
-        disabled={!isValid || status === "sending" || cooldownRef.current}
+        disabled={!isValid || status === "sending" || status === "cooldown"}
         className={`w-full py-2.5 rounded-lg text-sm font-semibold transition-all flex items-center justify-center shadow-sm ${
-          !isValid || status === "sending"
+          !isValid || status === "sending" || status === "cooldown"
             ? "bg-slate-200 dark:bg-slate-700 text-slate-400 cursor-not-allowed"
             : "bg-blue-600 hover:bg-blue-500 text-white active:scale-[0.98]"
         }`}
