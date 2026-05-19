@@ -14,21 +14,20 @@ let logId = 1;
 const LEVEL_FILTER_OPTIONS = ["ALL", "INFO", "SUCCESS", "WARN", "ERROR"];
 
 export const SystemLogs: React.FC = () => {
-  const [logs, setLogs] = useState<LogEntry[]>([]);
   const [filter, setFilter] = useState("ALL");
   const [paused, setPaused] = useState(false);
   const logEndRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Generate initial logs
-  useEffect(() => {
+  const [logs, setLogs] = useState<LogEntry[]>(() => {
     const initial: LogEntry[] = [];
     for (let i = 0; i < 12; i++) {
       const entry = generateLogEntry();
       initial.push({ ...entry, id: logId++ });
     }
-    setLogs(initial);
-  }, []);
+    return initial;
+  });
 
   // Auto-append logs
   useEffect(() => {
