@@ -8,7 +8,22 @@ import {
 import { readByPath } from "../../services/filesystem";
 import "./DatasetViewer.css";
 
-const LOCAL_DATASETS = [
+interface LocalDataset {
+  type: "local";
+  name: string;
+  path: string;
+}
+
+interface ApiDataset {
+  type: "api";
+  name: string;
+  url: string;
+  key: string;
+}
+
+type DatasetInfo = LocalDataset | ApiDataset;
+
+const LOCAL_DATASETS: LocalDataset[] = [
   {
     type: "local",
     name: "Invoices",
@@ -21,7 +36,7 @@ const LOCAL_DATASETS = [
   },
 ];
 
-const API_DATASETS = [
+const API_DATASETS: ApiDataset[] = [
   {
     type: "api",
     name: "Posts",
@@ -60,11 +75,11 @@ const API_DATASETS = [
   },
 ];
 
-const DATASETS = [...LOCAL_DATASETS, ...API_DATASETS];
+const DATASETS: DatasetInfo[] = [...LOCAL_DATASETS, ...API_DATASETS];
 
 const PER_PAGE = 8;
 
-function parseJSONToCSVData(data: any[]): CSVData {
+function parseJSONToCSVData(data: Record<string, unknown>[]): CSVData {
   if (!data || data.length === 0)
     return { headers: [], rows: [], totalRows: 0 };
   const headers = Object.keys(data[0]);
@@ -129,10 +144,10 @@ export const DatasetViewer: React.FC = () => {
 
   const raw = useMemo(() => {
     if (activeDataset.type === "local") {
-      const content = readByPath((activeDataset as any).path);
+      const content = readByPath(activeDataset.path);
       return content ? parseCSV(content) : null;
     } else {
-      const key = (activeDataset as any).key;
+      const key = activeDataset.key;
       if (apiDataMap[key]) return apiDataMap[key];
       const stored = localStorage.getItem(key);
       if (stored) {
@@ -144,7 +159,7 @@ export const DatasetViewer: React.FC = () => {
       }
       return null;
     }
-  }, [activeTab, activeDataset, apiDataMap]);
+  }, [activeDataset, apiDataMap]);
 
   const filtered = useMemo(() => {
     if (!raw) return null;
