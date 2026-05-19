@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { Send, CheckCircle2, AlertCircle, Bot } from "lucide-react";
 import { CONTACT } from "./contact.data";
 
@@ -13,7 +13,7 @@ export const TelegramBotPanel: React.FC = () => {
     "idle" | "sending" | "success" | "error"
   >("idle");
   const [errorMsg, setErrorMsg] = useState("");
-  const cooldownRef = useRef(false);
+  const cooldownRef = React.useRef(false);
 
   const isValid =
     name.trim().length > 0 &&
@@ -78,9 +78,9 @@ export const TelegramBotPanel: React.FC = () => {
       setEmail("");
       setMessage("");
       setTimeout(() => setStatus("idle"), 4000);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setStatus("error");
-      setErrorMsg(err.message || "Network error — please try again.");
+      setErrorMsg(err instanceof Error && err.message ? err.message : "Network error — please try again.");
     }
   };
 
@@ -164,7 +164,7 @@ export const TelegramBotPanel: React.FC = () => {
       {/* Send button */}
       <button
         onClick={handleSend}
-        disabled={!isValid || status === "sending" || cooldownRef.current}
+        disabled={!isValid || status === "sending"}
         className={`w-full py-2.5 rounded-lg text-sm font-semibold transition-all flex items-center justify-center shadow-sm ${
           !isValid || status === "sending"
             ? "bg-slate-200 dark:bg-slate-700 text-slate-400 cursor-not-allowed"
