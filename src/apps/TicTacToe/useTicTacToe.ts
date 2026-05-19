@@ -49,27 +49,33 @@ function saveScores(s: Scores) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
 }
 
+export function useGameScores(
+  notify: (text: string, type?: Notification["type"]) => void,
+) {
+  const [scores, setScores] = useState<Scores>(loadScores);
+
+  const updateScores = useCallback((key: "x" | "o" | "draws") => {
+    setScores((prev) => {
+      const next = { ...prev, [key]: prev[key] + 1 };
+      saveScores(next);
+      return next;
+    });
+  }, []);
+
+  const resetScore = useCallback(() => {
+    const empty = { x: 0, o: 0, draws: 0 };
+    setScores(empty);
+    saveScores(empty);
+    notify("Scores Reset 🔄", "info");
+  }, [notify]);
+
+  return { scores, updateScores, resetScore };
+}
+
 let notifId = 0;
 
-export function useTicTacToe() {
-  const [board, setBoard] = useState<Board>(createBoard());
-  const [currentPlayer, setCurrentPlayer] = useState<Player>("X");
-  const [mode, setModeState] = useState<GameMode>("single");
-  const [difficulty, setDiffState] = useState<Difficulty>("hard");
-  const [playerSymbol, setPlayerSym] = useState<Player>("X");
-  const [scores, setScores] = useState<Scores>(loadScores);
-  const [winResult, setWinResult] = useState<WinResult | null>(null);
-  const [gameStatus, setGameStatus] = useState<GameStatus>("playing");
-  const [aiThinking, setAiThinking] = useState(false);
+export function useGameNotifications() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
-
-  const addGlobalNotification = useNotificationStore(
-    (state) => state.addNotification,
-  );
-
-  const aiLock = useRef(false);
-
-  // ── helpers ──────────────────────────────────────────────────
 
   const notify = useCallback(
     (text: string, type: Notification["type"] = "info") => {
@@ -82,13 +88,29 @@ export function useTicTacToe() {
     [],
   );
 
-  const updateScores = useCallback((key: "x" | "o" | "draws") => {
-    setScores((prev) => {
-      const next = { ...prev, [key]: prev[key] + 1 };
-      saveScores(next);
-      return next;
-    });
-  }, []);
+  return { notifications, notify };
+}
+
+export function useTicTacToe() {
+  const [board, setBoard] = useState<Board>(createBoard());
+  const [currentPlayer, setCurrentPlayer] = useState<Player>("X");
+  const [mode, setModeState] = useState<GameMode>("single");
+  const [difficulty, setDiffState] = useState<Difficulty>("hard");
+  const [playerSymbol, setPlayerSym] = useState<Player>("X");
+  const [winResult, setWinResult] = useState<WinResult | null>(null);
+  const [gameStatus, setGameStatus] = useState<GameStatus>("playing");
+  const [aiThinking, setAiThinking] = useState(false);
+
+  const { notifications, notify } = useGameNotifications();
+  const { scores, updateScores, resetScore } = useGameScores(notify);
+
+  const addGlobalNotification = useNotificationStore(
+    (state) => state.addNotification,
+  );
+
+  const aiLock = useRef(false);
+
+  // ── helpers ──────────────────────────────────────────────────
 
   const finishGame = useCallback(
     (result: WinResult | null) => {
@@ -271,13 +293,6 @@ export function useTicTacToe() {
     },
     [mode, doAITurn],
   );
-
-  const resetScore = useCallback(() => {
-    const empty = { x: 0, o: 0, draws: 0 };
-    setScores(empty);
-    saveScores(empty);
-    notify("Scores Reset 🔄", "info");
-  }, [notify]);
 
   // ── initial AI move if AI is X ───────────────────────────────
   const initialised = useRef(false);
