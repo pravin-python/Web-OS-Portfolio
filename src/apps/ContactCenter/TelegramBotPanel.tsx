@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { Send, CheckCircle2, AlertCircle, Bot } from "lucide-react";
 import { CONTACT } from "./contact.data";
 
