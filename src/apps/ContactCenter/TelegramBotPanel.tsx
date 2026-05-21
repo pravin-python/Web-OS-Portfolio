@@ -13,6 +13,7 @@ export const TelegramBotPanel: React.FC = () => {
     "idle" | "sending" | "success" | "error"
   >("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [isCooldown, setIsCooldown] = useState(false);
   const cooldownRef = useRef(false);
   const [inCooldown, setInCooldown] = useState(false);
 
@@ -22,7 +23,7 @@ export const TelegramBotPanel: React.FC = () => {
     message.length <= MAX_MSG_LENGTH;
 
   const handleSend = async () => {
-    if (!isValid || cooldownRef.current) return;
+    if (!isValid || isCooldown) return;
 
     if (!CONTACT.botToken || !CONTACT.telegram.chatId) {
       setStatus("error");
@@ -33,9 +34,11 @@ export const TelegramBotPanel: React.FC = () => {
     }
 
     // Rate limit
+    setIsCooldown(true);
     cooldownRef.current = true;
     setInCooldown(true);
     setTimeout(() => {
+      setIsCooldown(false);
       cooldownRef.current = false;
       setInCooldown(false);
     }, RATE_LIMIT_MS);
