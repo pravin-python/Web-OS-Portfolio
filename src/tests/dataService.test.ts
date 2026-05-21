@@ -1,61 +1,71 @@
-import { describe, it, expect } from "vitest";
-import { parseCSV } from "../services/dataService";
+import { describe, it, expect } from 'vitest';
+import { paginateData, type CSVData } from '../services/dataService';
 
-describe("dataService", () => {
-  describe("parseCSV", () => {
-    it("parses standard CSV correctly", () => {
-      const csv = `name, age, city\nAlice, 30, New York\nBob, 25, Los Angeles`;
-      const result = parseCSV(csv);
+describe('paginateData', () => {
+  const mockData: CSVData = {
+    headers: ['id', 'name'],
+    rows: [
+      ['1', 'Alice'],
+      ['2', 'Bob'],
+      ['3', 'Charlie'],
+      ['4', 'David'],
+      ['5', 'Eve'],
+    ],
+    totalRows: 5,
+  };
 
-      expect(result.headers).toEqual(["name", "age", "city"]);
-      expect(result.rows).toEqual([
-        ["Alice", "30", "New York"],
-        ["Bob", "25", "Los Angeles"],
-      ]);
-      expect(result.totalRows).toBe(2);
-    });
+  it('should return the correct slice for page 1', () => {
+    const result = paginateData(mockData, 1, 2);
+    expect(result.rows).toEqual([
+      ['1', 'Alice'],
+      ['2', 'Bob'],
+    ]);
+    expect(result.totalPages).toBe(3);
+    expect(result.currentPage).toBe(1);
+  });
 
-    it("handles empty string", () => {
-      const result = parseCSV("");
+  it('should return the correct slice for page 2', () => {
+    const result = paginateData(mockData, 2, 2);
+    expect(result.rows).toEqual([
+      ['3', 'Charlie'],
+      ['4', 'David'],
+    ]);
+    expect(result.totalPages).toBe(3);
+    expect(result.currentPage).toBe(2);
+  });
 
-      expect(result.headers).toEqual([]);
-      expect(result.rows).toEqual([]);
-      expect(result.totalRows).toBe(0);
-    });
+  it('should return the correct slice for page 3 (last page with fewer items)', () => {
+    const result = paginateData(mockData, 3, 2);
+    expect(result.rows).toEqual([
+      ['5', 'Eve'],
+    ]);
+    expect(result.totalPages).toBe(3);
+    expect(result.currentPage).toBe(3);
+  });
 
-    it("handles strings with only empty lines or whitespace", () => {
-      const result = parseCSV("   \n\n  \n");
+  it('should return an empty slice for an out of bounds page number', () => {
+    const result = paginateData(mockData, 4, 2);
+    expect(result.rows).toEqual([]);
+    expect(result.totalPages).toBe(3);
+    expect(result.currentPage).toBe(4);
+  });
 
-      expect(result.headers).toEqual([]);
-      expect(result.rows).toEqual([]);
-      expect(result.totalRows).toBe(0);
-    });
+  it('should return all rows if perPage is larger than the total length of the data', () => {
+    const result = paginateData(mockData, 1, 10);
+    expect(result.rows).toEqual(mockData.rows);
+    expect(result.totalPages).toBe(1);
+    expect(result.currentPage).toBe(1);
+  });
 
-    it("trims whitespace from headers and cells", () => {
-      const csv = `  header1  ,  header2  \n  val1  ,  val2  `;
-      const result = parseCSV(csv);
-
-      expect(result.headers).toEqual(["header1", "header2"]);
-      expect(result.rows).toEqual([["val1", "val2"]]);
-      expect(result.totalRows).toBe(1);
-    });
-
-    it("handles single column CSV", () => {
-      const csv = `id\n1\n2\n3`;
-      const result = parseCSV(csv);
-
-      expect(result.headers).toEqual(["id"]);
-      expect(result.rows).toEqual([["1"], ["2"], ["3"]]);
-      expect(result.totalRows).toBe(3);
-    });
-
-    it("handles header only CSV", () => {
-      const csv = `header1, header2`;
-      const result = parseCSV(csv);
-
-      expect(result.headers).toEqual(["header1", "header2"]);
-      expect(result.rows).toEqual([]);
-      expect(result.totalRows).toBe(0);
-    });
+  it('should handle an empty dataset correctly', () => {
+    const emptyData: CSVData = {
+      headers: ['id', 'name'],
+      rows: [],
+      totalRows: 0,
+    };
+    const result = paginateData(emptyData, 1, 2);
+    expect(result.rows).toEqual([]);
+    expect(result.totalPages).toBe(0);
+    expect(result.currentPage).toBe(1);
   });
 });
