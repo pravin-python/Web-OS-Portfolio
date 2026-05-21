@@ -27,8 +27,6 @@ export const SystemLogs: React.FC = () => {
   const logEndRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-
-
   // Auto-append logs
   useEffect(() => {
     if (paused) return;

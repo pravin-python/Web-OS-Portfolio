@@ -1,49 +1,71 @@
 import { describe, it, expect } from 'vitest';
-import { getDatasetStats, type CSVData } from '../services/dataService';
+import { paginateData, type CSVData } from '../services/dataService';
 
-describe('getDatasetStats', () => {
-  it('should generate statistics for a standard dataset', () => {
-    const data: CSVData = {
-      headers: ['Name', 'Age', 'Location'],
-      rows: [['Alice', '25', 'NY'], ['Bob', '30', 'SF']],
-      totalRows: 2,
-    };
-    const expected = [
-      'Columns: 3',
-      'Rows: 2',
-      'Headers: Name, Age, Location'
-    ].join('\n');
+describe('paginateData', () => {
+  const mockData: CSVData = {
+    headers: ['id', 'name'],
+    rows: [
+      ['1', 'Alice'],
+      ['2', 'Bob'],
+      ['3', 'Charlie'],
+      ['4', 'David'],
+      ['5', 'Eve'],
+    ],
+    totalRows: 5,
+  };
 
-    expect(getDatasetStats(data)).toBe(expected);
+  it('should return the correct slice for page 1', () => {
+    const result = paginateData(mockData, 1, 2);
+    expect(result.rows).toEqual([
+      ['1', 'Alice'],
+      ['2', 'Bob'],
+    ]);
+    expect(result.totalPages).toBe(3);
+    expect(result.currentPage).toBe(1);
   });
 
-  it('should generate statistics for an empty dataset', () => {
-    const data: CSVData = {
-      headers: [],
+  it('should return the correct slice for page 2', () => {
+    const result = paginateData(mockData, 2, 2);
+    expect(result.rows).toEqual([
+      ['3', 'Charlie'],
+      ['4', 'David'],
+    ]);
+    expect(result.totalPages).toBe(3);
+    expect(result.currentPage).toBe(2);
+  });
+
+  it('should return the correct slice for page 3 (last page with fewer items)', () => {
+    const result = paginateData(mockData, 3, 2);
+    expect(result.rows).toEqual([
+      ['5', 'Eve'],
+    ]);
+    expect(result.totalPages).toBe(3);
+    expect(result.currentPage).toBe(3);
+  });
+
+  it('should return an empty slice for an out of bounds page number', () => {
+    const result = paginateData(mockData, 4, 2);
+    expect(result.rows).toEqual([]);
+    expect(result.totalPages).toBe(3);
+    expect(result.currentPage).toBe(4);
+  });
+
+  it('should return all rows if perPage is larger than the total length of the data', () => {
+    const result = paginateData(mockData, 1, 10);
+    expect(result.rows).toEqual(mockData.rows);
+    expect(result.totalPages).toBe(1);
+    expect(result.currentPage).toBe(1);
+  });
+
+  it('should handle an empty dataset correctly', () => {
+    const emptyData: CSVData = {
+      headers: ['id', 'name'],
       rows: [],
       totalRows: 0,
     };
-    const expected = [
-      'Columns: 0',
-      'Rows: 0',
-      'Headers: '
-    ].join('\n');
-
-    expect(getDatasetStats(data)).toBe(expected);
-  });
-
-  it('should generate statistics for a single column/row dataset', () => {
-    const data: CSVData = {
-      headers: ['ID'],
-      rows: [['1']],
-      totalRows: 1,
-    };
-    const expected = [
-      'Columns: 1',
-      'Rows: 1',
-      'Headers: ID'
-    ].join('\n');
-
-    expect(getDatasetStats(data)).toBe(expected);
+    const result = paginateData(emptyData, 1, 2);
+    expect(result.rows).toEqual([]);
+    expect(result.totalPages).toBe(0);
+    expect(result.currentPage).toBe(1);
   });
 });
