@@ -129,10 +129,10 @@ export const DatasetViewer: React.FC = () => {
 
   const raw = useMemo(() => {
     if (activeDataset.type === "local") {
-      const content = "path" in activeDataset ? readByPath(activeDataset.path as string) : null;
+      const content = readByPath((activeDataset as { type: string; name: string; path: string; key?: string }).path);
       return content ? parseCSV(content) : null;
     } else {
-      const key = "key" in activeDataset ? (activeDataset.key as string) : "";
+      const key = (activeDataset as { type: string; name: string; url: string; key: string }).key;
       if (apiDataMap[key]) return apiDataMap[key];
       const stored = localStorage.getItem(key);
       if (stored) {
