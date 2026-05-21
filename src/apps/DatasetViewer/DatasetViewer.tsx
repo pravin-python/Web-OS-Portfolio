@@ -8,7 +8,20 @@ import {
 import { readByPath } from "../../services/filesystem";
 import "./DatasetViewer.css";
 
-const LOCAL_DATASETS = [
+type LocalDataset = {
+  type: "local";
+  name: string;
+  path: string;
+};
+
+type ApiDataset = {
+  type: "api";
+  name: string;
+  url: string;
+  key: string;
+};
+
+const LOCAL_DATASETS: LocalDataset[] = [
   {
     type: "local",
     name: "Invoices",
@@ -21,7 +34,7 @@ const LOCAL_DATASETS = [
   },
 ];
 
-const API_DATASETS = [
+const API_DATASETS: ApiDataset[] = [
   {
     type: "api",
     name: "Posts",
