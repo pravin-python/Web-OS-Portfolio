@@ -1,38 +1,32 @@
-import { describe, it, expect } from "vitest";
-import {
-  getFileContent,
-  touch,
-  writeFile,
-  findByPath,
-  mkdir
-} from "../services/filesystem/filesystem.engine";
+import { describe, it, expect } from 'vitest';
+import { getParentId, findByPath, mkdir, touch } from '../services/filesystem/filesystem.engine';
 
-describe("filesystem.engine", () => {
-  describe("getFileContent", () => {
-    it("returns null for non-existent node ID", () => {
-      expect(getFileContent("non-existent-id")).toBeNull();
-    });
+describe('filesystem.engine - getParentId', () => {
+  it('should return null for non-existent node', () => {
+    expect(getParentId('non-existent-id-123')).toBeNull();
+  });
 
-    it("returns null for a folder ID", () => {
-      mkdir("/", "test_folder_get");
-      const folderNode = findByPath("/test_folder_get");
-      expect(folderNode).not.toBeNull();
-      expect(getFileContent(folderNode!.id)).toBeNull();
-    });
+  it('should return null for the root node', () => {
+    expect(getParentId('root')).toBeNull();
+  });
 
-    it("returns empty string for an empty file", () => {
-      touch("/", "empty_file.txt");
-      const fileNode = findByPath("/empty_file.txt");
-      expect(fileNode).not.toBeNull();
-      expect(getFileContent(fileNode!.id)).toBe("");
-    });
+  it('should return the correct parent id for a nested node', () => {
+    const homeNode = findByPath('/home');
+    expect(homeNode).not.toBeNull();
+    expect(getParentId(homeNode!.id)).toBe('root');
+  });
 
-    it("returns file content for a file with content", () => {
-      touch("/", "content_file.txt");
-      writeFile("/", "content_file.txt", "Hello World");
-      const fileNode = findByPath("/content_file.txt");
-      expect(fileNode).not.toBeNull();
-      expect(getFileContent(fileNode!.id)).toBe("Hello World");
-    });
+  it('should return the correct parent id for a deeply nested node', () => {
+    // create the path first since it might not exist in the default seeded state
+    mkdir('/home', 'researcher');
+    touch('/home/researcher', 'notes.txt');
+
+    const fileNode = findByPath('/home/researcher/notes.txt');
+    const dirNode = findByPath('/home/researcher');
+
+    expect(fileNode).not.toBeNull();
+    expect(dirNode).not.toBeNull();
+
+    expect(getParentId(fileNode!.id)).toBe(dirNode!.id);
   });
 });

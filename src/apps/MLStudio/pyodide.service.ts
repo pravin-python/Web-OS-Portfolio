@@ -1,19 +1,23 @@
 import mlEngineCode from "./ml_engine.py?raw";
 import type { TrainResult } from "./types";
 
+// Interface matching the Pyodide API usage in this service
+export interface PyodideInterface {
+  loadPackage: (packages: string | string[]) => Promise<void>;
+  runPythonAsync: (code: string) => Promise<string>;
+}
+
 // Declare Pyodide global interface
 declare global {
   interface Window {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    loadPyodide: (config: { indexURL: string }) => Promise<any>;
+    loadPyodide: (config: { indexURL: string }) => Promise<PyodideInterface>;
   }
 }
 
 export type PyodideStatus = "loading" | "ready" | "error";
 
 class PyodideService {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private pyodide: any = null;
+  private pyodide: PyodideInterface | null = null;
   private status: PyodideStatus = "loading";
   private initPromise: Promise<void> | null = null;
   private subscribers: ((status: PyodideStatus) => void)[] = [];
@@ -67,7 +71,6 @@ class PyodideService {
       await this.pyodide.runPythonAsync(mlEngineCode);
 
       this.setStatus("ready");
-      console.log("[PyodideService] Successfully initialized ML Engine");
     } catch (err) {
       console.error("[PyodideService] Initialization failed:", err);
       this.setStatus("error");
