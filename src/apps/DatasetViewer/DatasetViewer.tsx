@@ -21,8 +21,6 @@ type ApiDataset = {
   key: string;
 };
 
-type Dataset = LocalDataset | ApiDataset;
-
 const LOCAL_DATASETS: LocalDataset[] = [
   {
     type: "local",
@@ -144,10 +142,10 @@ export const DatasetViewer: React.FC = () => {
 
   const raw = useMemo(() => {
     if (activeDataset.type === "local") {
-      const content = readByPath(activeDataset.path);
+      const content = readByPath((activeDataset as { type: string; name: string; path: string; key?: string }).path);
       return content ? parseCSV(content) : null;
     } else {
-      const key = activeDataset.key;
+      const key = (activeDataset as { type: string; name: string; url: string; key: string }).key;
       if (apiDataMap[key]) return apiDataMap[key];
       const stored = localStorage.getItem(key);
       if (stored) {
