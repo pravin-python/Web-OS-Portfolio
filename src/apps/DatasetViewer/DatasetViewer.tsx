@@ -8,7 +8,20 @@ import {
 import { readByPath } from "../../services/filesystem";
 import "./DatasetViewer.css";
 
-const LOCAL_DATASETS = [
+type LocalDataset = {
+  type: "local";
+  name: string;
+  path: string;
+};
+
+type ApiDataset = {
+  type: "api";
+  name: string;
+  url: string;
+  key: string;
+};
+
+const LOCAL_DATASETS: LocalDataset[] = [
   {
     type: "local",
     name: "Invoices",
@@ -21,7 +34,7 @@ const LOCAL_DATASETS = [
   },
 ];
 
-const API_DATASETS = [
+const API_DATASETS: ApiDataset[] = [
   {
     type: "api",
     name: "Posts",
@@ -60,7 +73,7 @@ const API_DATASETS = [
   },
 ];
 
-const DATASETS = [...LOCAL_DATASETS, ...API_DATASETS];
+const DATASETS: Dataset[] = [...LOCAL_DATASETS, ...API_DATASETS];
 
 const PER_PAGE = 8;
 
@@ -128,11 +141,11 @@ export const DatasetViewer: React.FC = () => {
   const activeDataset = DATASETS[activeTab];
 
   const raw = useMemo(() => {
-    if (activeDataset.type === "local" && "path" in activeDataset) {
-      const content = readByPath(activeDataset.path);
+    if (activeDataset.type === "local") {
+      const content = readByPath((activeDataset as { type: string; name: string; path: string; key?: string }).path);
       return content ? parseCSV(content) : null;
-    } else if (activeDataset.type === "api" && "key" in activeDataset) {
-      const key = activeDataset.key;
+    } else {
+      const key = (activeDataset as { type: string; name: string; url: string; key: string }).key;
       if (apiDataMap[key]) return apiDataMap[key];
       const stored = localStorage.getItem(key);
       if (stored) {
