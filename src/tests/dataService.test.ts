@@ -1,57 +1,71 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { generateLogEntry } from "../services/dataService";
+import { describe, it, expect } from 'vitest';
+import { paginateData, type CSVData } from '../services/dataService';
 
-describe("dataService - generateLogEntry", () => {
-  beforeEach(() => {
-    vi.spyOn(Math, "random");
+describe('paginateData', () => {
+  const mockData: CSVData = {
+    headers: ['id', 'name'],
+    rows: [
+      ['1', 'Alice'],
+      ['2', 'Bob'],
+      ['3', 'Charlie'],
+      ['4', 'David'],
+      ['5', 'Eve'],
+    ],
+    totalRows: 5,
+  };
+
+  it('should return the correct slice for page 1', () => {
+    const result = paginateData(mockData, 1, 2);
+    expect(result.rows).toEqual([
+      ['1', 'Alice'],
+      ['2', 'Bob'],
+    ]);
+    expect(result.totalPages).toBe(3);
+    expect(result.currentPage).toBe(1);
   });
 
-  afterEach(() => {
-    vi.restoreAllMocks();
+  it('should return the correct slice for page 2', () => {
+    const result = paginateData(mockData, 2, 2);
+    expect(result.rows).toEqual([
+      ['3', 'Charlie'],
+      ['4', 'David'],
+    ]);
+    expect(result.totalPages).toBe(3);
+    expect(result.currentPage).toBe(2);
   });
 
-  it("should return a valid log entry structure with timestamp in HH:MM:SS format", () => {
-    const entry = generateLogEntry();
-
-    expect(entry).toHaveProperty("timestamp");
-    expect(entry).toHaveProperty("level");
-    expect(entry).toHaveProperty("message");
-
-    // Check HH:MM:SS format
-    expect(entry.timestamp).toMatch(/^\d{2}:\d{2}:\d{2}$/);
-
-    // Check level is one of the valid ones
-    expect(["INFO", "SUCCESS", "WARN", "ERROR"]).toContain(entry.level);
-    expect(typeof entry.message).toBe("string");
+  it('should return the correct slice for page 3 (last page with fewer items)', () => {
+    const result = paginateData(mockData, 3, 2);
+    expect(result.rows).toEqual([
+      ['5', 'Eve'],
+    ]);
+    expect(result.totalPages).toBe(3);
+    expect(result.currentPage).toBe(3);
   });
 
-  it("should generate an INFO log when Math.random falls in the first weight tier (0-50)", () => {
-    // 0.2 * 100 = 20 (<= 50) -> INFO
-    // 0.0 for message selection
-    vi.mocked(Math.random).mockReturnValueOnce(0.2).mockReturnValueOnce(0.0);
-    const entry = generateLogEntry();
-    expect(entry.level).toBe("INFO");
-    expect(entry.message).toBeTruthy();
+  it('should return an empty slice for an out of bounds page number', () => {
+    const result = paginateData(mockData, 4, 2);
+    expect(result.rows).toEqual([]);
+    expect(result.totalPages).toBe(3);
+    expect(result.currentPage).toBe(4);
   });
 
-  it("should generate a SUCCESS log when Math.random falls in the second weight tier (50-75)", () => {
-    // 0.6 * 100 = 60 (> 50, <= 75) -> SUCCESS
-    vi.mocked(Math.random).mockReturnValueOnce(0.6).mockReturnValueOnce(0.0);
-    const entry = generateLogEntry();
-    expect(entry.level).toBe("SUCCESS");
+  it('should return all rows if perPage is larger than the total length of the data', () => {
+    const result = paginateData(mockData, 1, 10);
+    expect(result.rows).toEqual(mockData.rows);
+    expect(result.totalPages).toBe(1);
+    expect(result.currentPage).toBe(1);
   });
 
-  it("should generate a WARN log when Math.random falls in the third weight tier (75-90)", () => {
-    // 0.8 * 100 = 80 (> 75, <= 90) -> WARN
-    vi.mocked(Math.random).mockReturnValueOnce(0.8).mockReturnValueOnce(0.0);
-    const entry = generateLogEntry();
-    expect(entry.level).toBe("WARN");
-  });
-
-  it("should generate an ERROR log when Math.random falls in the fourth weight tier (90-100)", () => {
-    // 0.95 * 100 = 95 (> 90, <= 100) -> ERROR
-    vi.mocked(Math.random).mockReturnValueOnce(0.95).mockReturnValueOnce(0.0);
-    const entry = generateLogEntry();
-    expect(entry.level).toBe("ERROR");
+  it('should handle an empty dataset correctly', () => {
+    const emptyData: CSVData = {
+      headers: ['id', 'name'],
+      rows: [],
+      totalRows: 0,
+    };
+    const result = paginateData(emptyData, 1, 2);
+    expect(result.rows).toEqual([]);
+    expect(result.totalPages).toBe(0);
+    expect(result.currentPage).toBe(1);
   });
 });
