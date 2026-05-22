@@ -73,7 +73,7 @@ const API_DATASETS: ApiDataset[] = [
   },
 ];
 
-const DATASETS = [...LOCAL_DATASETS, ...API_DATASETS];
+const DATASETS: Dataset[] = [...LOCAL_DATASETS, ...API_DATASETS];
 
 const PER_PAGE = 8;
 
