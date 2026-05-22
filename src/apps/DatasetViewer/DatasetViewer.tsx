@@ -8,20 +8,18 @@ import {
 import { readByPath } from "../../services/filesystem";
 import "./DatasetViewer.css";
 
-interface LocalDataset {
+type LocalDataset = {
   type: "local";
   name: string;
   path: string;
-}
+};
 
-interface ApiDataset {
+type ApiDataset = {
   type: "api";
   name: string;
   url: string;
   key: string;
-}
-
-type DatasetInfo = LocalDataset | ApiDataset;
+};
 
 const LOCAL_DATASETS: LocalDataset[] = [
   {
@@ -75,7 +73,7 @@ const API_DATASETS: ApiDataset[] = [
   },
 ];
 
-const DATASETS: DatasetInfo[] = [...LOCAL_DATASETS, ...API_DATASETS];
+const DATASETS: Dataset[] = [...LOCAL_DATASETS, ...API_DATASETS];
 
 const PER_PAGE = 8;
 
@@ -144,10 +142,10 @@ export const DatasetViewer: React.FC = () => {
 
   const raw = useMemo(() => {
     if (activeDataset.type === "local") {
-      const content = readByPath(activeDataset.path);
+      const content = readByPath((activeDataset as { type: string; name: string; path: string; key?: string }).path);
       return content ? parseCSV(content) : null;
     } else {
-      const key = activeDataset.key;
+      const key = (activeDataset as { type: string; name: string; url: string; key: string }).key;
       if (apiDataMap[key]) return apiDataMap[key];
       const stored = localStorage.getItem(key);
       if (stored) {
