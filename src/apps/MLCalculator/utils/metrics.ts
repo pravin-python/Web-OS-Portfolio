@@ -26,8 +26,12 @@ export function confusionMatrix(yTrue: number[], yPred: number[]): number[][] {
   return matrix;
 }
 
-export function precision(yTrue: number[], yPred: number[]): number {
-  const cm = confusionMatrix(yTrue, yPred);
+export function precision(
+  yTrue: number[],
+  yPred: number[],
+  precomputedCm?: number[][],
+): number {
+  const cm = precomputedCm ?? confusionMatrix(yTrue, yPred);
   const n = cm.length;
   let totalPrecision = 0;
   let validClasses = 0;
@@ -44,8 +48,12 @@ export function precision(yTrue: number[], yPred: number[]): number {
   return validClasses === 0 ? 0 : totalPrecision / validClasses;
 }
 
-export function recall(yTrue: number[], yPred: number[]): number {
-  const cm = confusionMatrix(yTrue, yPred);
+export function recall(
+  yTrue: number[],
+  yPred: number[],
+  precomputedCm?: number[][],
+): number {
+  const cm = precomputedCm ?? confusionMatrix(yTrue, yPred);
   const n = cm.length;
   let totalRecall = 0;
   let validClasses = 0;
@@ -63,8 +71,9 @@ export function recall(yTrue: number[], yPred: number[]): number {
 }
 
 export function f1Score(yTrue: number[], yPred: number[]): number {
-  const p = precision(yTrue, yPred);
-  const r = recall(yTrue, yPred);
+  const cm = confusionMatrix(yTrue, yPred);
+  const p = precision(yTrue, yPred, cm);
+  const r = recall(yTrue, yPred, cm);
   return p + r === 0 ? 0 : (2 * p * r) / (p + r);
 }
 

@@ -1,92 +1,71 @@
-import { describe, it, expect } from "vitest";
-import { searchData, type CSVData } from "../services/dataService";
+import { describe, it, expect } from 'vitest';
+import { paginateData, type CSVData } from '../services/dataService';
 
-describe("searchData", () => {
+describe('paginateData', () => {
   const mockData: CSVData = {
-    headers: ["id", "name", "role", "city"],
+    headers: ['id', 'name'],
     rows: [
-      ["1", "Alice Smith", "Engineer", "New York"],
-      ["2", "Bob Johnson", "Manager", "San Francisco"],
-      ["3", "Charlie Brown", "Engineer", "London"],
-      ["4", "Diana Prince", "Director", "New York"],
+      ['1', 'Alice'],
+      ['2', 'Bob'],
+      ['3', 'Charlie'],
+      ['4', 'David'],
+      ['5', 'Eve'],
     ],
-    totalRows: 4,
+    totalRows: 5,
   };
 
-  it("should return the original data if the query is empty or just whitespace", () => {
-    expect(searchData(mockData, "")).toBe(mockData);
-    expect(searchData(mockData, "   ")).toBe(mockData);
+  it('should return the correct slice for page 1', () => {
+    const result = paginateData(mockData, 1, 2);
+    expect(result.rows).toEqual([
+      ['1', 'Alice'],
+      ['2', 'Bob'],
+    ]);
+    expect(result.totalPages).toBe(3);
+    expect(result.currentPage).toBe(1);
   });
 
-  it("should return the correct matching row(s) (case insensitive)", () => {
-    const result = searchData(mockData, "alice");
-    expect(result.rows).toHaveLength(1);
-    expect(result.rows[0]).toEqual([
-      "1",
-      "Alice Smith",
-      "Engineer",
-      "New York",
+  it('should return the correct slice for page 2', () => {
+    const result = paginateData(mockData, 2, 2);
+    expect(result.rows).toEqual([
+      ['3', 'Charlie'],
+      ['4', 'David'],
     ]);
-    expect(result.totalRows).toBe(1);
-
-    const result2 = searchData(mockData, "SMITH");
-    expect(result2.rows).toHaveLength(1);
-    expect(result2.rows[0]).toEqual([
-      "1",
-      "Alice Smith",
-      "Engineer",
-      "New York",
-    ]);
-
-    const result3 = searchData(mockData, "engineer");
-    expect(result3.rows).toHaveLength(2);
-    expect(result3.rows[0]).toEqual([
-      "1",
-      "Alice Smith",
-      "Engineer",
-      "New York",
-    ]);
-    expect(result3.rows[1]).toEqual([
-      "3",
-      "Charlie Brown",
-      "Engineer",
-      "London",
-    ]);
-    expect(result3.totalRows).toBe(2);
+    expect(result.totalPages).toBe(3);
+    expect(result.currentPage).toBe(2);
   });
 
-  it("should search across all columns", () => {
-    // Search in ID
-    const resultId = searchData(mockData, "2");
-    expect(resultId.rows).toHaveLength(1);
-    expect(resultId.rows[0]).toEqual([
-      "2",
-      "Bob Johnson",
-      "Manager",
-      "San Francisco",
+  it('should return the correct slice for page 3 (last page with fewer items)', () => {
+    const result = paginateData(mockData, 3, 2);
+    expect(result.rows).toEqual([
+      ['5', 'Eve'],
     ]);
-
-    // Search in City
-    const resultCity = searchData(mockData, "New York");
-    expect(resultCity.rows).toHaveLength(2);
-    expect(resultCity.rows[0]).toEqual([
-      "1",
-      "Alice Smith",
-      "Engineer",
-      "New York",
-    ]);
-    expect(resultCity.rows[1]).toEqual([
-      "4",
-      "Diana Prince",
-      "Director",
-      "New York",
-    ]);
+    expect(result.totalPages).toBe(3);
+    expect(result.currentPage).toBe(3);
   });
 
-  it("should return empty rows and 0 totalRows if no match is found, and headers should be preserved", () => {
-    const result = searchData(mockData, "nonexistent");
-    expect(result.rows).toHaveLength(0);
-    expect(result.totalRows).toBe(0);
-    expect(result.headers).toEqual(mockData.headers);
+  it('should return an empty slice for an out of bounds page number', () => {
+    const result = paginateData(mockData, 4, 2);
+    expect(result.rows).toEqual([]);
+    expect(result.totalPages).toBe(3);
+    expect(result.currentPage).toBe(4);
+  });
+
+  it('should return all rows if perPage is larger than the total length of the data', () => {
+    const result = paginateData(mockData, 1, 10);
+    expect(result.rows).toEqual(mockData.rows);
+    expect(result.totalPages).toBe(1);
+    expect(result.currentPage).toBe(1);
+  });
+
+  it('should handle an empty dataset correctly', () => {
+    const emptyData: CSVData = {
+      headers: ['id', 'name'],
+      rows: [],
+      totalRows: 0,
+    };
+    const result = paginateData(emptyData, 1, 2);
+    expect(result.rows).toEqual([]);
+    expect(result.totalPages).toBe(0);
+    expect(result.currentPage).toBe(1);
   });
 });
