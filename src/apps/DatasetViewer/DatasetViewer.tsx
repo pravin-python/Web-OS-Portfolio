@@ -80,7 +80,7 @@ const PER_PAGE = 8;
 function parseJSONToCSVData(data: Record<string, unknown>[]): CSVData {
   if (!data || data.length === 0)
     return { headers: [], rows: [], totalRows: 0 };
-  const headers = Object.keys(data[0]);
+  const headers = Object.keys(data[0] || {});
   const rows = data.map((item) =>
     headers.map((h) => {
       const val = item[h];
