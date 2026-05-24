@@ -1,37 +1,32 @@
-import { describe, it, expect } from "vitest";
-import { getNode, mkdir, findByPath } from "../services/filesystem/filesystem.engine";
+import { describe, it, expect } from 'vitest';
+import { getParentId, findByPath, mkdir, touch } from '../services/filesystem/filesystem.engine';
 
-describe("filesystem.engine - getNode", () => {
-  it("should return a valid node for an existing ID", () => {
-    // The filesystem is initialized with static data, "root" should exist
-    const node = getNode("root");
-    expect(node).not.toBeNull();
-    expect(node?.id).toBe("root");
-    expect(node?.type).toBe("folder");
+describe('filesystem.engine - getParentId', () => {
+  it('should return null for non-existent node', () => {
+    expect(getParentId('non-existent-id-123')).toBeNull();
   });
 
-  it("should return null for a non-existent ID", () => {
-    const node = getNode("this-id-does-not-exist");
-    expect(node).toBeNull();
+  it('should return null for the root node', () => {
+    expect(getParentId('root')).toBeNull();
   });
 
-  it("should successfully retrieve a newly created node", () => {
-    // Create a new directory
-    const dirName = `test-dir-${Date.now()}`;
-    const result = mkdir("/", dirName);
-    expect(result.ok).toBe(true);
+  it('should return the correct parent id for a nested node', () => {
+    const homeNode = findByPath('/home');
+    expect(homeNode).not.toBeNull();
+    expect(getParentId(homeNode!.id)).toBe('root');
+  });
 
-    // Find the newly created node by path
-    const createdNode = findByPath(`/${dirName}`);
-    expect(createdNode).not.toBeNull();
+  it('should return the correct parent id for a deeply nested node', () => {
+    // create the path first since it might not exist in the default seeded state
+    mkdir('/home', 'researcher');
+    touch('/home/researcher', 'notes.txt');
 
-    if (createdNode) {
-      // Retrieve the node using its ID
-      const retrievedNode = getNode(createdNode.id);
-      expect(retrievedNode).not.toBeNull();
-      expect(retrievedNode?.id).toBe(createdNode.id);
-      expect(retrievedNode?.name).toBe(dirName);
-      expect(retrievedNode?.type).toBe("folder");
-    }
+    const fileNode = findByPath('/home/researcher/notes.txt');
+    const dirNode = findByPath('/home/researcher');
+
+    expect(fileNode).not.toBeNull();
+    expect(dirNode).not.toBeNull();
+
+    expect(getParentId(fileNode!.id)).toBe(dirNode!.id);
   });
 });
