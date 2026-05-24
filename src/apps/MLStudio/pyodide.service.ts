@@ -1,19 +1,23 @@
 import mlEngineCode from "./ml_engine.py?raw";
 import type { TrainResult } from "./types";
 
+// Interface matching the Pyodide API usage in this service
+export interface PyodideInterface {
+  loadPackage: (packages: string | string[]) => Promise<void>;
+  runPythonAsync: (code: string) => Promise<string>;
+}
+
 // Declare Pyodide global interface
 declare global {
   interface Window {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    loadPyodide: (config: { indexURL: string }) => Promise<any>;
+    loadPyodide: (config: { indexURL: string }) => Promise<PyodideInterface>;
   }
 }
 
 export type PyodideStatus = "loading" | "ready" | "error";
 
 class PyodideService {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private pyodide: any = null;
+  private pyodide: PyodideInterface | null = null;
   private status: PyodideStatus = "loading";
   private initPromise: Promise<void> | null = null;
   private subscribers: ((status: PyodideStatus) => void)[] = [];
@@ -67,7 +71,6 @@ class PyodideService {
       await this.pyodide.runPythonAsync(mlEngineCode);
 
       this.setStatus("ready");
-      console.log("[PyodideService] Successfully initialized ML Engine");
     } catch (err) {
       console.error("[PyodideService] Initialization failed:", err);
       this.setStatus("error");
@@ -87,13 +90,18 @@ class PyodideService {
     if (!this.pyodide) throw new Error("Pyodide not loaded");
 
     const jsonStr = JSON.stringify(config);
-    // Escape quotes to safely pass JSON string into python eval
-    const escapedStr = jsonStr.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
 
     // Call the python function
-    const resultJson = await this.pyodide.runPythonAsync(`
-run_ml_task("${escapedStr}")
-    `);
+    let runMlTaskProxy;
+    let resultJson;
+    try {
+      runMlTaskProxy = this.pyodide.globals.get("run_ml_task");
+      resultJson = runMlTaskProxy(jsonStr);
+    } finally {
+      if (runMlTaskProxy && typeof runMlTaskProxy.destroy === "function") {
+        runMlTaskProxy.destroy();
+      }
+    }
 
     const result = JSON.parse(resultJson);
     if (result.error) {
