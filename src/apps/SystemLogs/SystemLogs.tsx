@@ -22,12 +22,10 @@ export const SystemLogs: React.FC = () => {
     }
     return initial;
   });
-
   const [filter, setFilter] = useState("ALL");
   const [paused, setPaused] = useState(false);
   const logEndRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-
 
   // Auto-append logs
   useEffect(() => {
