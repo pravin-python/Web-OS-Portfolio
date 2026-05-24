@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { Send, CheckCircle2, AlertCircle, Bot } from "lucide-react";
 import { CONTACT } from "./contact.data";
 
@@ -13,8 +13,9 @@ export const TelegramBotPanel: React.FC = () => {
     "idle" | "sending" | "success" | "error"
   >("idle");
   const [errorMsg, setErrorMsg] = useState("");
-  const cooldownRef = useRef(false);
   const [isCooldown, setIsCooldown] = useState(false);
+  const cooldownRef = useRef(false);
+  const [inCooldown, setInCooldown] = useState(false);
 
   const isValid =
     name.trim().length > 0 &&
@@ -22,7 +23,7 @@ export const TelegramBotPanel: React.FC = () => {
     message.length <= MAX_MSG_LENGTH;
 
   const handleSend = async () => {
-    if (!isValid || cooldownRef.current) return;
+    if (!isValid || isCooldown) return;
 
     if (!CONTACT.botToken || !CONTACT.telegram.chatId) {
       setStatus("error");
@@ -33,11 +34,13 @@ export const TelegramBotPanel: React.FC = () => {
     }
 
     // Rate limit
-    cooldownRef.current = true;
     setIsCooldown(true);
+    cooldownRef.current = true;
+    setInCooldown(true);
     setTimeout(() => {
-      cooldownRef.current = false;
       setIsCooldown(false);
+      cooldownRef.current = false;
+      setInCooldown(false);
     }, RATE_LIMIT_MS);
 
     setStatus("sending");
@@ -83,8 +86,7 @@ export const TelegramBotPanel: React.FC = () => {
       setTimeout(() => setStatus("idle"), 4000);
     } catch (err: unknown) {
       setStatus("error");
-      const errMsg = err instanceof Error ? err.message : "Network error — please try again.";
-      setErrorMsg(errMsg || "Network error — please try again.");
+      setErrorMsg(err instanceof Error && err.message ? err.message : "Network error — please try again.");
     }
   };
 
@@ -168,9 +170,9 @@ export const TelegramBotPanel: React.FC = () => {
       {/* Send button */}
       <button
         onClick={handleSend}
-        disabled={!isValid || status === "sending" || isCooldown}
+        disabled={!isValid || status === "sending" || inCooldown}
         className={`w-full py-2.5 rounded-lg text-sm font-semibold transition-all flex items-center justify-center shadow-sm ${
-          !isValid || status === "sending"
+          !isValid || status === "sending" || inCooldown
             ? "bg-slate-200 dark:bg-slate-700 text-slate-400 cursor-not-allowed"
             : "bg-blue-600 hover:bg-blue-500 text-white active:scale-[0.98]"
         }`}

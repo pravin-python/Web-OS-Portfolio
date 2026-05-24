@@ -14,20 +14,18 @@ let logId = 1;
 const LEVEL_FILTER_OPTIONS = ["ALL", "INFO", "SUCCESS", "WARN", "ERROR"];
 
 export const SystemLogs: React.FC = () => {
-  const [filter, setFilter] = useState("ALL");
-  const [paused, setPaused] = useState(false);
-  const logEndRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  // Generate initial logs
-  const generateInitialLogs = useCallback(() => {
+  const [logs, setLogs] = useState<LogEntry[]>(() => {
     const initial: LogEntry[] = [];
     for (let i = 0; i < 12; i++) {
       const entry = generateLogEntry();
       initial.push({ ...entry, id: logId++ });
     }
     return initial;
-  }, []);
+  });
+  const [filter, setFilter] = useState("ALL");
+  const [paused, setPaused] = useState(false);
+  const logEndRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const [logs, setLogs] = useState<LogEntry[]>(generateInitialLogs);
 
