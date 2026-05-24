@@ -27,6 +27,8 @@ export const SystemLogs: React.FC = () => {
   const logEndRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const [logs, setLogs] = useState<LogEntry[]>(generateInitialLogs);
+
   // Auto-append logs
   useEffect(() => {
     if (paused) return;
