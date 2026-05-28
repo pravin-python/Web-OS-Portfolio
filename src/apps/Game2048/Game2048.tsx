@@ -14,7 +14,7 @@ import { GameOverlay } from "./GameOverlay";
 import { attachInputController } from "./inputController";
 import "./styles.css";
 
-export const TwentyFortyEight: React.FC<{ window: WindowInstance }> = ({
+export const TwentyFortyEight: React.FC<{ window?: WindowInstance }> = ({
   window: win,
 }) => {
   const focusedWindowId = useWindowStore((s) => s.focusedWindowId);
