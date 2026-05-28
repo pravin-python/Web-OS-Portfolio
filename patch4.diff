@@ -1,0 +1,13 @@
+--- src/apps/ContactCenter/TelegramBotPanel.tsx
++++ src/apps/ContactCenter/TelegramBotPanel.tsx
+@@ -78,9 +78,9 @@
+         setStatus("error");
+         setErrorMsg(data.description || "Failed to send message");
+       }
+-    } catch (err: any) {
++    } catch (err: unknown) {
+       setStatus("error");
+-      setErrorMsg(err.message || "Network error");
++      setErrorMsg(err instanceof Error && err.message ? err.message : "Network error");
+     }
+   };
