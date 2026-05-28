@@ -53,10 +53,13 @@ export function isDraw(board: Board): boolean {
 
 /** Return indices of all empty cells */
 export function getAvailableMoves(board: Board): number[] {
-  return board.reduce<number[]>((acc, cell, i) => {
-    if (cell === null) acc.push(i);
-    return acc;
-  }, []);
+  const moves: number[] = [];
+  for (let i = 0; i < board.length; i++) {
+    if (board[i] === null) {
+      moves.push(i);
+    }
+  }
+  return moves;
 }
 
 /** Toggle player */
