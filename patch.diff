@@ -1,0 +1,38 @@
+--- src/apps/SystemLogs/SystemLogs.tsx
++++ src/apps/SystemLogs/SystemLogs.tsx
+@@ -14,10 +14,18 @@
+ const LEVEL_FILTER_OPTIONS = ["ALL", "INFO", "SUCCESS", "WARN", "ERROR"];
+
+ export const SystemLogs: React.FC = () => {
+-  const [logs, setLogs] = useState<LogEntry[]>([]);
++  const [logs, setLogs] = useState<LogEntry[]>(() => {
++    const initial: LogEntry[] = [];
++    for (let i = 0; i < 12; i++) {
++      const entry = generateLogEntry();
++      initial.push({ ...entry, id: logId++ });
++    }
++    return initial;
++  });
++
+   const [filter, setFilter] = useState("ALL");
+   const [paused, setPaused] = useState(false);
+   const logEndRef = useRef<HTMLDivElement>(null);
+   const containerRef = useRef<HTMLDivElement>(null);
+
+   useEffect(() => {
+     if (logEndRef.current && containerRef.current) {
+@@ -21,12 +29,4 @@
+   useEffect(() => {
+     if (logEndRef.current && containerRef.current) {
+       containerRef.current.scrollTop = containerRef.current.scrollHeight;
+     }
+   }, [logs]);
+-
+-  useEffect(() => {
+-    const initial: LogEntry[] = [];
+-    for (let i = 0; i < 12; i++) {
+-      const entry = generateLogEntry();
+-      initial.push({ ...entry, id: logId++ });
+-    }
+-    setLogs(initial);
+-  }, []);
