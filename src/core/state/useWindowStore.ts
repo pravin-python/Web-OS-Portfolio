@@ -147,20 +147,18 @@ export const useWindowStore = create<WindowState>()(
       openWindow: (
         title,
         appType,
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        _position = { x: 80, y: 40 },
+        position,
         size = { width: 600, height: 400 },
         appData,
       ) => {
         const id = `win-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
         nextZIndex++;
 
-        const { x, y } = getWindowSpawnPosition(
+        const initialPos = position ?? getWindowSpawnPosition(
           appType,
           size.width,
           size.height,
         );
-        const initialPos = { x, y };
 
         const newWindow: WindowInstance = {
           id,
