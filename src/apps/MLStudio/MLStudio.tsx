@@ -91,9 +91,13 @@ export const MLStudio: React.FC = () => {
         },
         timeMs: res.timeMs,
       });
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      setErrorMsg(err.message || "An unknown error occurred during training");
+      setErrorMsg(
+        err instanceof Error && err.message
+          ? err.message
+          : "An unknown error occurred during training",
+      );
     } finally {
       setIsTraining(false);
     }

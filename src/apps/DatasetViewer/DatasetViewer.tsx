@@ -8,7 +8,20 @@ import {
 import { readByPath } from "../../services/filesystem";
 import "./DatasetViewer.css";
 
-const LOCAL_DATASETS = [
+type LocalDataset = {
+  type: "local";
+  name: string;
+  path: string;
+};
+
+type ApiDataset = {
+  type: "api";
+  name: string;
+  url: string;
+  key: string;
+};
+
+const LOCAL_DATASETS: LocalDataset[] = [
   {
     type: "local",
     name: "Invoices",
@@ -21,7 +34,7 @@ const LOCAL_DATASETS = [
   },
 ];
 
-const API_DATASETS = [
+const API_DATASETS: ApiDataset[] = [
   {
     type: "api",
     name: "Posts",
@@ -60,18 +73,14 @@ const API_DATASETS = [
   },
 ];
 
-type Dataset =
-  | { type: "local"; name: string; path: string }
-  | { type: "api"; name: string; url: string; key: string };
-
-const DATASETS: Dataset[] = [...LOCAL_DATASETS, ...API_DATASETS] as Dataset[];
+const DATASETS: Dataset[] = [...LOCAL_DATASETS, ...API_DATASETS];
 
 const PER_PAGE = 8;
 
 function parseJSONToCSVData(data: Record<string, unknown>[]): CSVData {
   if (!data || data.length === 0)
     return { headers: [], rows: [], totalRows: 0 };
-  const headers = Object.keys(data[0] as object);
+  const headers = Object.keys(data[0] || {});
   const rows = data.map((item) =>
     headers.map((h) => {
       const val = item[h];
@@ -133,10 +142,10 @@ export const DatasetViewer: React.FC = () => {
 
   const raw = useMemo(() => {
     if (activeDataset.type === "local") {
-      const content = readByPath(activeDataset.path);
+      const content = readByPath((activeDataset as { type: string; name: string; path: string; key?: string }).path);
       return content ? parseCSV(content) : null;
-    } else if (activeDataset.type === "api") {
-      const key = activeDataset.key;
+    } else {
+      const key = (activeDataset as { type: string; name: string; url: string; key: string }).key;
       if (apiDataMap[key]) return apiDataMap[key];
       const stored = localStorage.getItem(key);
       if (stored) {
@@ -148,7 +157,6 @@ export const DatasetViewer: React.FC = () => {
       }
       return null;
     }
-    return null;
   }, [activeDataset, apiDataMap]);
 
   const filtered = useMemo(() => {
@@ -174,11 +182,17 @@ export const DatasetViewer: React.FC = () => {
     const escapeCSV = (val: string) => `"${val.replace(/"/g, '""')}"`;
 
     // Build CSV string
-    const headers = filtered.headers.map(escapeCSV).join(",");
-    const rows = filtered.rows
-      .map((row) => row.map(escapeCSV).join(","))
-      .join("\n");
-    const csvContent = `${headers}\n${rows}`;
+    const rows = filtered.rows;
+    const rowCount = rows.length;
+    const lines = new Array(rowCount + 1);
+
+    lines[0] = filtered.headers.map(escapeCSV).join(",");
+
+    for (let i = 0; i < rowCount; i++) {
+      lines[i + 1] = rows[i].map(escapeCSV).join(",");
+    }
+
+    const csvContent = lines.join("\n");
 
     // Create Blob and trigger download
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
