@@ -348,7 +348,13 @@ export const useWindowStore = create<WindowState>()(
         set((state) => ({
           windows: state.windows.map((win) =>
             win.id === id
-              ? { ...win, appData: { ...win.appData, ...appData } }
+              ? {
+                  ...win,
+                  appData: {
+                    ...((win.appData as Record<string, unknown>) || {}),
+                    ...((appData as Record<string, unknown>) || {}),
+                  },
+                }
               : win,
           ),
         }));

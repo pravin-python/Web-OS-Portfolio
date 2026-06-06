@@ -12,6 +12,7 @@ export const TelegramBotPanel: React.FC = () => {
   const [status, setStatus] = useState<
     "idle" | "sending" | "success" | "error" | "cooldown"
   >("idle");
+  const [cooldown, setCooldown] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [isCooldown, setIsCooldown] = useState(false);
   const cooldownRef = useRef(false);
