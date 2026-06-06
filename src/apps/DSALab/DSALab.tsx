@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useCallback } from "react";
+import DOMPurify from "dompurify";
 import { DSA_TOPICS, DSA_INTRO, type DSATopic, type Level } from "./dsa.data";
 import "./DSALab.css";
 
@@ -254,7 +255,7 @@ const TopicPanel: React.FC<TopicPanelProps> = ({
       <h3>🌳 Visual Diagram</h3>
       <div
         className="dsa-diagram-box"
-        dangerouslySetInnerHTML={{ __html: topic.diagram }}
+        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(topic.diagram) }}
       />
     </div>
 
