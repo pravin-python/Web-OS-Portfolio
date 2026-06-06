@@ -95,7 +95,7 @@ function spawnParticles(cx: number, cy: number, color: string): Particle[] {
 /* ═══════════════════════════════════════════════════
    Component
    ═══════════════════════════════════════════════════ */
-export const SnakeGame: React.FC<{ window: WindowInstance }> = ({
+export const SnakeGame: React.FC<{ window?: WindowInstance }> = ({
   window: win,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
