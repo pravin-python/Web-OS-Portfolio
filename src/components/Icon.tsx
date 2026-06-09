@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import DOMPurify from "isomorphic-dompurify";
 
 /**
  * In-memory cache so each SVG is fetched only once.
@@ -84,7 +85,9 @@ export const Icon: React.FC<IconProps> = ({
       aria-hidden="true"
       className={`inline-flex items-center justify-center shrink-0 ${className}`}
       style={{ width: size, height: size }}
-      dangerouslySetInnerHTML={{ __html: svg }}
+      dangerouslySetInnerHTML={{
+        __html: DOMPurify.sanitize(svg, { USE_PROFILES: { svg: true } }),
+      }}
     />
   );
 };
