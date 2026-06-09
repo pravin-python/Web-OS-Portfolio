@@ -186,7 +186,7 @@ export const SnakeGame: React.FC<{ window?: WindowInstance }> = ({
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       return;
     }
-    if (focusedWindowId !== win.id) return;
+    if (win && focusedWindowId !== win.id) return;
 
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -308,7 +308,7 @@ export const SnakeGame: React.FC<{ window?: WindowInstance }> = ({
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [gameState, focusedWindowId, win.id]);
+  }, [gameState, focusedWindowId, win?.id]);
 
   /* ─── Render function ─── */
   const render = useCallback(
@@ -568,7 +568,7 @@ export const SnakeGame: React.FC<{ window?: WindowInstance }> = ({
   /* ─── Input handling ─── */
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      if (focusedWindowId !== win.id) return;
+      if (win && focusedWindowId !== win.id) return;
 
       // Prevent page scroll
       if (
@@ -617,7 +617,7 @@ export const SnakeGame: React.FC<{ window?: WindowInstance }> = ({
 
     document.addEventListener("keydown", handleKey);
     return () => document.removeEventListener("keydown", handleKey);
-  }, [focusedWindowId, win.id, startGame]);
+  }, [focusedWindowId, win?.id, startGame]);
 
   /* ─── D-Pad handler ─── */
   const handleDpad = useCallback((dx: number, dy: number) => {
@@ -666,7 +666,7 @@ export const SnakeGame: React.FC<{ window?: WindowInstance }> = ({
   );
 
   /* ─── Pause when losing focus ─── */
-  const isPaused = gameState === "playing" && focusedWindowId !== win.id;
+  const isPaused = gameState === "playing" && win && focusedWindowId !== win.id;
 
   /* ─── Render idle canvas background ─── */
   useEffect(() => {

@@ -20,6 +20,8 @@ import { MLCalculator } from "../apps/MLCalculator/MLCalculator";
 import { MLStudio } from "../apps/MLStudio/MLStudio";
 import { PhantomTTT } from "../apps/PhantomTTT/PhantomTTT";
 
+import type { WindowInstance } from "./state/useWindowStore";
+
 export interface AppDefinition {
   key: string;
   title: string;
