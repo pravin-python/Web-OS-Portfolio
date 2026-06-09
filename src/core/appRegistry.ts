@@ -1,4 +1,5 @@
 import type { ComponentType } from "react";
+import type { WindowInstance } from "./state/useWindowStore";
 import { Terminal } from "../apps/Terminal/Terminal";
 import { FileExplorer } from "../apps/FileExplorer/FileExplorer";
 import { Notepad } from "../apps/Notepad/Notepad";
@@ -19,12 +20,13 @@ import { MLCalculator } from "../apps/MLCalculator/MLCalculator";
 import { MLStudio } from "../apps/MLStudio/MLStudio";
 import { PhantomTTT } from "../apps/PhantomTTT/PhantomTTT";
 
+import type { WindowInstance } from "./state/useWindowStore";
+
 export interface AppDefinition {
   key: string;
   title: string;
   icon: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  component: ComponentType<any>;
+  component: ComponentType<{ window?: WindowInstance }>;
   route: string;
   defaultSize: { width: number; height: number };
   showOnDesktop: boolean;
@@ -236,8 +238,7 @@ export const APP_REGISTRY: Record<string, AppDefinition> = {
     key: "settings",
     title: "Settings",
     icon: "system/settings",
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    component: (() => null) as any,
+    component: () => null,
     route: "/settings",
     defaultSize: { width: 600, height: 450 },
     showOnDesktop: false,
@@ -257,25 +258,28 @@ export const APP_REGISTRY: Record<string, AppDefinition> = {
   },
 };
 
+const APPS = Object.values(APP_REGISTRY);
+const ROUTE_TO_KEY_MAP = new Map(APPS.map((app) => [app.route, app.key]));
+
 /**
  * Get list of apps shown on the desktop
  */
 export function getDesktopApps(): AppDefinition[] {
-  return Object.values(APP_REGISTRY).filter((app) => app.showOnDesktop);
+  return APPS.filter((app) => app.showOnDesktop);
 }
 
 /**
  * Resolve a URL route path to an app key.
  */
 export function resolveRouteToAppKey(pathname: string): string | null {
-  for (const app of Object.values(APP_REGISTRY)) {
-    if (pathname === app.route) {
-      return app.key;
-    }
+  const exactMatch = ROUTE_TO_KEY_MAP.get(pathname);
+  if (exactMatch) {
+    return exactMatch;
   }
-  for (const app of Object.values(APP_REGISTRY)) {
-    if (pathname.startsWith(app.route + "/")) {
-      return app.key;
+
+  for (let i = 0; i < APPS.length; i++) {
+    if (pathname.startsWith(APPS[i].route + "/")) {
+      return APPS[i].key;
     }
   }
   return null;
@@ -284,8 +288,9 @@ export function resolveRouteToAppKey(pathname: string): string | null {
 /**
  * Get the component for an app key.
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function getAppComponent(appKey: string): ComponentType<any> {
+export function getAppComponent(
+  appKey: string,
+): ComponentType<{ window?: WindowInstance }> {
   const app = APP_REGISTRY[appKey];
   return app?.component || (() => null);
 }

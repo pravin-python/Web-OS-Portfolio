@@ -14,7 +14,7 @@ import { GameOverlay } from "./GameOverlay";
 import { attachInputController } from "./inputController";
 import "./styles.css";
 
-export const TwentyFortyEight: React.FC<{ window: WindowInstance }> = ({
+export const TwentyFortyEight: React.FC<{ window?: WindowInstance }> = ({
   window: win,
 }) => {
   const focusedWindowId = useWindowStore((s) => s.focusedWindowId);
@@ -33,7 +33,7 @@ export const TwentyFortyEight: React.FC<{ window: WindowInstance }> = ({
 
   // Attach input controller — only when window is focused
   useEffect(() => {
-    if (focusedWindowId !== win.id) return;
+    if (win && focusedWindowId !== win.id) return;
     if (!boardAreaRef.current) return;
 
     const cleanup = attachInputController({
@@ -42,7 +42,7 @@ export const TwentyFortyEight: React.FC<{ window: WindowInstance }> = ({
     });
 
     return cleanup;
-  }, [focusedWindowId, win.id, stableHandleDir]);
+  }, [focusedWindowId, win?.id, stableHandleDir]);
 
   return (
     <div className="game2048-root" ref={boardAreaRef}>

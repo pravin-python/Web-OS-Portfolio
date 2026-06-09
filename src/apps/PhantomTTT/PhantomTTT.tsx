@@ -75,7 +75,13 @@ function applyMove(state: GameState, cellIndex: number): GameState {
 }
 
 function getEmptyCells(board: Cell[]): number[] {
-  return board.map((c, i) => (c === null ? i : -1)).filter((i) => i !== -1);
+  const result: number[] = [];
+  for (let i = 0; i < board.length; i++) {
+    if (board[i] === null) {
+      result.push(i);
+    }
+  }
+  return result;
 }
 
 /* ─── Minimax with alpha-beta pruning ─── */
@@ -168,7 +174,7 @@ function freshState(): GameState {
 /* ═══════════════════════════════════════════════════
    Component
    ═══════════════════════════════════════════════════ */
-export const PhantomTTT: React.FC<{ window: WindowInstance }> = () => {
+export const PhantomTTT: React.FC<{ window?: WindowInstance }> = () => {
   const [mode, setMode] = useState<GameMode>("pvp");
   const [difficulty, setDifficulty] = useState<AIDifficulty>("hard");
   const [phase, setPhase] = useState<Phase>("idle");
