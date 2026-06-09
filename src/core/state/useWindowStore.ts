@@ -24,8 +24,7 @@ export interface WindowInstance {
   preMaxSize?: Size;
   minimizeTarget?: { x: number; y: number } | null;
   zIndex: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  appData?: any;
+  appData?: Record<string, unknown>;
 }
 
 interface WindowState {
@@ -36,8 +35,7 @@ interface WindowState {
     appType: string,
     position?: Position,
     size?: Size,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    appData?: any,
+    appData?: Record<string, unknown>,
   ) => void;
   closeWindow: (id: string) => void;
   minimizeWindow: (id: string) => void;
@@ -48,8 +46,7 @@ interface WindowState {
   updateWindowSize: (id: string, size: Size) => void;
   minimizeAllWindows: () => void;
   repositionAllWindows: () => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  updateWindowAppData: (id: string, appData: any) => void;
+  updateWindowAppData: (id: string, appData: Record<string, unknown>) => void;
 }
 
 const TASKBAR_HEIGHT = 28; // menubar
@@ -150,20 +147,18 @@ export const useWindowStore = create<WindowState>()(
       openWindow: (
         title,
         appType,
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        _position = { x: 80, y: 40 },
+        position,
         size = { width: 600, height: 400 },
         appData,
       ) => {
         const id = `win-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
         nextZIndex++;
 
-        const { x, y } = getWindowSpawnPosition(
+        const initialPos = position ?? getWindowSpawnPosition(
           appType,
           size.width,
           size.height,
         );
-        const initialPos = { x, y };
 
         const newWindow: WindowInstance = {
           id,
@@ -353,7 +348,13 @@ export const useWindowStore = create<WindowState>()(
         set((state) => ({
           windows: state.windows.map((win) =>
             win.id === id
-              ? { ...win, appData: { ...win.appData, ...appData } }
+              ? {
+                  ...win,
+                  appData: {
+                    ...((win.appData as Record<string, unknown>) || {}),
+                    ...((appData as Record<string, unknown>) || {}),
+                  },
+                }
               : win,
           ),
         }));

@@ -1,0 +1,18 @@
+--- src/apps/SystemLogs/SystemLogs.tsx
++++ src/apps/SystemLogs/SystemLogs.tsx
+@@ -30,15 +30,6 @@
+   const logEndRef = useRef<HTMLDivElement>(null);
+   const containerRef = useRef<HTMLDivElement>(null);
+
+-  // Generate initial logs
+-  useEffect(() => {
+-    const initial: LogEntry[] = [];
+-    for (let i = 0; i < 12; i++) {
+-      const entry = generateLogEntry();
+-      initial.push({ ...entry, id: logId++ });
+-    }
+-    setLogs(initial);
+-  }, []);
+
+   // Auto-append logs
+   useEffect(() => {

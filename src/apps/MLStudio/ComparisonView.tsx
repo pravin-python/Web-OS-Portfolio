@@ -1,30 +1,6 @@
 import React, { useState } from "react";
 import type { CompareEntry } from "./types";
-
-const STORAGE_KEY = "webos.mlstudio.history";
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const getHistory = (): CompareEntry[] => {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
-  }
-};
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const saveHistory = (entry: CompareEntry) => {
-  const current = getHistory();
-  // Keep last 50 runs to avoid bloated localStorage
-  const updated = [entry, ...current].slice(0, 50);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-};
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const clearHistory = () => {
-  localStorage.removeItem(STORAGE_KEY);
-};
+import { getHistory, clearHistory } from "./history";
 
 export const ComparisonView: React.FC = () => {
   const [history, setHistory] = useState<CompareEntry[]>(getHistory);
