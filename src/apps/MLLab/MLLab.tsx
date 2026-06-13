@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useCallback } from "react";
+import DOMPurify from "dompurify";
 import {
   ML_ALGORITHMS,
   ML_CATEGORIES,
@@ -280,7 +281,7 @@ const AlgorithmPanel: React.FC<AlgorithmPanelProps> = ({
           <h3>📊 Visual Diagram</h3>
           <div
             className="ml-diagram-box"
-            dangerouslySetInnerHTML={{ __html: algo.diagram }}
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(algo.diagram) }}
           />
         </div>
       </div>
@@ -332,7 +333,7 @@ const AlgorithmPanel: React.FC<AlgorithmPanelProps> = ({
           <h3>📊 Algorithm Diagram</h3>
           <div
             className="ml-diagram-box"
-            dangerouslySetInnerHTML={{ __html: algo.diagram }}
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(algo.diagram) }}
           />
         </div>
 

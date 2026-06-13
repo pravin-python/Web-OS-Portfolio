@@ -75,7 +75,13 @@ function applyMove(state: GameState, cellIndex: number): GameState {
 }
 
 function getEmptyCells(board: Cell[]): number[] {
-  return board.map((c, i) => (c === null ? i : -1)).filter((i) => i !== -1);
+  const result: number[] = [];
+  for (let i = 0; i < board.length; i++) {
+    if (board[i] === null) {
+      result.push(i);
+    }
+  }
+  return result;
 }
 
 /* ─── Minimax with alpha-beta pruning ─── */

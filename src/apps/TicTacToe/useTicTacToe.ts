@@ -5,7 +5,7 @@
  *          AI turn lock, game-over detection, notifications.
  */
 
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useCallback, useRef, useEffect } from "react";
 import type { Board, Player, WinResult } from "./gameEngine";
 import {
   createBoard,
@@ -17,59 +17,19 @@ import {
 import { getAIMove } from "./aiEngine";
 import type { Difficulty } from "./aiEngine";
 import { useNotificationStore } from "../../core/state/useNotificationStore";
+import {
+  useTicTacToeGameState,
+  useTicTacToeScores,
+  useTicTacToeNotifications,
+} from "./hooks";
+import type { GameMode, GameStatus } from "./hooks";
 
-export type GameMode = "single" | "double";
-export type GameStatus = "playing" | "won" | "draw";
+export type { GameMode, GameStatus };
+export type { Scores } from "./hooks/useTicTacToeScores";
+export type { Notification } from "./hooks/useTicTacToeNotifications";
 
-export interface Scores {
-  x: number;
-  o: number;
-  draws: number;
-}
-
-export interface Notification {
-  id: number;
-  text: string;
-  type: "info" | "success" | "warning";
-}
-
-const STORAGE_KEY = "webos.tictactoe.score";
-
-function loadScores(): Scores {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) return JSON.parse(raw);
-  } catch {
-    /* ignore */
-  }
-  return { x: 0, o: 0, draws: 0 };
-}
-
-function saveScores(s: Scores) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
-}
-
-let notifId = 0;
-
-export function useTicTacToe() {
-  const [board, setBoard] = useState<Board>(createBoard());
-  const [currentPlayer, setCurrentPlayer] = useState<Player>("X");
-  const [mode, setModeState] = useState<GameMode>("single");
-  const [difficulty, setDiffState] = useState<Difficulty>("hard");
-  const [playerSymbol, setPlayerSym] = useState<Player>("X");
-  const [scores, setScores] = useState<Scores>(loadScores);
-  const [winResult, setWinResult] = useState<WinResult | null>(null);
-  const [gameStatus, setGameStatus] = useState<GameStatus>("playing");
-  const [aiThinking, setAiThinking] = useState(false);
+export function useGameNotifications() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
-
-  const addGlobalNotification = useNotificationStore(
-    (state) => state.addNotification,
-  );
-
-  const aiLock = useRef(false);
-
-  // ── helpers ──────────────────────────────────────────────────
 
   const notify = useCallback(
     (text: string, type: Notification["type"] = "info") => {
@@ -82,13 +42,38 @@ export function useTicTacToe() {
     [],
   );
 
-  const updateScores = useCallback((key: "x" | "o" | "draws") => {
-    setScores((prev) => {
-      const next = { ...prev, [key]: prev[key] + 1 };
-      saveScores(next);
-      return next;
-    });
-  }, []);
+  return { notifications, notify };
+}
+
+export function useTicTacToe() {
+  const { notifications, notify } = useTicTacToeNotifications();
+  const { scores, updateScores, resetScore } = useTicTacToeScores(notify);
+  const {
+    board,
+    setBoard,
+    currentPlayer,
+    setCurrentPlayer,
+    mode,
+    setModeState,
+    difficulty,
+    setDiffState,
+    playerSymbol,
+    setPlayerSym,
+    winResult,
+    setWinResult,
+    gameStatus,
+    setGameStatus,
+    aiThinking,
+    setAiThinking,
+  } = useTicTacToeGameState();
+
+  const addGlobalNotification = useNotificationStore(
+    (state) => state.addNotification,
+  );
+
+  const aiLock = useRef(false);
+
+  // ── helpers ──────────────────────────────────────────────────
 
   const finishGame = useCallback(
     (result: WinResult | null) => {
@@ -132,7 +117,7 @@ export function useTicTacToe() {
         );
       }
     },
-    [mode, playerSymbol, notify, updateScores, addGlobalNotification],
+    [mode, playerSymbol, notify, updateScores, addGlobalNotification, setWinResult, setGameStatus],
   );
 
   // ── AI turn ──────────────────────────────────────────────────
@@ -161,7 +146,7 @@ export function useTicTacToe() {
         aiLock.current = false;
       }
     },
-    [difficulty, finishGame],
+    [difficulty, finishGame, setAiThinking, setBoard, setCurrentPlayer],
   );
 
   // ── human move ───────────────────────────────────────────────
@@ -202,6 +187,8 @@ export function useTicTacToe() {
       playerSymbol,
       finishGame,
       doAITurn,
+      setBoard,
+      setCurrentPlayer,
     ],
   );
 
@@ -222,7 +209,7 @@ export function useTicTacToe() {
       // small delay so UI renders first
       setTimeout(() => doAITurn(createBoard(), aiPlayer), 200);
     }
-  }, [mode, playerSymbol, notify, doAITurn]);
+  }, [mode, playerSymbol, notify, doAITurn, setBoard, setWinResult, setGameStatus, setCurrentPlayer, setAiThinking]);
 
   // ── settings ─────────────────────────────────────────────────
 
@@ -240,7 +227,7 @@ export function useTicTacToe() {
         "info",
       );
     },
-    [notify],
+    [notify, setModeState, setBoard, setWinResult, setGameStatus, setCurrentPlayer, setAiThinking],
   );
 
   const setDifficulty = useCallback(
@@ -251,7 +238,7 @@ export function useTicTacToe() {
         "info",
       );
     },
-    [notify],
+    [notify, setDiffState],
   );
 
   const setPlayerSymbol = useCallback(
@@ -269,15 +256,8 @@ export function useTicTacToe() {
         setTimeout(() => doAITurn(createBoard(), "X"), 200);
       }
     },
-    [mode, doAITurn],
+    [mode, doAITurn, setPlayerSym, setBoard, setWinResult, setGameStatus, setCurrentPlayer, setAiThinking],
   );
-
-  const resetScore = useCallback(() => {
-    const empty = { x: 0, o: 0, draws: 0 };
-    setScores(empty);
-    saveScores(empty);
-    notify("Scores Reset 🔄", "info");
-  }, [notify]);
 
   // ── initial AI move if AI is X ───────────────────────────────
   const initialised = useRef(false);

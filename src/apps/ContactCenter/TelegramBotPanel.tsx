@@ -10,10 +10,13 @@ export const TelegramBotPanel: React.FC = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<
-    "idle" | "sending" | "success" | "error"
+    "idle" | "sending" | "success" | "error" | "cooldown"
   >("idle");
-  const [errorMsg, setErrorMsg] = useState("");
   const [cooldown, setCooldown] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [isCooldown, setIsCooldown] = useState(false);
+  const cooldownRef = useRef(false);
+  const [inCooldown, setInCooldown] = useState(false);
 
   const isValid =
     name.trim().length > 0 &&
@@ -21,7 +24,7 @@ export const TelegramBotPanel: React.FC = () => {
     message.length <= MAX_MSG_LENGTH;
 
   const handleSend = async () => {
-    if (!isValid || cooldown) return;
+    if (!isValid || isCooldown) return;
 
     if (!CONTACT.botToken || !CONTACT.telegram.chatId) {
       setStatus("error");
@@ -32,9 +35,13 @@ export const TelegramBotPanel: React.FC = () => {
     }
 
     // Rate limit
-    setCooldown(true);
+    setIsCooldown(true);
+    cooldownRef.current = true;
+    setInCooldown(true);
     setTimeout(() => {
-      setCooldown(false);
+      setIsCooldown(false);
+      cooldownRef.current = false;
+      setInCooldown(false);
     }, RATE_LIMIT_MS);
 
     setStatus("sending");
@@ -164,9 +171,9 @@ export const TelegramBotPanel: React.FC = () => {
       {/* Send button */}
       <button
         onClick={handleSend}
-        disabled={!isValid || status === "sending" || cooldown}
+        disabled={!isValid || status === "sending" || inCooldown}
         className={`w-full py-2.5 rounded-lg text-sm font-semibold transition-all flex items-center justify-center shadow-sm ${
-          !isValid || status === "sending"
+          !isValid || status === "sending" || inCooldown
             ? "bg-slate-200 dark:bg-slate-700 text-slate-400 cursor-not-allowed"
             : "bg-blue-600 hover:bg-blue-500 text-white active:scale-[0.98]"
         }`}
