@@ -28,6 +28,23 @@ export type { GameMode, GameStatus };
 export type { Scores } from "./hooks/useTicTacToeScores";
 export type { Notification } from "./hooks/useTicTacToeNotifications";
 
+export function useGameNotifications() {
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+
+  const notify = useCallback(
+    (text: string, type: Notification["type"] = "info") => {
+      const id = ++notifId;
+      setNotifications((prev) => [...prev, { id, text, type }]);
+      setTimeout(() => {
+        setNotifications((prev) => prev.filter((n) => n.id !== id));
+      }, 3000);
+    },
+    [],
+  );
+
+  return { notifications, notify };
+}
+
 export function useTicTacToe() {
   const { notifications, notify } = useTicTacToeNotifications();
   const { scores, updateScores, resetScore } = useTicTacToeScores(notify);
