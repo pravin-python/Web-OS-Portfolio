@@ -1,0 +1,19 @@
+--- a/src/core/taskbar/SystemTray.tsx
++++ b/src/core/taskbar/SystemTray.tsx
+@@ -113,8 +113,8 @@
+         } else {
+           throw new Error("Fallback required");
+         }
+-      } catch (e) {
++      } catch (_e) {
+         // Fallback to simulation if CORS fails for real world showcase capability
+         finalDl = await mockSpeedTest(100, 300, setDownloadSpeed);
+       }
+@@ -139,8 +139,8 @@
+         } else {
+           throw new Error("Fallback required");
+         }
+-      } catch (e) {
++      } catch (_e) {
+         // Fallback to simulation if CORS fails
+         finalUl = await mockSpeedTest(40, 120, setUploadSpeed);

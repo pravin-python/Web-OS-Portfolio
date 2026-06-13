@@ -83,7 +83,7 @@ function parseJSONToCSVData(data: Record<string, unknown>[]): CSVData {
   const headers = Object.keys(data[0] || {});
   const rows = data.map((item) =>
     headers.map((h) => {
-      const val = item[h];
+      const val = (item as Record<string, unknown>)[h];
       if (val === null || val === undefined) return "";
       if (typeof val === "object") return JSON.stringify(val);
       return String(val);
@@ -92,7 +92,7 @@ function parseJSONToCSVData(data: Record<string, unknown>[]): CSVData {
   return { headers, rows, totalRows: rows.length };
 }
 
-export const DatasetViewer: React.FC = () => {
+export const DatasetViewer: React.FC<{ window?: WindowInstance }> = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { generateLogEntry } from "../../services/dataService";
+import type { WindowInstance } from "../../core/state/useWindowStore";
 import "./SystemLogs.css";
 
 interface LogEntry {

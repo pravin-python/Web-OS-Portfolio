@@ -49,7 +49,7 @@ function useDebounce<T>(value: T, delay: number): T {
 const generateId = () =>
   `note-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
-export const Notepad: React.FC = () => {
+export const Notepad: React.FC<{ window?: WindowInstance }> = () => {
   const [notes, setNotes] = useState<Note[]>([]);
   const [activeNoteId, setActiveNoteId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");

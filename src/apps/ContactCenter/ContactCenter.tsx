@@ -58,7 +58,7 @@ const PANEL_MAP: Record<string, React.FC> = {
   qr: QRSection,
 };
 
-export const ContactCenter: React.FC = () => {
+export const ContactCenter: React.FC<{ window?: WindowInstance }> = () => {
   const [activeId, setActiveId] = useState("email");
   const ActivePanel = PANEL_MAP[activeId] ?? EmailPanel;
 

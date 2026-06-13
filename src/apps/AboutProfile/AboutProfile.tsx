@@ -196,7 +196,7 @@ const SectionContent: React.FC<{
 };
 
 /* ─── Main Component ─── */
-export const AboutProfile: React.FC = () => {
+export const AboutProfile: React.FC<{ window?: WindowInstance }> = () => {
   const [activeTab, setActiveTab] = useState<TabId>("overview");
 
   return (

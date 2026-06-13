@@ -24,7 +24,7 @@ interface TrainingData {
   };
 }
 
-export const ModelLogs: React.FC = () => {
+export const ModelLogs: React.FC<{ window?: WindowInstance }> = () => {
   const data = useMemo<TrainingData | null>(() => {
     const raw = readByPath("/home/researcher/ai_lab/training_history.json");
     if (!raw) return null;

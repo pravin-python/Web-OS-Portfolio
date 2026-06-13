@@ -12,7 +12,7 @@ import "./styles.css";
 /* ═══════════════════════════════════════════════════
    ML Lab — Machine Learning Algorithms Explorer
    ═══════════════════════════════════════════════════ */
-export const MLLab: React.FC = () => {
+export const MLLab: React.FC<{ window?: WindowInstance }> = () => {
   const [category, setCategory] = useState<CategoryKey>("all");
   const [search, setSearch] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(null);

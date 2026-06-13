@@ -7,7 +7,7 @@ import "./AIPredictor.css";
 
 type Phase = "idle" | "processing" | "result";
 
-export const AIPredictor: React.FC = () => {
+export const AIPredictor: React.FC<{ window?: WindowInstance }> = () => {
   const [phase, setPhase] = useState<Phase>("idle");
   const [stepLabel, setStepLabel] = useState("");
   const [progress, setProgress] = useState(0);

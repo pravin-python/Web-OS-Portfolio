@@ -45,7 +45,7 @@ const ALL_DATASETS: Dataset[] = [
 /* ═══════════════════════════════════════════════════
    MLCalculator — Main Component
    ═══════════════════════════════════════════════════ */
-export const MLCalculator: React.FC = () => {
+export const MLCalculator: React.FC<{ window?: WindowInstance }> = () => {
   /* ─── State ─── */
   const [dataset, setDataset] = useState<Dataset | null>(null);
   const [algorithm, setAlgorithm] = useState<AlgorithmDef | null>(null);
